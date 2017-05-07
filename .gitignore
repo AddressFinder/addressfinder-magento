@@ -1,0 +1,4 @@
+.composer/cache/
+.composer/auth.json
+docker-compose.yml
+html/
