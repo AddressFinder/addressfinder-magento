@@ -1,0 +1,3 @@
+<referenceContainer name="before.body.end">
+  <block class="\Magento\Framework\View\Element\Template" template="addressfinder.phtml" name="module_js"/>
+</referenceContainer>
