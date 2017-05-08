@@ -12,5 +12,4 @@ if ! [ -L "./html/app/code/AddressFinder" ]; then
 fi
 
 echo 'Uncommenting app volumes in docker-compose.yml'
-sed -i '/# - ./html/app/code/c\- ./html/app/code' docker-compose.yml
-sed -i '/# - ./html/app/design/c\- ./html/app/design' docker-compose.yml
+sed -i '' 's/# - \.\/html\/app/- .\/html\/app/' docker-compose.yml
