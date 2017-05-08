@@ -1,0 +1,5 @@
+body {margin:1rem; font:16px/1.25 sans-serif;}
+iframe {border:#ccc solid 1px; width:500px; height:500px;}
+h1, h2 {font-size:1.25rem;}
+label {display:block; float:left; min-width:8rem; text-align:right; margin:0 .5rem .25rem 0;}
+form > div {clear:both;}

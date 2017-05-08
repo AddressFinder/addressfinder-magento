@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Shopify Plugin Tests</title>
+    <link rel="stylesheet" href="test.css">
+  </head>
+  <body>
+    <header>
+      <h1>Shopify Plugin test cases</h1>
+    </header>
+    <nav>
+      <ul>
+        <li>
+          Shopify Plus
+          <ul>
+            <li><a href="plus_checkout_shipping.html">Checkout: Shipping</a></li>
+            <li><a href="plus_checkout_billing.html">Checkout: Billing</a></li>
+            <li><a href="plus_registration.html">Account: New address</a></li>
+          </ul>
+        </li>
+        <li>
+          Shopify Standard
+          <ul>
+            <li><a href="standard_checkout_shipping.html">Checkout: Shipping</a></li>
+            <li><a href="standard_checkout_billing.html">Checkout: Billing</a></li>
+            <li><a href="standard_checkout.html">Checkout: Combined</a></li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+    <article>
+      <h1>Inline tests</h1>
+      <section>
+        <iframe src="plus_checkout_shipping.html"></iframe>
+        <iframe src="plus_checkout_billing.html"></iframe>
+        <iframe src="plus_registration.html"></iframe>
+      </section>
+      <section>
+        <iframe src="standard_checkout_shipping.html"></iframe>
+        <iframe src="standard_checkout_billing.html"></iframe>
+        <iframe src="standard_checkout.html"></iframe>
+      </section>
+    </article>
+  </body>
+</html>
