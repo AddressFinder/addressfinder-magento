@@ -8,7 +8,7 @@ fi
 
 if ! [ -L "./html/app/code/AddressFinder" ]; then
   echo 'Symlinking the AddressFinder module'
-  ln -s ./AddressFinder/ ./html/app/code/AddressFinder
+  ln -s ../../../AddressFinder/ html/app/code/AddressFinder
 fi
 
 echo 'Uncommenting app volumes in docker-compose.yml'
