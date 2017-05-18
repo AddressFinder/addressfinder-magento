@@ -1,19 +1,26 @@
 <script>
-  require(["AddressFinder_Widget/js/addressfinder"], function(){
-    AddressFinderPlugin = {key: 'ADDRESSFINDER_NZ_DEMO_KEY'};
-  });
-
-  /** Selectors:
-
-  MAGENTO v1
-    #billing:street1
-    #shipping:street1 // default checkout
-    #billing_street1
-    #shipping_street1 // gomage
-    #street_1 // my account
-
-  MAGENTO v2
-    [name='street[0]'] //default checkout
-
-  **/
+  require(['domReady!'], function(){
+    console.log(document.getElementsByTagName('body')[0].innerHTML)
+    var count = document.querySelectorAll("input[name*=street]").length
+    console.log(count+' street inputs')
+    if (count){
+      AddressFinderPlugin = {key: 'ADDRESSFINDER_NZ_DEMO_KEY'};
+      require('AddressFinder_Widget/js/af')
+    };
+  })
 </script>
+
+
+/** Selectors:
+
+MAGENTO v1
+  #billing:street1
+  #shipping:street1 // default checkout
+  #billing_street1
+  #shipping_street1 // gomage
+  #street_1 // my account
+
+MAGENTO v2
+  [name='street[0]'] //default checkout
+
+**/
