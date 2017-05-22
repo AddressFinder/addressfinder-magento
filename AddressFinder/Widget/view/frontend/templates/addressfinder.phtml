@@ -1,50 +1,71 @@
 <script>
+  // MAGENTO v2
+  //   #street_1 // account
+  //   [name=street[0]] // shipping checkout
+  //   [name=street[1]]
+  //   [name=street[0]] // billing checkout
+  //   [name=street[1]]
+
+  /** billing & shipping
+    UNDER: .billing-address-form & .form-shipping-address
+
+    name=street[0]
+    name=street[1]
+    name=city
+    name=region_id (state/province)
+    name=postcode
+    name=country_id
+  **/
+
   require(['domReady!'], function(){
-    console.log("file loaded");
 
     (function() {
+      var currentUrl = location.href;
 
       function usingKnockout(){
         return !!document.querySelector('[data-bind]');
       };
 
       function knockoutLoaded(){
-        // TODO - this needs work (what is the knockoutIdRegex?)
-        var knockoutIdRegex = new RegExp("^[A-Z0-9]{7}$");
-        var allElements = document.getElementsByTagName("*");
-        for (var i = 0; i < allElements.length; i++) {
-          if (knockoutIdRegex.test(allElements[i].id)){
-            return true;
-          };
-        };
-        return false;
+        return !!document.querySelector('[data-bind]:last-child').innerText.trim().length;
+      };
+
+      function watchUrl(){
+        console.log('watching url');
+        if (location.href != currentUrl) {
+          currentUrl = location.href;
+          setTimeout(initAF, 500);
+        } else {
+          setTimeout(watchUrl, 1000);
+        }
       };
 
       function initAF(){
-        // TODO - input[name='street[0]']
-        var widget = new AddressFinder.Widget(document.querySelector("input[name='street[0]']"), 'ADDRESSFINDER_AU_DEMO_KEY', 'AU', {});
+        console.log('initializing');
+
+        var inputs = document.querySelectorAll("input[name*=street]")
+        console.log(inputs.length + ' street inputs')
+
+        // var widget = new AddressFinder.Widget(document.querySelector("input[name='street[0]']"), 'ADDRESSFINDER_AU_DEMO_KEY', 'AU', {});
+
+        if (!!currentUrl.match(/\/checkout/i)){ watchUrl(); };
       };
 
       function loadAF(){
-        var count = document.querySelectorAll("input[name*=street]").length
-        console.log(count + ' street inputs')
-        if (count){
-          var script = document.createElement('script');
-          script.src = '//api.addressfinder.io/assets/v3/widget.js';
-          script.async = true;
-          script.onload = initAF;
-          document.body.appendChild(script);
+        var inputs = document.querySelectorAll("input[name*=street]")
+        if (inputs.length){
+          initAF();
+          // var script = document.createElement('script');
+          // script.src = '//api.addressfinder.io/assets/v3/widget.js';
+          // script.async = true;
+          // script.onload = initAF;
+          // document.body.appendChild(script);
         };
       };
 
       function start(){
-        if (usingKnockout()){
-          // wait for Knockout to load
-          if (knockoutLoaded()){
-            loadAF();
-          } else {
-            setTimeout(start, 5000);
-          };
+        if (usingKnockout() && !knockoutLoaded()){
+          setTimeout(start, 2000);
         } else {
           loadAF();
         };
