@@ -7,7 +7,7 @@
 
     (function() {
       var currentUrl = location.href;
-      var mappings = {
+      var addressFieldMappings = {
         "input#street_1": { // account address book
           street_2: "input#street_2",
           city: "input[name=city]",
@@ -27,7 +27,7 @@
           postcode: "input[name=postcode]"
         }
       }
-      var selectors = Object.keys(mappings);
+      var addressFields = Object.keys(addressFieldMappings);
       var widgets = {};
 
       function usingKnockout(){
@@ -48,79 +48,80 @@
         }
       };
 
-      function disableWidgets(widgetGroup){
-        if (debugAF){ console.debug('disabling widgets for '+widgetGroup); };
-        widgets[widgetGroup]['AU'].disable();
-        widgets[widgetGroup]['NZ'].disable();
+      function disableWidgets(addressGroup){
+        if (debugAF){ console.debug('disabling widgets for '+addressGroup); };
+        widgets[addressGroup]['AU'].disable();
+        widgets[addressGroup]['NZ'].disable();
       }
 
-      function setWidgetState(widgetGroup, countrySelect){
-        disableWidgets(widgetGroup);
+      function setWidgetState(addressGroup, countrySelect){
+        disableWidgets(addressGroup);
         var countryCode = countrySelect.value;
         if (countryCode && (countryCode == 'NZ' || countryCode == 'AU')) {
-          if (debugAF){ console.debug('enabling '+widgetGroup+" for "+countryCode); };
-          widgets[widgetGroup][countryCode].enable();
+          if (debugAF){ console.debug('enabling '+addressGroup+" for "+countryCode); };
+          widgets[addressGroup][countryCode].enable();
         };
       }
 
-      function populateAUForm(widgetGroup, metadata){
-        var input = document.querySelector(widgetGroup);
+      function populateAUForm(addressGroup, metadata){
+        var input = document.querySelector(addressGroup);
         input.value = metadata.address_line_1;
-        input.form.querySelector(mappings[widgetGroup]['street_2']).value = metadata.address_line_2;
-        input.form.querySelector(mappings[widgetGroup]['city']).value = metadata.locality_name;
-        input.form.querySelector(mappings[widgetGroup]['region']).value = metadata.state_territory;
-        input.form.querySelector(mappings[widgetGroup]['postcode']).value = metadata.postcode;
+        input.form.querySelector(addressFieldMappings[addressGroup]['street_2']).value = metadata.address_line_2;
+        input.form.querySelector(addressFieldMappings[addressGroup]['city']).value = metadata.locality_name;
+        input.form.querySelector(addressFieldMappings[addressGroup]['region']).value = metadata.state_territory;
+        input.form.querySelector(addressFieldMappings[addressGroup]['postcode']).value = metadata.postcode;
       };
 
-      function populateNZForm(widgetGroup, metadata){
-        console.log(metadata)
+      function populateNZForm(addressGroup, metadata){
         var wrapper = new AddressFinder.NZSelectedAddress(metadata.a, metadata);
-        var input = document.querySelector(widgetGroup);
+        var input = document.querySelector(addressGroup);
         input.value = wrapper.address_line_1();
-        input.form.querySelector(mappings[widgetGroup]['street_2']).value = wrapper.address_line_2();
-        input.form.querySelector(mappings[widgetGroup]['city']).value = metadata.city;
-        input.form.querySelector(mappings[widgetGroup]['region']).value = metadata.region;
-        input.form.querySelector(mappings[widgetGroup]['postcode']).value = metadata.postcode;
+        input.form.querySelector(addressFieldMappings[addressGroup]['street_2']).value = wrapper.address_line_2() || metadata.suburb;
+        input.form.querySelector(addressFieldMappings[addressGroup]['city']).value = metadata.city;
+        input.form.querySelector(addressFieldMappings[addressGroup]['region']).value = metadata.region;
+        input.form.querySelector(addressFieldMappings[addressGroup]['postcode']).value = metadata.postcode;
+      };
+
+      function setupWidgets(input, addressGroup){
+        var au_widget = new AddressFinder.Widget(input, 'ADDRESSFINDER_AU_DEMO_KEY', 'AU', {});
+        var nz_widget = new AddressFinder.Widget(input, 'ADDRESSFINDER_NZ_DEMO_KEY', 'NZ', {});
+        au_widget.on("result:select", function(fullAddress, metadata){ populateAUForm(addressGroup, metadata) });
+        nz_widget.on("result:select", function(fullAddress, metadata){ populateNZForm(addressGroup, metadata) });
+        widgets[addressGroup] = {'AU': au_widget, 'NZ': nz_widget};
+      };
+
+      function setupCountrySwitcher(input, addressGroup){
+        var countrySelect = input.form.querySelector('select[name=country_id]');
+        setWidgetState(addressGroup, countrySelect);
+        countrySelect.addEventListener('change', function(){
+          if (debugAF){ console.debug('country changed'); };
+          setWidgetState(addressGroup, countrySelect);
+        });
       };
 
       function initAF(){
-        for (var e = 0; e < selectors.length; e++){
-          (function(){
-            var input = document.querySelector(selectors[e]);
-            if (input){
-              var widgetGroup = selectors[e];
-              var au_widget = new AddressFinder.Widget(input, 'ADDRESSFINDER_AU_DEMO_KEY', 'AU', {});
-              var nz_widget = new AddressFinder.Widget(input, 'ADDRESSFINDER_NZ_DEMO_KEY', 'NZ', {});
-              au_widget.on("result:select", function(fullAddress, metadata){
-                populateAUForm(widgetGroup, metadata)
-              });
-              nz_widget.on("result:select", function(fullAddress, metadata){
-                populateNZForm(widgetGroup, metadata)
-              });
-              widgets[widgetGroup] = {'AU': au_widget, 'NZ': nz_widget};
-              var countrySelect = input.form.querySelector('select[name=country_id]');
-              setWidgetState(widgetGroup, countrySelect);
-              countrySelect.addEventListener('change', function(){
-                if (debugAF){ console.debug('country changed'); };
-                setWidgetState(widgetGroup, countrySelect);
-              });
-            };
-          })();
+        for (var e = 0; e < addressFields.length; e++){
+          var input = document.querySelector(addressFields[e]);
+          if (input){
+            setupWidgets(input, addressFields[e]);
+            setupCountrySwitcher(input, addressFields[e]);
+          };
         };
-
-        if (debugAF){ console.debug('DONE', widgets); };
 
         if (!!currentUrl.match(/\/checkout/i)){ watchUrl(); };
       };
 
+      function pageHasAddressFields(){
+        return !!document.querySelectorAll(addressFields.join(', ')).length;
+      };
+
       function loadAF(){
         if (debugAF){ console.debug('precheck'); };
-        if (document.querySelectorAll(selectors.join(', ')).length){
+        if (pageHasAddressFields()){
           // TODO - require addressfinder should go here
-          if (debugAF){ console.debug('addressfinder loaded', AddressFinder); };
           initAF();
         } else {
-          if (debugAF){ console.debug("addressfinder isn't needed on this page"); };
+          if (debugAF){ console.debug('there are no address fields'); };
         };
       };
 
