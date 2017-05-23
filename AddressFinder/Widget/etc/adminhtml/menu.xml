@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="AddressFinder_Widget::settings" title="AddressFinder" module="AddressFinder_Widget" sortOrder="50" parent="Magento_Integration::system_extensions" resource="AddressFinder_Widget::settings" action="addressfinder/settings" dependsOnModule="AddressFinder_Widget" />
+    </menu>
+</config>

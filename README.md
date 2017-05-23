@@ -29,3 +29,12 @@ docker-compose exec phpfpm bash
 rm -rf pub/static/*
 bin/magento setup:static-content:deploy
 ```
+
+### Routing
+
+When modifying routes you may need to recompile the module.
+
+```
+docker-compose exec phpfpm ./bin/magento setup:di:compile
+```
+
