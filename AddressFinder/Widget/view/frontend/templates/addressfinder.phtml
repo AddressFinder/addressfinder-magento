@@ -1,10 +1,9 @@
 <script>
   // MAGENTO v2
   //   #street_1 // account
+  //   name=country_id
   //   [name=street[0]] // shipping checkout
-  //   [name=street[1]]
   //   [name=street[0]] // billing checkout
-  //   [name=street[1]]
 
   /** billing & shipping
     UNDER: .billing-address-form & .form-shipping-address
@@ -17,10 +16,18 @@
     name=country_id
   **/
 
-  require(['domReady!'], function(){
+  window.debugAF = true;
+
+  // TODO - only require addressfinder when needed
+  require(['addressfinder', 'domReady!'], function(AddressFinder){
+    if (debugAF){ console.log('required addressfinder'); };
 
     (function() {
       var currentUrl = location.href;
+      var selectors = ["input#street_1", // address book
+                       ".billing-address-form input[name='street[0]']",
+                       ".form-shipping-address input[name='street[0]']"];
+      var widgets = {};
 
       function usingKnockout(){
         return !!document.querySelector('[data-bind]');
@@ -31,7 +38,7 @@
       };
 
       function watchUrl(){
-        console.log('watching url');
+        if (debugAF){ console.log('watching url'); };
         if (location.href != currentUrl) {
           currentUrl = location.href;
           setTimeout(initAF, 500);
@@ -40,31 +47,60 @@
         }
       };
 
+      function disableWidgets(widgetGroup){
+        if (debugAF){ console.log('disabling widgets for '+widgetGroup); };
+        widgets[widgetGroup]['AU'].disable();
+        widgets[widgetGroup]['NZ'].disable();
+      }
+
+      function setWidgetState(widgetGroup, countrySelect){
+        disableWidgets(widgetGroup);
+        var countryCode = countrySelect.value;
+        if (countryCode && (countryCode == 'NZ' || countryCode == 'AU')) {
+          if (debugAF){ console.log('enabling '+widgetGroup+" for "+countryCode); };
+          widgets[widgetGroup][countryCode].enable();
+        };
+      }
+
       function initAF(){
-        console.log('initializing');
+        for (var e = 0; e < selectors.length; e++){
+          (function(){
+            var input = document.querySelector(selectors[e]);
+            if (input){
+              var widgetGroup = selectors[e];
+              widgets[widgetGroup] = {
+                'AU': new AddressFinder.Widget(input, 'ADDRESSFINDER_AU_DEMO_KEY', 'AU', {}),
+                'NZ': new AddressFinder.Widget(input, 'ADDRESSFINDER_NZ_DEMO_KEY', 'NZ', {})
+              };
+              var countrySelect = input.form.querySelector('select[name=country_id]');
+              setWidgetState(widgetGroup, countrySelect);
+              countrySelect.addEventListener('change', function(){
+                if (debugAF){ console.log('country changed'); };
+                setWidgetState(widgetGroup, countrySelect);
+              });
+            };
+          })();
+        };
 
-        var inputs = document.querySelectorAll("input[name*=street]")
-        console.log(inputs.length + ' street inputs')
-
-        // var widget = new AddressFinder.Widget(document.querySelector("input[name='street[0]']"), 'ADDRESSFINDER_AU_DEMO_KEY', 'AU', {});
+        if (debugAF){ console.log('DONE', widgets); };
 
         if (!!currentUrl.match(/\/checkout/i)){ watchUrl(); };
       };
 
       function loadAF(){
-        var inputs = document.querySelectorAll("input[name*=street]")
-        if (inputs.length){
+        if (debugAF){ console.log('precheck'); };
+        if (document.querySelectorAll(selectors.join(', ')).length){
+          // TODO - require addressfinder should go here
+          if (debugAF){ console.log('addressfinder loaded', AddressFinder); };
           initAF();
-          // var script = document.createElement('script');
-          // script.src = '//api.addressfinder.io/assets/v3/widget.js';
-          // script.async = true;
-          // script.onload = initAF;
-          // document.body.appendChild(script);
+        } else {
+          if (debugAF){ console.log("addressfinder isn't needed on this page"); };
         };
       };
 
       function start(){
         if (usingKnockout() && !knockoutLoaded()){
+          if (debugAF){ console.log('waiting for knockout'); };
           setTimeout(start, 2000);
         } else {
           loadAF();
