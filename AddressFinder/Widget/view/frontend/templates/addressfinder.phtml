@@ -1,22 +1,5 @@
 <script>
-  // MAGENTO v2
-  //   #street_1 // account
-  //   name=country_id
-  //   [name=street[0]] // shipping checkout
-  //   [name=street[0]] // billing checkout
-
-  /** billing & shipping
-    UNDER: .billing-address-form & .form-shipping-address
-
-    name=street[0]
-    name=street[1]
-    name=city
-    name=region_id (state/province)
-    name=postcode
-    name=country_id
-  **/
-
-  window.debugAF = true;
+  window.debugAF = false;
 
   // TODO - only require addressfinder when needed
   require(['addressfinder', 'domReady!'], function(AddressFinder){
@@ -24,9 +7,27 @@
 
     (function() {
       var currentUrl = location.href;
-      var selectors = ["input#street_1", // address book
-                       ".billing-address-form input[name='street[0]']",
-                       ".form-shipping-address input[name='street[0]']"];
+      var mappings = {
+        "input#street_1": { // account address book
+          street_2: "input#street_2",
+          city: "input[name=city]",
+          region: "input[name=region]",
+          postcode: "input[name=postcode]"
+        },
+        ".billing-address-form input[name='street[0]']": { // billing address
+          street_2: "input[name='street[1]']",
+          city: "input[name=city]",
+          region: "input[name=region]",
+          postcode: "input[name=postcode]"
+        },
+        ".form-shipping-address input[name='street[0]']": { // shipping address
+          street_2: "input[name='street[1]']",
+          city: "input[name=city]",
+          region: "input[name=region]",
+          postcode: "input[name=postcode]"
+        }
+      }
+      var selectors = Object.keys(mappings);
       var widgets = {};
 
       function usingKnockout(){
@@ -62,16 +63,41 @@
         };
       }
 
+      function populateAUForm(widgetGroup, metadata){
+        var input = document.querySelector(widgetGroup);
+        input.value = metadata.address_line_1;
+        input.form.querySelector(mappings[widgetGroup]['street_2']).value = metadata.address_line_2;
+        input.form.querySelector(mappings[widgetGroup]['city']).value = metadata.locality_name;
+        input.form.querySelector(mappings[widgetGroup]['region']).value = metadata.state_territory;
+        input.form.querySelector(mappings[widgetGroup]['postcode']).value = metadata.postcode;
+      };
+
+      function populateNZForm(widgetGroup, metadata){
+        console.log(metadata)
+        var wrapper = new AddressFinder.NZSelectedAddress(metadata.a, metadata);
+        var input = document.querySelector(widgetGroup);
+        input.value = wrapper.address_line_1();
+        input.form.querySelector(mappings[widgetGroup]['street_2']).value = wrapper.address_line_2();
+        input.form.querySelector(mappings[widgetGroup]['city']).value = metadata.city;
+        input.form.querySelector(mappings[widgetGroup]['region']).value = metadata.region;
+        input.form.querySelector(mappings[widgetGroup]['postcode']).value = metadata.postcode;
+      };
+
       function initAF(){
         for (var e = 0; e < selectors.length; e++){
           (function(){
             var input = document.querySelector(selectors[e]);
             if (input){
               var widgetGroup = selectors[e];
-              widgets[widgetGroup] = {
-                'AU': new AddressFinder.Widget(input, 'ADDRESSFINDER_AU_DEMO_KEY', 'AU', {}),
-                'NZ': new AddressFinder.Widget(input, 'ADDRESSFINDER_NZ_DEMO_KEY', 'NZ', {})
-              };
+              var au_widget = new AddressFinder.Widget(input, 'ADDRESSFINDER_AU_DEMO_KEY', 'AU', {});
+              var nz_widget = new AddressFinder.Widget(input, 'ADDRESSFINDER_NZ_DEMO_KEY', 'NZ', {});
+              au_widget.on("result:select", function(fullAddress, metadata){
+                populateAUForm(widgetGroup, metadata)
+              });
+              nz_widget.on("result:select", function(fullAddress, metadata){
+                populateNZForm(widgetGroup, metadata)
+              });
+              widgets[widgetGroup] = {'AU': au_widget, 'NZ': nz_widget};
               var countrySelect = input.form.querySelector('select[name=country_id]');
               setWidgetState(widgetGroup, countrySelect);
               countrySelect.addEventListener('change', function(){
