@@ -1,3 +1,10 @@
+<?php
+  $auLicenceKey = $this->scopeConfig->getValue('AddressFinder_Widget/settings/au_licence_key', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+  // $nzLicenceKey = $this->scopeConfig->getValue('AddressFinder_Widget/settings/nz_licence_key', ScopeInterface::SCOPE_STORE);
+
+  if (true){#(!empty($auLicenceKey) || !empty($nzLicenceKey)) {
+?>
+
 <script>
   window.debugAF = false;
 
@@ -140,3 +147,5 @@
 
   });
 </script>
+
+<?php }

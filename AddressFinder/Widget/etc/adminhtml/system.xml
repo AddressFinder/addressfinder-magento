@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:Magento_Config:etc/system_file.xsd">
+  <system>
+    <section id="AddressFinder_Widget" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
+      <label>AddressFinder Widget</label>
+      <tab>service</tab>
+      <resource>AddressFinder_Widget::settings</resource>
+      <group id="settings" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
+
+        <label>AddressFinder Widget Settings</label>
+        <field id="au_licence_key" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
+          <label>Licence Key Australia</label>
+          <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model> <!-- This will ensure that the value is encrypted when it is saved and decrypted when pulled out of the database. You will need to add one more bit in order for this decryption to work -->
+        </field>
+
+        <field id="nz_licence_key" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="0">
+          <label>Licence Key New Zealand</label>
+          <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model> <!-- This will ensure that the value is encrypted when it is saved and decrypted when pulled out of the database. You will need to add one more bit in order for this decryption to work -->
+        </field>
+      </group>
+    </section>
+  </system>
+</config>
