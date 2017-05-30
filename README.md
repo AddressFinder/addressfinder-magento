@@ -2,11 +2,11 @@
 
 ## Development
 
-### Requirements
+#### Requirements
 
 - [Docker for Mac](https://docs.docker.com/docker-for-mac/install/)
 
-### Setup
+#### Setup
 
 ```
 bash pre-setup.sh
@@ -18,7 +18,7 @@ open http://localhost:8000/
 docker-compose logs -f
 ```
 
-### requirejs-config.js
+#### RequireJS
 
 Magento allows `requirejs-config.js` files to be defined per module. Multiple config files are concatenated into a single file.
 
@@ -30,11 +30,15 @@ rm -rf pub/static/*
 bin/magento setup:static-content:deploy
 ```
 
-### Routing
+#### Routing
 
 When modifying routes you may need to recompile the module.
 
 ```
 docker-compose exec phpfpm ./bin/magento setup:di:compile
 ```
+
+## Packaging
+
+Run `bash package.sh` to create a zip package for distributing our module.
 
