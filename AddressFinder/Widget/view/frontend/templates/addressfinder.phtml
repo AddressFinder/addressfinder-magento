@@ -1,12 +1,13 @@
 <?php
-  $auLicenceKey = $this->scopeConfig->getValue('AddressFinder_Widget/settings/au_licence_key', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
-  // $nzLicenceKey = $this->scopeConfig->getValue('AddressFinder_Widget/settings/nz_licence_key', ScopeInterface::SCOPE_STORE);
-
-  if (true){#(!empty($auLicenceKey) || !empty($nzLicenceKey)) {
+  $auLicenceKey = $this->helper('AddressFinder\Widget\Helper\Data')->getConfig('au_licence_key');
+  $nzLicenceKey = $this->helper('AddressFinder\Widget\Helper\Data')->getConfig('nz_licence_key');
+  if (!empty($auLicenceKey) || !empty($nzLicenceKey)) {
 ?>
 
 <script>
-  window.debugAF = false;
+  window.debugAF = true;
+  if (debugAF && <?php echo(!empty($auLicenceKey)) ?>){ console.debug('AU licence: <?php echo($auLicenceKey) ?>'); };
+  if (debugAF && <?php echo(!empty($nzLicenceKey)) ?>){ console.debug('NZ licence: <?php echo($nzLicenceKey) ?>'); };
 
   // TODO - only require addressfinder when needed
   require(['addressfinder', 'domReady!'], function(AddressFinder){
@@ -57,18 +58,24 @@
 
       function disableWidgets(addressGroup){
         if (debugAF){ console.debug('disabling widgets for '+addressGroup); };
-        widgets[addressGroup]['AU'].disable();
-        widgets[addressGroup]['NZ'].disable();
-      }
+        if (widgetExists(addressGroup, 'AU')){ widgets[addressGroup]['AU'].disable(); };
+        if (widgetExists(addressGroup, 'NZ')){ widgets[addressGroup]['NZ'].disable(); };
+      };
 
       function setWidgetState(addressGroup, countrySelect){
         disableWidgets(addressGroup);
         var countryCode = countrySelect.value;
-        if (countryCode && (countryCode == 'NZ' || countryCode == 'AU')) {
-          if (debugAF){ console.debug('enabling '+addressGroup+" for "+countryCode); };
-          widgets[addressGroup][countryCode].enable();
+        if (countryCode){
+          if (widgetExists(addressGroup, 'AU') && countryCode == 'AU'){
+            if (debugAF){ console.debug('enabling '+addressGroup+" for AU"); };
+            widgets[addressGroup]['AU'].enable();
+          };
+          if (widgetExists(addressGroup, 'NZ') && countryCode == 'NZ'){
+            if (debugAF){ console.debug('enabling '+addressGroup+" for NZ"); };
+            widgets[addressGroup]['NZ'].enable();
+          };
         };
-      }
+      };
 
       function populateAUForm(addressGroup, metadata){
         var input = document.querySelector(addressGroup);
@@ -89,12 +96,22 @@
         input.form.querySelector(addressFieldMappings[addressGroup]['postcode']).value = metadata.postcode;
       };
 
+      function widgetExists(addressGroup, countryCode){
+        return !!(widgets[addressGroup]['NZ'] != undefined)
+      };
+
       function setupWidgets(input, addressGroup){
-        var au_widget = new AddressFinder.Widget(input, 'ADDRESSFINDER_AU_DEMO_KEY', 'AU', {});
-        var nz_widget = new AddressFinder.Widget(input, 'ADDRESSFINDER_NZ_DEMO_KEY', 'NZ', {});
-        au_widget.on("result:select", function(fullAddress, metadata){ populateAUForm(addressGroup, metadata) });
-        nz_widget.on("result:select", function(fullAddress, metadata){ populateNZForm(addressGroup, metadata) });
-        widgets[addressGroup] = {'AU': au_widget, 'NZ': nz_widget};
+        widgets[addressGroup] = {};
+        <?php if (!empty($auLicenceKey)){ ?>
+          var au_widget = new AddressFinder.Widget(input, '<?php echo $auLicenceKey; ?>', 'AU', {});
+          au_widget.on("result:select", function(fullAddress, metadata){ populateAUForm(addressGroup, metadata) });
+          widgets[addressGroup]['AU'] = au_widget;
+        <?php } ?>
+        <?php if (!empty($nzLicenceKey)){ ?>
+          var nz_widget = new AddressFinder.Widget(input, '<?php echo $nzLicenceKey; ?>', 'NZ', {});
+          nz_widget.on("result:select", function(fullAddress, metadata){ populateNZForm(addressGroup, metadata) });
+          widgets[addressGroup]['NZ'] = nz_widget;
+        <?php } ?>
       };
 
       function setupCountrySwitcher(input, addressGroup){
