@@ -6,13 +6,15 @@
 
 <script>
   window.debugAF = false;
-  if (debugAF && <?php echo(!empty($auLicenceKey)) ?>){ console.debug('AU licence: <?php echo($auLicenceKey) ?>'); };
-  if (debugAF && <?php echo(!empty($nzLicenceKey)) ?>){ console.debug('NZ licence: <?php echo($nzLicenceKey) ?>'); };
 
-  // TODO - only require addressfinder when needed
-  require(['addressfinder', 'domReady!'], function(AddressFinder){
-    if (debugAF){ console.debug('required addressfinder'); };
+  if (debugAF && <?php echo(!empty($auLicenceKey)) ?>){
+    console.debug('AU licence: <?php echo($auLicenceKey) ?>');
+  };
+  if (debugAF && <?php echo(!empty($nzLicenceKey)) ?>){
+    console.debug('NZ licence: <?php echo($nzLicenceKey) ?>');
+  };
 
+  require(['domReady!'], function(){
     (function() {
       var currentUrl = location.href;
       var addressFieldMappings = {
@@ -140,12 +142,15 @@
       };
 
       function loadAF(){
-        if (debugAF){ console.debug('precheck'); };
+        if (debugAF){ console.debug('check for address fields'); };
         if (pageHasAddressFields()){
-          // TODO - require addressfinder should go here
-          initAF();
+          require(['addressfinder'], function(AddressFinder){
+            if (debugAF){ console.debug('required addressfinder'); };
+            window.AddressFinder = AddressFinder;
+            initAF();
+          });
         } else {
-          if (debugAF){ console.debug('there are no address fields'); };
+          if (debugAF){ console.debug('no address fields'); };
         };
       };
 
