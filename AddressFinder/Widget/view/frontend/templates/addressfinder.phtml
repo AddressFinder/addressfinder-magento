@@ -46,7 +46,7 @@
       };
 
       function watchUrl(){
-        if (debugAF){ console.debug('watching url'); };
+        if (debugAF){ console.debug('Watching url'); };
         if (location.href != currentUrl) {
           currentUrl = location.href;
           setTimeout(initAF, 500);
@@ -56,7 +56,7 @@
       };
 
       function disableWidgets(addressGroup){
-        if (debugAF){ console.debug('disabling widgets for '+addressGroup); };
+        if (debugAF){ console.debug('Disabling widgets for '+addressGroup); };
         if (widgetExists(addressGroup, 'AU')){ widgets[addressGroup]['AU'].disable(); };
         if (widgetExists(addressGroup, 'NZ')){ widgets[addressGroup]['NZ'].disable(); };
       };
@@ -66,11 +66,11 @@
         var countryCode = countrySelect.value;
         if (countryCode){
           if (widgetExists(addressGroup, 'AU') && countryCode == 'AU'){
-            if (debugAF){ console.debug('enabling '+addressGroup+" for AU"); };
+            if (debugAF){ console.debug('Enabling '+addressGroup+" for AU"); };
             widgets[addressGroup]['AU'].enable();
           };
           if (widgetExists(addressGroup, 'NZ') && countryCode == 'NZ'){
-            if (debugAF){ console.debug('enabling '+addressGroup+" for NZ"); };
+            if (debugAF){ console.debug('Enabling '+addressGroup+" for NZ"); };
             widgets[addressGroup]['NZ'].enable();
           };
         };
@@ -113,9 +113,11 @@
 
       function setupCountrySwitcher(input, addressGroup){
         var countrySelect = input.form.querySelector('select[name=country_id]');
+
         setWidgetState(addressGroup, countrySelect);
+
         countrySelect.addEventListener('change', function(){
-          if (debugAF){ console.debug('country changed'); };
+          if (debugAF){ console.debug('Country changed'); };
           setWidgetState(addressGroup, countrySelect);
         });
       };
@@ -137,22 +139,22 @@
       };
 
       function loadAF(){
-        if (debugAF){ console.debug('check for address fields'); };
+        if (debugAF){ console.debug('Check for address fields'); };
         if (pageHasAddressFields()){
           require(['addressfinder'], function(AddressFinder){
-            if (debugAF){ console.debug('required addressfinder'); };
+            if (debugAF){ console.debug('Required addressfinder'); };
             window.AddressFinder = AddressFinder;
             initAF();
           });
         } else {
-          if (debugAF){ console.debug('no address fields'); };
+          if (debugAF){ console.debug('No address fields'); };
         };
       };
 
       function start(){
         if (usingKnockout() && !knockoutLoaded()){
-          if (debugAF){ console.debug('waiting for knockout'); };
           setTimeout(start, 2000);
+          if (debugAF){ console.debug('Waiting for knockout'); };
         } else {
           loadAF();
         };
