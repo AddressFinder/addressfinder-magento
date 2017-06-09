@@ -88,8 +88,8 @@
       function populateNZForm(addressGroup, metadata){
         var wrapper = new AddressFinder.NZSelectedAddress(metadata.a, metadata);
         var input = document.querySelector(addressGroup);
-        input.value = wrapper.address_line_1();
-        input.form.querySelector(addressFieldMappings[addressGroup]['street_2']).value = wrapper.address_line_2() || metadata.suburb;
+        input.value = wrapper.address_line_1_and_2();
+        input.form.querySelector(addressFieldMappings[addressGroup]['street_2']).value = metadata.suburb;
         input.form.querySelector(addressFieldMappings[addressGroup]['city']).value = metadata.city;
         input.form.querySelector(addressFieldMappings[addressGroup]['region']).value = metadata.region;
         input.form.querySelector(addressFieldMappings[addressGroup]['postcode']).value = metadata.postcode;
@@ -153,8 +153,8 @@
 
       function start(){
         if (usingKnockout() && !knockoutLoaded()){
-          setTimeout(start, 2000);
           if (debugAF){ console.debug('Waiting for knockout'); };
+          setTimeout(start, 1000);
         } else {
           loadAF();
         };
