@@ -5,13 +5,18 @@
       <label>AddressFinder</label>
       <tab>service</tab>
       <resource>AddressFinder_Widget::settings</resource>
-      <group id="settings" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
+      <group id="settings" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
 
         <label>AddressFinder</label>
 
         <field id="licence_key" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
           <label>Licence Key</label>
           <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
+        </field>
+
+        <field id="debug_mode" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
+          <label>Debug Mode</label>
+          <source_model>Magento\Config\Model\Config\Source\Enabledisable</source_model>
         </field>
       </group>
     </section>

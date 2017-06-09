@@ -1,10 +1,11 @@
 <?php
-  $licenceKey = $this->helper('AddressFinder\Widget\Helper\Data')->getConfig('nz_licence_key');
+  $licenceKey = $this->helper('AddressFinder\Widget\Helper\Data')->getEncryptedConfig('licence_key');
+  $debugMode = $this->helper('AddressFinder\Widget\Helper\Data')->getConfig('debug_mode');
   if (!empty($licenceKey)) {
 ?>
 
 <script>
-  window.debugAF = false;
+  window.debugAF = <?php echo($debugMode) ?>;
 
   if (debugAF && <?php echo(!empty($licenceKey)) ?>){
     console.debug('Licence key: <?php echo($licenceKey) ?>');
