@@ -1,17 +1,13 @@
 <?php
-  $auLicenceKey = $this->helper('AddressFinder\Widget\Helper\Data')->getConfig('au_licence_key');
-  $nzLicenceKey = $this->helper('AddressFinder\Widget\Helper\Data')->getConfig('nz_licence_key');
-  if (!empty($auLicenceKey) || !empty($nzLicenceKey)) {
+  $licenceKey = $this->helper('AddressFinder\Widget\Helper\Data')->getConfig('nz_licence_key');
+  if (!empty($licenceKey)) {
 ?>
 
 <script>
   window.debugAF = false;
 
-  if (debugAF && <?php echo(!empty($auLicenceKey)) ?>){
-    console.debug('AU licence: <?php echo($auLicenceKey) ?>');
-  };
-  if (debugAF && <?php echo(!empty($nzLicenceKey)) ?>){
-    console.debug('NZ licence: <?php echo($nzLicenceKey) ?>');
+  if (debugAF && <?php echo(!empty($licenceKey)) ?>){
+    console.debug('Licence key: <?php echo($licenceKey) ?>');
   };
 
   require(['domReady!'], function(){
@@ -24,13 +20,13 @@
           region: "input[name=region]",
           postcode: "input[name=postcode]"
         },
-        ".billing-address-form input[name='street[0]']": { // billing address
+        ".billing-address-form input[name='street[0]']": { // checkout billing address
           street_2: "input[name='street[1]']",
           city: "input[name=city]",
           region: "input[name=region]",
           postcode: "input[name=postcode]"
         },
-        ".form-shipping-address input[name='street[0]']": { // shipping address
+        ".form-shipping-address input[name='street[0]']": { // checkout shipping address
           street_2: "input[name='street[1]']",
           city: "input[name=city]",
           region: "input[name=region]",
@@ -104,16 +100,14 @@
 
       function setupWidgets(input, addressGroup){
         widgets[addressGroup] = {};
-        <?php if (!empty($auLicenceKey)){ ?>
-          var au_widget = new AddressFinder.Widget(input, '<?php echo $auLicenceKey; ?>', 'AU', {});
-          au_widget.on("result:select", function(fullAddress, metadata){ populateAUForm(addressGroup, metadata) });
-          widgets[addressGroup]['AU'] = au_widget;
-        <?php } ?>
-        <?php if (!empty($nzLicenceKey)){ ?>
-          var nz_widget = new AddressFinder.Widget(input, '<?php echo $nzLicenceKey; ?>', 'NZ', {});
-          nz_widget.on("result:select", function(fullAddress, metadata){ populateNZForm(addressGroup, metadata) });
-          widgets[addressGroup]['NZ'] = nz_widget;
-        <?php } ?>
+
+        var au_widget = new AddressFinder.Widget(input, '<?php echo $licenceKey; ?>', 'AU', {});
+        au_widget.on("result:select", function(fullAddress, metadata){ populateAUForm(addressGroup, metadata) });
+        widgets[addressGroup]['AU'] = au_widget;
+
+        var nz_widget = new AddressFinder.Widget(input, '<?php echo $licenceKey; ?>', 'NZ', {});
+        nz_widget.on("result:select", function(fullAddress, metadata){ populateNZForm(addressGroup, metadata) });
+        widgets[addressGroup]['NZ'] = nz_widget;
       };
 
       function setupCountrySwitcher(input, addressGroup){
