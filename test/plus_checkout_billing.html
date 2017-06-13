@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Checkout Billing Address, Shopify Plus</title>
+    <link rel="stylesheet" href="test.css">
+  </head>
+  <body>
+    <form>
+      <h2>Checkout Billing Address, Shopify Plus</h2>
+      <div>
+        <label>Address line 1</label>
+        <input type="text" id="checkout_billing_address_address1" name="checkout[billing_address][address1]">
+      </div>
+      <div>
+        <label>Address line 2</label>
+        <input type="text" id="checkout_billing_address_address2" name="checkout[billing_address][address2]">
+      </div>
+      <div>
+        <label>City</label>
+        <input type="text" id="checkout_billing_address_city" name="checkout[billing_address][city]">
+      </div>
+      <div>
+        <label>Province/State</label>
+        <select id="checkout_billing_address_province" name="checkout[billing_address][province]">
+          <option value="-1"></option>
+          <!-- AU -->
+          <option value="Australian Capital Territory">Australian Capital Territory</option>
+          <option value="New South Wales">New South Wales</option>
+          <option value="Northern Territory">Northern Territory</option>
+          <option value="Queensland">Queensland</option>
+          <option value="South Australia">South Australia</option>
+          <option value="Tasmania">Tasmania</option>
+          <option value="Victoria">Victoria</option>
+          <option value="Western Australia">Western Australia</option>
+          <!-- NZ -->
+          <option value="Auckland">Auckland</option>
+          <option value="Bay of Plenty">Bay of Plenty</option>
+          <option value="Canterbury">Canterbury</option>
+          <option value="Gisborne">Gisborne</option>
+          <option value="Hawke's Bay">Hawke's Bay</option>
+          <option value="Manawatu-Wanganui">Manawatu-Wanganui</option>
+          <option value="Marlborough">Marlborough</option>
+          <option value="Nelson">Nelson</option>
+          <option value="Northland">Northland</option>
+          <option value="Otago">Otago</option>
+          <option value="Southland">Southland</option>
+          <option value="Taranaki">Taranaki</option>
+          <option value="Tasman">Tasman</option>
+          <option value="Waikato">Waikato</option>
+          <option value="Wellington">Wellington</option>
+          <option value="West Coast">West Coast</option>
+        </select>
+      </div>
+      <div>
+        <label>ZIP/Postcode</label>
+        <input type="text" id="checkout_billing_address_zip" name="checkout[billing_address][zip]">
+      </div>
+      <div>
+        <label>Country</label>
+        <select id="checkout_billing_address_country" name="checkout[billing_address][country]">
+          <option value="-1">Select a country</option>
+          <option value="AU" selected>Australia</option>
+          <option value="NZ">New Zealand</option>
+        </select>
+      </div>
+    </form>
+  </body>
+  <script>
+    AddressFinderPlugin = {
+      key: 'ADDRESSFINDER_NZ_DEMO_KEY'
+    };
+  </script>
+  <script src="../dist/addressfinder.js"></script>
+</html>
