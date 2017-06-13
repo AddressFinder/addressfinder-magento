@@ -1,18 +1,19 @@
 var gulp   = require('gulp');
 var fs     = require('fs');
-var eslint = require('gulp-eslint');
+var coffeelint = require('gulp-coffeelint');
 var concat = require('gulp-concat');
 var rename = require('gulp-rename');
 var uglify = require('gulp-uglify');
 var watch  = require('gulp-watch');
+var coffee = require('gulp-coffee');
 
 // Configuration
-var eslintConfig = JSON.parse(fs.readFileSync('./.eslintrc.json'));
 var srcFolder = './src';
-var distFolder = './dist';
+var distFolder = './AddressFinder/Widget/view/frontend/web/js';
 var jsFiles = srcFolder + '/*.js';
-var bundleFileName = 'addressfinder.js';
-var outputFileName = 'addressfinder.min.js';
+var coffeeFiles = srcFolder + '/*.coffee';
+var bundleFileName = 'addressfinder_magento.js';
+var outputFileName = 'addressfinder_magento.min.js';
 
 gulp.task('default', ['lint'], function () {
   // place code for your default task here
@@ -29,16 +30,15 @@ gulp.task('production', ['lint', 'concat', 'minify'], function() {
 });
 
 gulp.task('lint', function() {
-  return gulp.src(srcFolder + '/**').pipe(eslint({
-    'rules': eslintConfig.rules
-  }))
-  .pipe(eslint.format())
-  // Brick on failure to be super strict
-  .pipe(eslint.failOnError());
+  gulp.src(coffeeFiles)
+    .pipe(coffeelint())
+    .pipe(coffeelint.reporter())
+    .pipe(coffeelint.reporter('fail'));
 });
 
 gulp.task('concat', function() {
-  return gulp.src(jsFiles)
+  return gulp.src(coffeeFiles)
+    .pipe(coffee({bare: true}))
     .pipe(concat(bundleFileName))
     .pipe(gulp.dest(distFolder));
 });
@@ -51,9 +51,10 @@ gulp.task('minify', function() {
 });
 
 gulp.task('js-watch', function() {
-  return watch(jsFiles, function(){
+  return watch(coffeeFiles, function(){
     console.log('Watch triggered');
-    gulp.src(jsFiles)
+    gulp.src(coffeeFiles)
+      .pipe(coffee({bare: true}))
       .pipe(concat(bundleFileName))
       .pipe(gulp.dest(distFolder));
   });
