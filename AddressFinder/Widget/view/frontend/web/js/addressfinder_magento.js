@@ -3,16 +3,18 @@ var bind = function(fn, me){ return function(){ return fn.apply(me, arguments); 
 define(function() {
   var AddressFinderMagento, AddressFinderWidget;
   AddressFinderWidget = (function() {
-    function AddressFinderWidget(addressLine1Element1, mappings1, licenceKey, debugMode) {
+    function AddressFinderWidget(addressLine1Element1, mappings1, licenceKey, debugMode, widgetOptions) {
       this.addressLine1Element = addressLine1Element1;
       this.mappings = mappings1;
       this.licenceKey = licenceKey;
       this.debugMode = debugMode;
+      this.widgetOptions = widgetOptions;
       this.populate = bind(this.populate, this);
       this.setCountry = bind(this.setCountry, this);
       this.disable = bind(this.disable, this);
       this.setupCountrySwitcher = bind(this.setupCountrySwitcher, this);
       this.setupWidgets = bind(this.setupWidgets, this);
+      this.countries = bind(this.countries, this);
       this.getFormElement = bind(this.getFormElement, this);
       this.countryElement = this.getFormElement('country');
       if (this.countryElement != null) {
@@ -29,11 +31,29 @@ define(function() {
       return this.addressLine1Element.form.querySelector(this.mappings[type]);
     };
 
+    AddressFinderWidget.prototype.countries = function() {
+      var option;
+      return this._countries || (this._countries = (function() {
+        var i, len, ref, results;
+        ref = this.countryElement.options;
+        results = [];
+        for (i = 0, len = ref.length; i < len; i++) {
+          option = ref[i];
+          results.push(option.value);
+        }
+        return results;
+      }).call(this));
+    };
+
     AddressFinderWidget.prototype.setupWidgets = function() {
-      this.au = new AddressFinder.Widget(this.addressLine1Element, this.licenceKey, 'AU', {});
-      this.au.on("result:select", this.populate);
-      this.nz = new AddressFinder.Widget(this.addressLine1Element, this.licenceKey, 'NZ', {});
-      return this.nz.on("result:select", this.populate);
+      if (this.countries().indexOf('AU')) {
+        this.au = new AddressFinder.Widget(this.addressLine1Element, this.licenceKey, 'AU', this.widgetOptions);
+        this.au.on("result:select", this.populate);
+      }
+      if (this.countries().indexOf('NZ')) {
+        this.nz = new AddressFinder.Widget(this.addressLine1Element, this.licenceKey, 'NZ', this.widgetOptions);
+        return this.nz.on("result:select", this.populate);
+      }
     };
 
     AddressFinderWidget.prototype.setupCountrySwitcher = function() {
@@ -102,6 +122,7 @@ define(function() {
       this.checkoutMode = options.checkoutMode || false;
       this.licenceKey = options.licenceKey;
       this.fieldMappings = options.fieldMappings || {};
+      this.widgetOptions = options.widgetOptions || {};
       this.currentUrl = window.location.href;
     }
 
@@ -114,6 +135,7 @@ define(function() {
       } else {
         if (this.debugMode) {
           console.debug('Licence key: ' + this.licenceKey);
+          console.debug('Widget options:', this.widgetOptions);
         }
         if (this.checkoutMode) {
           this.watchUrl();
@@ -145,7 +167,7 @@ define(function() {
       for (fieldName in ref) {
         mappings = ref[fieldName];
         addressLine1Element = document.querySelector(fieldName);
-        results.push(new AddressFinderWidget(addressLine1Element, mappings, this.licenceKey, this.debugMode));
+        results.push(new AddressFinderWidget(addressLine1Element, mappings, this.licenceKey, this.debugMode, this.widgetOptions));
       }
       return results;
     };

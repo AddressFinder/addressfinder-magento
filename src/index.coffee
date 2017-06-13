@@ -1,7 +1,7 @@
 define(->
   class AddressFinderWidget
 
-    constructor: (@addressLine1Element, @mappings, @licenceKey, @debugMode) ->
+    constructor: (@addressLine1Element, @mappings, @licenceKey, @debugMode, @widgetOptions) ->
       @countryElement = @getFormElement('country')
       if @countryElement?
         @addressLine2Element = @getFormElement('addressLine2')
@@ -23,7 +23,7 @@ define(->
           @addressLine1Element,
           @licenceKey,
           'AU',
-          {}
+          @widgetOptions
         )
         @au.on("result:select", @populate)
 
@@ -32,7 +32,7 @@ define(->
           @addressLine1Element,
           @licenceKey,
           'NZ',
-          {}
+          @widgetOptions
         )
         @nz.on("result:select", @populate)
 
@@ -79,6 +79,7 @@ define(->
       @checkoutMode = options.checkoutMode || false
       @licenceKey = options.licenceKey
       @fieldMappings = options.fieldMappings || {}
+      @widgetOptions = options.widgetOptions || {}
       @currentUrl = window.location.href
 
     start: =>
@@ -89,6 +90,7 @@ define(->
       else
         if @debugMode
           console.debug('Licence key: '+@licenceKey)
+          console.debug('Widget options:',@widgetOptions)
         @watchUrl() if @checkoutMode
         @initAF()
 
@@ -111,6 +113,7 @@ define(->
           addressLine1Element,
           mappings,
           @licenceKey,
-          @debugMode
+          @debugMode,
+          @widgetOptions
         )
 )
