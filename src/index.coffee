@@ -1,34 +1,40 @@
 define(->
   class AddressFinderWidget
 
-    constructor: (@addressLine1Element, mappings, @licenceKey, @debugMode) ->
-      @addressLine2Element = @getFormElement(mappings['addressLine2'])
-      @cityElement = @getFormElement(mappings['city'])
-      @regionElement = @getFormElement(mappings['region'])
-      @postcodeElement = @getFormElement(mappings['postcode'])
-      @countryElement = @getFormElement('select[name=country_id]')
-      @setupWidgets()
-      @setupCountrySwitcher() if @countryElement?
+    constructor: (@addressLine1Element, @mappings, @licenceKey, @debugMode) ->
+      @countryElement = @getFormElement('country')
+      if @countryElement?
+        @addressLine2Element = @getFormElement('addressLine2')
+        @cityElement = @getFormElement('city')
+        @regionElement = @getFormElement('region')
+        @postcodeElement = @getFormElement('postcode')
+        @setupWidgets()
+        @setupCountrySwitcher()
 
-    getFormElement: (selector) =>
-      @addressLine1Element.form.querySelector(selector)
+    getFormElement: (type) =>
+      @addressLine1Element.form.querySelector(@mappings[type])
+
+    countries: =>
+      @_countries ||= (option.value for option in @countryElement.options)
 
     setupWidgets: =>
-      @au = new AddressFinder.Widget(
-        @addressLine1Element,
-        @licenceKey,
-        'AU',
-        {}
-      )
-      @au.on("result:select", @populate)
+      if @countries().indexOf('AU')
+        @au = new AddressFinder.Widget(
+          @addressLine1Element,
+          @licenceKey,
+          'AU',
+          {}
+        )
+        @au.on("result:select", @populate)
 
-      @nz = new AddressFinder.Widget(
-        @addressLine1Element,
-        @licenceKey,
-        'NZ',
-        {}
-      )
-      @nz.on("result:select", @populate)
+      if @countries().indexOf('NZ')
+        @nz = new AddressFinder.Widget(
+          @addressLine1Element,
+          @licenceKey,
+          'NZ',
+          {}
+        )
+        @nz.on("result:select", @populate)
 
     setupCountrySwitcher: =>
       @setCountry()
