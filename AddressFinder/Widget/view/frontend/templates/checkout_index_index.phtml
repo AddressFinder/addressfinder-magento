@@ -5,165 +5,28 @@
 ?>
 
 <script>
-  window.debugAF = <?php echo($debugMode) ?>;
-
-  if (debugAF && <?php echo(!empty($licenceKey)) ?>){
-    console.debug('Licence key: <?php echo($licenceKey) ?>');
-  };
-
-  require(['domReady!'], function(){
-    (function() {
-      var currentUrl = location.href;
-      var addressFieldMappings = {
-        "input#street_1": { // account address book
-          street_2: "input#street_2",
-          city: "input[name=city]",
-          region: "input[name=region]",
-          postcode: "input[name=postcode]"
-        },
-        ".billing-address-form input[name='street[0]']": { // checkout billing address
+  require(['addressfinder_magento', 'addressfinder', 'domReady!'], function(AddressFinderMagento, AddressFinder){
+    var options = {
+      licenceKey: "<?php echo($licenceKey) ?>",
+      debugMode: <?php echo($debugMode) ?>,
+      checkoutMode: true,
+      fieldMappings: {
+        ".billing-address-form input[name='street[0]']": {
           street_2: "input[name='street[1]']",
           city: "input[name=city]",
           region: "input[name=region]",
           postcode: "input[name=postcode]"
         },
-        ".form-shipping-address input[name='street[0]']": { // checkout shipping address
+        ".form-shipping-address input[name='street[0]']": {
           street_2: "input[name='street[1]']",
           city: "input[name=city]",
           region: "input[name=region]",
           postcode: "input[name=postcode]"
         }
       }
-      var addressFields = Object.keys(addressFieldMappings);
-      var widgets = {};
-
-      function usingKnockout(){
-        return !!document.querySelector('[data-bind]');
-      };
-
-      function knockoutLoaded(){
-        return !!document.querySelector('[data-bind]:last-child').innerText.trim().length;
-      };
-
-      function watchUrl(){
-        if (debugAF){ console.debug('Watching url'); };
-        if (location.href != currentUrl) {
-          currentUrl = location.href;
-          setTimeout(initAF, 500);
-        } else {
-          setTimeout(watchUrl, 1000);
-        }
-      };
-
-      function disableWidgets(addressGroup){
-        if (debugAF){ console.debug('Disabling widgets for '+addressGroup); };
-        if (widgetExists(addressGroup, 'AU')){ widgets[addressGroup]['AU'].disable(); };
-        if (widgetExists(addressGroup, 'NZ')){ widgets[addressGroup]['NZ'].disable(); };
-      };
-
-      function setWidgetState(addressGroup, countrySelect){
-        disableWidgets(addressGroup);
-        var countryCode = countrySelect.value;
-        if (countryCode){
-          if (widgetExists(addressGroup, 'AU') && countryCode == 'AU'){
-            if (debugAF){ console.debug('Enabling '+addressGroup+" for AU"); };
-            widgets[addressGroup]['AU'].enable();
-          };
-          if (widgetExists(addressGroup, 'NZ') && countryCode == 'NZ'){
-            if (debugAF){ console.debug('Enabling '+addressGroup+" for NZ"); };
-            widgets[addressGroup]['NZ'].enable();
-          };
-        };
-      };
-
-      function populateAUForm(addressGroup, metadata){
-        var input = document.querySelector(addressGroup);
-        input.value = metadata.address_line_1;
-        input.form.querySelector(addressFieldMappings[addressGroup]['street_2']).value = metadata.address_line_2;
-        input.form.querySelector(addressFieldMappings[addressGroup]['city']).value = metadata.locality_name;
-        input.form.querySelector(addressFieldMappings[addressGroup]['region']).value = metadata.state_territory;
-        input.form.querySelector(addressFieldMappings[addressGroup]['postcode']).value = metadata.postcode;
-      };
-
-      function populateNZForm(addressGroup, metadata){
-        var wrapper = new AddressFinder.NZSelectedAddress(metadata.a, metadata);
-        var input = document.querySelector(addressGroup);
-        input.value = wrapper.address_line_1_and_2();
-        input.form.querySelector(addressFieldMappings[addressGroup]['street_2']).value = metadata.suburb;
-        input.form.querySelector(addressFieldMappings[addressGroup]['city']).value = metadata.city;
-        input.form.querySelector(addressFieldMappings[addressGroup]['region']).value = metadata.region;
-        input.form.querySelector(addressFieldMappings[addressGroup]['postcode']).value = metadata.postcode;
-      };
-
-      function widgetExists(addressGroup, countryCode){
-        return !!(widgets[addressGroup]['NZ'] != undefined)
-      };
-
-      function setupWidgets(input, addressGroup){
-        widgets[addressGroup] = {};
-
-        var au_widget = new AddressFinder.Widget(input, '<?php echo $licenceKey; ?>', 'AU', {});
-        au_widget.on("result:select", function(fullAddress, metadata){ populateAUForm(addressGroup, metadata) });
-        widgets[addressGroup]['AU'] = au_widget;
-
-        var nz_widget = new AddressFinder.Widget(input, '<?php echo $licenceKey; ?>', 'NZ', {});
-        nz_widget.on("result:select", function(fullAddress, metadata){ populateNZForm(addressGroup, metadata) });
-        widgets[addressGroup]['NZ'] = nz_widget;
-      };
-
-      function setupCountrySwitcher(input, addressGroup){
-        var countrySelect = input.form.querySelector('select[name=country_id]');
-
-        setWidgetState(addressGroup, countrySelect);
-
-        countrySelect.addEventListener('change', function(){
-          if (debugAF){ console.debug('Country changed'); };
-          setWidgetState(addressGroup, countrySelect);
-        });
-      };
-
-      function initAF(){
-        for (var e = 0; e < addressFields.length; e++){
-          var input = document.querySelector(addressFields[e]);
-          if (input){
-            setupWidgets(input, addressFields[e]);
-            setupCountrySwitcher(input, addressFields[e]);
-          };
-        };
-
-        if (!!currentUrl.match(/\/checkout/i)){ watchUrl(); };
-      };
-
-      function pageHasAddressFields(){
-        return !!document.querySelectorAll(addressFields.join(', ')).length;
-      };
-
-      function loadAF(){
-        if (debugAF){ console.debug('Check for address fields'); };
-        if (pageHasAddressFields()){
-          require(['addressfinder'], function(AddressFinder){
-            if (debugAF){ console.debug('Required addressfinder'); };
-            window.AddressFinder = AddressFinder;
-            initAF();
-          });
-        } else {
-          if (debugAF){ console.debug('No address fields'); };
-        };
-      };
-
-      function start(){
-        if (usingKnockout() && !knockoutLoaded()){
-          if (debugAF){ console.debug('Waiting for knockout'); };
-          setTimeout(start, 1000);
-        } else {
-          loadAF();
-        };
-      };
-
-      start();
-
-    })();
-
+    }
+    window.AddressFinder = AddressFinder;
+    new AddressFinderMagento(options).start();
   });
 </script>
 
