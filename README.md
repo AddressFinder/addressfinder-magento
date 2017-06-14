@@ -17,15 +17,23 @@ bash post-setup.sh
 open http://localhost:8000/
 ```
 
-#### Magento Admin
+#### Making changes
+To modify the generic Javascript, make your necessary changes to `./src/addressfinder_magento.coffee` then run `gulp` to automatically build the `addressfinder_magento.js` file in the AddressFinder module.
+
+The following table indicates which file to edit for making page specific changes:
+
+| Page | File |
+| :--- | :--- |
+| Website > My Account > Edit Address | AddressFinder/Widget/view/frontend/templates/customer_address_form.phtml |
+| Website > Checkout | AddressFinder/Widget/view/frontend/templates/checkout_index_index.phtml |
+| Admin > Stores > Configuration > Services > AddressFinder | AddressFinder/Widget/etc/adminhtml/system.xml, AddressFinder/Widget/etc/config.xml |
+
+#### Access to Magento Admin
 Each Magento install creates a unique url to the admin portal.
 
 ```
 docker-compose exec phpfpm bin/magento info:adminuri
 ```
-
-#### Updating the Javascript
-Make your necessary changes to `./src/addressfinder_magento.coffee` then run `gulp` to automatically build the `addressfinder_magento.js` file in the AddressFinder module.
 
 #### Can't see your changes?
 
