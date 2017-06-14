@@ -23,7 +23,7 @@
 
         <field id="widget_options" type="textarea" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="0">
           <label>Widget Options</label>
-          <comment><![CDATA[For a list of options, see our Javascript widget reference for <a href='https://addressfinder.com.au/docs/widget_docs?utm_source=magento&utm_medium=extension&utm_campaign=magento_admin&utm_term=Australia#options'>Australia</a> or <a href='https://addressfinder.nz/docs/widget_docs?utm_source=magento&utm_medium=extension&utm_campaign=magento_admin&utm_term=New%20Zealand#options'>New Zealand</a>.]]></comment>
+          <comment><![CDATA[Must be in valid JSON format. For a list of options, see our Javascript widget reference for <a href='https://addressfinder.com.au/docs/widget_docs?utm_source=magento&utm_medium=extension&utm_campaign=magento_admin&utm_term=Australia#options'>Australia</a> or <a href='https://addressfinder.nz/docs/widget_docs?utm_source=magento&utm_medium=extension&utm_campaign=magento_admin&utm_term=New%20Zealand#options'>New Zealand</a>.]]></comment>
         </field>
       </group>
     </section>

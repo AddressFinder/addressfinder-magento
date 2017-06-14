@@ -150,7 +150,7 @@ define(function() {
         return JSON.parse(options);
       } catch (error) {
         if (this.debugMode) {
-          console.warn("Widget options ignored. They must be in correct JSON format");
+          console.warn("Widget options ignored. They must be in valid JSON format");
         }
         return {};
       }

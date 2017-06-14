@@ -99,7 +99,7 @@ define(->
         JSON.parse(options)
       catch
         if @debugMode
-          console.warn("Widget options ignored. They must be in correct JSON format")
+          console.warn("Widget options ignored. They must be in valid JSON format")
         {}
 
     foundAddressFields: =>
