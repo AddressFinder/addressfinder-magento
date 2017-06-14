@@ -50,11 +50,11 @@ define(->
       switch @countryElement.value
         when "AU"
           if @debugMode
-            console.debug('Enabling AU')
+            console.debug("Enabling AU on #{@mappings['addressLine1']}")
           @au.enable() if @au?
         when "NZ"
           if @debugMode
-            console.debug('Enabling NZ')
+            console.debug("Enabling NZ on #{@mappings['addressLine1']}")
           @nz.enable() if @nz?
 
     populate: (fullAddress, metadata) =>
@@ -72,15 +72,22 @@ define(->
         @regionElement.value = metadata.region
         @postcodeElement.value = metadata.postcode
 
+      @addressLine1Element.dispatchEvent(new Event('change'))
+      @addressLine2Element.dispatchEvent(new Event('change'))
+      @cityElement.dispatchEvent(new Event('change'))
+      @regionElement.dispatchEvent(new Event('change'))
+      @postcodeElement.dispatchEvent(new Event('change'))
+
   class AddressFinderMagento
 
     constructor: (options) ->
       @debugMode = options.debugMode || false
       @checkoutMode = options.checkoutMode || false
       @licenceKey = options.licenceKey
-      @fieldMappings = options.fieldMappings || {}
+      @fieldMappings = options.fieldMappings || []
       @widgetOptions = @parseWidgetOptions(options.widgetOptions)
       @currentUrl = window.location.href
+      @widgets = {}
 
     start: =>
       if @checkoutMode && !@foundAddressFields()
@@ -103,21 +110,29 @@ define(->
         {}
 
     foundAddressFields: =>
-      !!document.querySelectorAll(Object.keys(@fieldMappings).join(', ')).length
+      addressFieldNames = (f['addressLine1'] for f in @applicableFieldMappings())
+      addressFieldNames.length && (document.querySelectorAll(addressFieldNames).length == addressFieldNames.length)
+
+    applicableFieldMappings: =>
+      (f for f in @fieldMappings when (!f['pathRegex'] || window.location.href.match(f['pathRegex'])) && !@widgets[f['addressLine1']])
 
     watchUrl: =>
-      if @debugMode
-        console.debug('Watching url')
       if window.location.href != @currentUrl
+        if @debugMode
+          console.debug('Url changed')
         @currentUrl = window.location.href
-        setTimeout(@initAF, 500)
+        setTimeout(@start, 500)
       else
+        if @debugMode
+          console.debug('Watching url')
         setTimeout(@watchUrl, 1000)
 
     initAF: =>
-      for fieldName, mappings of @fieldMappings
-        addressLine1Element = document.querySelector(fieldName)
-        new AddressFinderWidget(
+      for mappings in @applicableFieldMappings()
+        addressLine1Element = document.querySelector(mappings['addressLine1'])
+        if @debugMode
+          console.debug("Initialising widget on #{mappings['addressLine1']}")
+        @widgets[mappings['addressLine1']] = new AddressFinderWidget(
           addressLine1Element,
           mappings,
           @licenceKey,
