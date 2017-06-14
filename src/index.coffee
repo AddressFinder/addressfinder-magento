@@ -79,7 +79,7 @@ define(->
       @checkoutMode = options.checkoutMode || false
       @licenceKey = options.licenceKey
       @fieldMappings = options.fieldMappings || {}
-      @widgetOptions = options.widgetOptions || {}
+      @widgetOptions = @parseWidgetOptions(options.widgetOptions)
       @currentUrl = window.location.href
 
     start: =>
@@ -93,6 +93,14 @@ define(->
           console.debug('Widget options:',@widgetOptions)
         @watchUrl() if @checkoutMode
         @initAF()
+
+    parseWidgetOptions: (options) =>
+      try
+        JSON.parse(options)
+      catch
+        if @debugMode
+          console.warn("Widget options ignored. They must be in correct JSON format")
+        {}
 
     foundAddressFields: =>
       !!document.querySelectorAll(Object.keys(@fieldMappings).join(', ')).length

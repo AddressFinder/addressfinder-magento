@@ -117,12 +117,13 @@ define(function() {
       this.initAF = bind(this.initAF, this);
       this.watchUrl = bind(this.watchUrl, this);
       this.foundAddressFields = bind(this.foundAddressFields, this);
+      this.parseWidgetOptions = bind(this.parseWidgetOptions, this);
       this.start = bind(this.start, this);
       this.debugMode = options.debugMode || false;
       this.checkoutMode = options.checkoutMode || false;
       this.licenceKey = options.licenceKey;
       this.fieldMappings = options.fieldMappings || {};
-      this.widgetOptions = options.widgetOptions || {};
+      this.widgetOptions = this.parseWidgetOptions(options.widgetOptions);
       this.currentUrl = window.location.href;
     }
 
@@ -141,6 +142,17 @@ define(function() {
           this.watchUrl();
         }
         return this.initAF();
+      }
+    };
+
+    AddressFinderMagento.prototype.parseWidgetOptions = function(options) {
+      try {
+        return JSON.parse(options);
+      } catch (error) {
+        if (this.debugMode) {
+          console.warn("Widget options ignored. They must be in correct JSON format");
+        }
+        return {};
       }
     };
 
