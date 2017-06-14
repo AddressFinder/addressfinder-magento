@@ -1,5 +1,7 @@
 #!/bin/bash
 
+gulp production
+
 echo "Enter version number: "
 read version
 

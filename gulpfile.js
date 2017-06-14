@@ -8,23 +8,16 @@ var watch  = require('gulp-watch');
 var coffee = require('gulp-coffee');
 
 // Configuration
-var srcFolder = './src';
+var coffeeFiles = './src/*.coffee';
 var distFolder = './AddressFinder/Widget/view/frontend/web/js';
-var jsFiles = srcFolder + '/*.js';
-var coffeeFiles = srcFolder + '/*.coffee';
-var bundleFileName = 'addressfinder_magento.js';
-var outputFileName = 'addressfinder_magento.min.js';
+var distFileName = 'addressfinder_magento.js';
 
-gulp.task('default', ['lint'], function () {
-  // place code for your default task here
-});
-
-gulp.task('develop', ['lint', 'concat', 'js-watch'], function() {
+gulp.task('default', ['lint', 'concat', 'js-watch'], function() {
   // place code for your default task here
   console.log('Build complete');
 });
 
-gulp.task('production', ['lint', 'concat', 'minify'], function() {
+gulp.task('production', ['lint', 'concat'], function() {
   // place code for your default task here
   console.log('Build complete');
 });
@@ -39,14 +32,8 @@ gulp.task('lint', function() {
 gulp.task('concat', function() {
   return gulp.src(coffeeFiles)
     .pipe(coffee({bare: true}))
-    .pipe(concat(bundleFileName))
-    .pipe(gulp.dest(distFolder));
-});
-
-gulp.task('minify', function() {
-  return gulp.src(distFolder + '/' + bundleFileName)
-    .pipe(rename(outputFileName))
-    .pipe(uglify())
+    .pipe(concat(distFileName))
+    .pipe(uglify()) // and minify
     .pipe(gulp.dest(distFolder));
 });
 
@@ -55,7 +42,7 @@ gulp.task('js-watch', function() {
     console.log('Watch triggered');
     gulp.src(coffeeFiles)
       .pipe(coffee({bare: true}))
-      .pipe(concat(bundleFileName))
+      .pipe(concat(distFileName))
       .pipe(gulp.dest(distFolder));
   });
 });
