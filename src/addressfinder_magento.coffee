@@ -1,7 +1,82 @@
-define(->
-  class AddressFinderWidget
+define ->
 
-    constructor: (@addressLine1Element, @mappings, @licenceKey, @debugMode, @widgetOptions) ->
+  AddressFinderMagento = {}
+
+  class AddressFinderMagento.Page
+
+    constructor: (options) ->
+      @debugMode = options.debugMode || false
+      @licenceKey = options.licenceKey
+      @fieldMappings = options.fieldMappings || {}
+      @widgetOptions = @_parseWidgetOptions(options.widgetOptions)
+      @widgets = []
+      if @debugMode
+        console.debug('Licence key: '+@licenceKey)
+        console.debug('Widget options:',@widgetOptions)
+
+    start: =>
+      @_initWidget(selector) for selector, fieldMap of @fieldMappings
+
+    _parseWidgetOptions: (options) =>
+      try
+        JSON.parse(options)
+      catch
+        console.warn("Widget options ignored. They must be in valid JSON format") if @debugMode
+        {}
+
+    _initWidget: (selector) =>
+      addressLine1Element = document.querySelector(selector)
+      return unless addressLine1Element? && @_widgetNeedsInit(addressLine1Element)
+
+      @widgets.push new AddressFinderMagento.Widget(
+        selector,
+        addressLine1Element,
+        @fieldMappings[selector],
+        @licenceKey,
+        @debugMode,
+        @widgetOptions
+      )
+
+    _widgetNeedsInit: (addressLine1Element) =>
+      for widget in @widgets
+        if widget.addressLine1Element == addressLine1Element
+          return false
+      return true
+
+  class AddressFinderMagento.Checkout extends AddressFinderMagento.Page
+
+    constructor: (options) ->
+      @currentUrl = window.location.href
+      super(options)
+
+    start: =>
+      if !@_foundAddressFields()
+        console.debug('Waiting for knockout') if @debugMode
+        setTimeout(@start, 500)
+        return
+
+      super
+      @_watchUrl()
+
+    _foundAddressFields: ->
+      selectors = Object.keys(@fieldMappings)
+      if !!window.location.href.match(/checkout\/#payment$/)
+        document.querySelectorAll(selectors).length == selectors.length
+      else
+        document.querySelectorAll(selectors).length
+
+    _watchUrl: =>
+      if window.location.href != @currentUrl
+        console.debug('Url changed') if @debugMode
+        @currentUrl = window.location.href
+        setTimeout(@start, 500)
+      else
+        console.debug('Watching url') if @debugMode
+        setTimeout(@_watchUrl, 1000)
+
+  class AddressFinderMagento.Widget
+
+    constructor: (@name, @addressLine1Element, @mappings, @licenceKey, @debugMode, @widgetOptions) ->
       @countryElement = @getFormElement('country')
       if @countryElement?
         @addressLine2Element = @getFormElement('addressLine2')
@@ -49,12 +124,10 @@ define(->
 
       switch @countryElement.value
         when "AU"
-          if @debugMode
-            console.debug("Enabling AU on #{@mappings['addressLine1']}")
+          console.debug("Enabling AU on #{@name}") if @debugMode
           @au.enable() if @au?
         when "NZ"
-          if @debugMode
-            console.debug("Enabling NZ on #{@mappings['addressLine1']}")
+          console.debug("Enabling NZ on #{@name}") if @debugMode
           @nz.enable() if @nz?
 
     populate: (fullAddress, metadata) =>
@@ -78,65 +151,4 @@ define(->
       @regionElement.dispatchEvent(new Event('change'))
       @postcodeElement.dispatchEvent(new Event('change'))
 
-  class AddressFinderMagento
-
-    constructor: (options) ->
-      @debugMode = options.debugMode || false
-      @checkoutMode = options.checkoutMode || false
-      @licenceKey = options.licenceKey
-      @fieldMappings = options.fieldMappings || []
-      @widgetOptions = @parseWidgetOptions(options.widgetOptions)
-      @currentUrl = window.location.href
-      @widgets = {}
-
-    start: =>
-      if @checkoutMode && !@foundAddressFields()
-        if @debugMode
-          console.debug('Waiting for knockout')
-        setTimeout(@start, 1000)
-      else
-        if @debugMode
-          console.debug('Licence key: '+@licenceKey)
-          console.debug('Widget options:',@widgetOptions)
-        @watchUrl() if @checkoutMode
-        @initAF()
-
-    parseWidgetOptions: (options) =>
-      try
-        JSON.parse(options)
-      catch
-        if @debugMode
-          console.warn("Widget options ignored. They must be in valid JSON format")
-        {}
-
-    foundAddressFields: =>
-      addressFieldNames = (f['addressLine1'] for f in @applicableFieldMappings())
-      addressFieldNames.length && (document.querySelectorAll(addressFieldNames).length == addressFieldNames.length)
-
-    applicableFieldMappings: =>
-      (f for f in @fieldMappings when (!f['pathRegex'] || window.location.href.match(f['pathRegex'])) && !@widgets[f['addressLine1']])
-
-    watchUrl: =>
-      if window.location.href != @currentUrl
-        if @debugMode
-          console.debug('Url changed')
-        @currentUrl = window.location.href
-        setTimeout(@start, 500)
-      else
-        if @debugMode
-          console.debug('Watching url')
-        setTimeout(@watchUrl, 1000)
-
-    initAF: =>
-      for mappings in @applicableFieldMappings()
-        addressLine1Element = document.querySelector(mappings['addressLine1'])
-        if @debugMode
-          console.debug("Initialising widget on #{mappings['addressLine1']}")
-        @widgets[mappings['addressLine1']] = new AddressFinderWidget(
-          addressLine1Element,
-          mappings,
-          @licenceKey,
-          @debugMode,
-          @widgetOptions
-        )
-)
+  return AddressFinderMagento

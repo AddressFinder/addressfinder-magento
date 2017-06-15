@@ -1,11 +1,128 @@
-var bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
+var bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
 define(function() {
-  var AddressFinderMagento, AddressFinderWidget;
-  AddressFinderWidget = (function() {
-    function AddressFinderWidget(addressLine1Element1, mappings1, licenceKey, debugMode, widgetOptions) {
+  var AddressFinderMagento;
+  AddressFinderMagento = {};
+  AddressFinderMagento.Page = (function() {
+    function Page(options) {
+      this._widgetNeedsInit = bind(this._widgetNeedsInit, this);
+      this._initWidget = bind(this._initWidget, this);
+      this._parseWidgetOptions = bind(this._parseWidgetOptions, this);
+      this.start = bind(this.start, this);
+      this.debugMode = options.debugMode || false;
+      this.licenceKey = options.licenceKey;
+      this.fieldMappings = options.fieldMappings || {};
+      this.widgetOptions = this._parseWidgetOptions(options.widgetOptions);
+      this.widgets = [];
+      if (this.debugMode) {
+        console.debug('Licence key: ' + this.licenceKey);
+        console.debug('Widget options:', this.widgetOptions);
+      }
+    }
+
+    Page.prototype.start = function() {
+      var fieldMap, ref, results, selector;
+      ref = this.fieldMappings;
+      results = [];
+      for (selector in ref) {
+        fieldMap = ref[selector];
+        results.push(this._initWidget(selector));
+      }
+      return results;
+    };
+
+    Page.prototype._parseWidgetOptions = function(options) {
+      try {
+        return JSON.parse(options);
+      } catch (error) {
+        if (this.debugMode) {
+          console.warn("Widget options ignored. They must be in valid JSON format");
+        }
+        return {};
+      }
+    };
+
+    Page.prototype._initWidget = function(selector) {
+      var addressLine1Element;
+      addressLine1Element = document.querySelector(selector);
+      if (!((addressLine1Element != null) && this._widgetNeedsInit(addressLine1Element))) {
+        return;
+      }
+      return this.widgets.push(new AddressFinderMagento.Widget(selector, addressLine1Element, this.fieldMappings[selector], this.licenceKey, this.debugMode, this.widgetOptions));
+    };
+
+    Page.prototype._widgetNeedsInit = function(addressLine1Element) {
+      var i, len, ref, widget;
+      ref = this.widgets;
+      for (i = 0, len = ref.length; i < len; i++) {
+        widget = ref[i];
+        if (widget.addressLine1Element === addressLine1Element) {
+          return false;
+        }
+      }
+      return true;
+    };
+
+    return Page;
+
+  })();
+  AddressFinderMagento.Checkout = (function(superClass) {
+    extend(Checkout, superClass);
+
+    function Checkout(options) {
+      this._watchUrl = bind(this._watchUrl, this);
+      this.start = bind(this.start, this);
+      this.currentUrl = window.location.href;
+      Checkout.__super__.constructor.call(this, options);
+    }
+
+    Checkout.prototype.start = function() {
+      if (!this._foundAddressFields()) {
+        if (this.debugMode) {
+          console.debug('Waiting for knockout');
+        }
+        setTimeout(this.start, 500);
+        return;
+      }
+      Checkout.__super__.start.apply(this, arguments);
+      return this._watchUrl();
+    };
+
+    Checkout.prototype._foundAddressFields = function() {
+      var selectors;
+      selectors = Object.keys(this.fieldMappings);
+      if (!!window.location.href.match(/checkout\/#payment$/)) {
+        return document.querySelectorAll(selectors).length === selectors.length;
+      } else {
+        return document.querySelectorAll(selectors).length;
+      }
+    };
+
+    Checkout.prototype._watchUrl = function() {
+      if (window.location.href !== this.currentUrl) {
+        if (this.debugMode) {
+          console.debug('Url changed');
+        }
+        this.currentUrl = window.location.href;
+        return setTimeout(this.start, 500);
+      } else {
+        if (this.debugMode) {
+          console.debug('Watching url');
+        }
+        return setTimeout(this._watchUrl, 1000);
+      }
+    };
+
+    return Checkout;
+
+  })(AddressFinderMagento.Page);
+  AddressFinderMagento.Widget = (function() {
+    function Widget(name, addressLine1Element1, mappings, licenceKey, debugMode, widgetOptions) {
+      this.name = name;
       this.addressLine1Element = addressLine1Element1;
-      this.mappings = mappings1;
+      this.mappings = mappings;
       this.licenceKey = licenceKey;
       this.debugMode = debugMode;
       this.widgetOptions = widgetOptions;
@@ -27,11 +144,11 @@ define(function() {
       }
     }
 
-    AddressFinderWidget.prototype.getFormElement = function(type) {
+    Widget.prototype.getFormElement = function(type) {
       return this.addressLine1Element.form.querySelector(this.mappings[type]);
     };
 
-    AddressFinderWidget.prototype.countries = function() {
+    Widget.prototype.countries = function() {
       var option;
       return this._countries || (this._countries = (function() {
         var i, len, ref, results;
@@ -45,7 +162,7 @@ define(function() {
       }).call(this));
     };
 
-    AddressFinderWidget.prototype.setupWidgets = function() {
+    Widget.prototype.setupWidgets = function() {
       if (this.countries().indexOf('AU')) {
         this.au = new AddressFinder.Widget(this.addressLine1Element, this.licenceKey, 'AU', this.widgetOptions);
         this.au.on("result:select", this.populate);
@@ -56,12 +173,12 @@ define(function() {
       }
     };
 
-    AddressFinderWidget.prototype.setupCountrySwitcher = function() {
+    Widget.prototype.setupCountrySwitcher = function() {
       this.setCountry();
       return this.countryElement.addEventListener('change', this.setCountry);
     };
 
-    AddressFinderWidget.prototype.disable = function() {
+    Widget.prototype.disable = function() {
       if (this.au != null) {
         this.au.disable();
       }
@@ -70,12 +187,12 @@ define(function() {
       }
     };
 
-    AddressFinderWidget.prototype.setCountry = function() {
+    Widget.prototype.setCountry = function() {
       this.disable();
       switch (this.countryElement.value) {
         case "AU":
           if (this.debugMode) {
-            console.debug("Enabling AU on " + this.mappings['addressLine1']);
+            console.debug("Enabling AU on " + this.name);
           }
           if (this.au != null) {
             return this.au.enable();
@@ -83,7 +200,7 @@ define(function() {
           break;
         case "NZ":
           if (this.debugMode) {
-            console.debug("Enabling NZ on " + this.mappings['addressLine1']);
+            console.debug("Enabling NZ on " + this.name);
           }
           if (this.nz != null) {
             return this.nz.enable();
@@ -91,7 +208,7 @@ define(function() {
       }
     };
 
-    AddressFinderWidget.prototype.populate = function(fullAddress, metadata) {
+    Widget.prototype.populate = function(fullAddress, metadata) {
       var wrapper;
       if (this.au.enabled) {
         this.addressLine1Element.value = metadata.address_line_1;
@@ -114,114 +231,8 @@ define(function() {
       return this.postcodeElement.dispatchEvent(new Event('change'));
     };
 
-    return AddressFinderWidget;
+    return Widget;
 
   })();
-  return AddressFinderMagento = (function() {
-    function AddressFinderMagento(options) {
-      this.initAF = bind(this.initAF, this);
-      this.watchUrl = bind(this.watchUrl, this);
-      this.applicableFieldMappings = bind(this.applicableFieldMappings, this);
-      this.foundAddressFields = bind(this.foundAddressFields, this);
-      this.parseWidgetOptions = bind(this.parseWidgetOptions, this);
-      this.start = bind(this.start, this);
-      this.debugMode = options.debugMode || false;
-      this.checkoutMode = options.checkoutMode || false;
-      this.licenceKey = options.licenceKey;
-      this.fieldMappings = options.fieldMappings || [];
-      this.widgetOptions = this.parseWidgetOptions(options.widgetOptions);
-      this.currentUrl = window.location.href;
-      this.widgets = {};
-    }
-
-    AddressFinderMagento.prototype.start = function() {
-      if (this.checkoutMode && !this.foundAddressFields()) {
-        if (this.debugMode) {
-          console.debug('Waiting for knockout');
-        }
-        return setTimeout(this.start, 1000);
-      } else {
-        if (this.debugMode) {
-          console.debug('Licence key: ' + this.licenceKey);
-          console.debug('Widget options:', this.widgetOptions);
-        }
-        if (this.checkoutMode) {
-          this.watchUrl();
-        }
-        return this.initAF();
-      }
-    };
-
-    AddressFinderMagento.prototype.parseWidgetOptions = function(options) {
-      try {
-        return JSON.parse(options);
-      } catch (error) {
-        if (this.debugMode) {
-          console.warn("Widget options ignored. They must be in valid JSON format");
-        }
-        return {};
-      }
-    };
-
-    AddressFinderMagento.prototype.foundAddressFields = function() {
-      var addressFieldNames, f;
-      addressFieldNames = (function() {
-        var i, len, ref, results;
-        ref = this.applicableFieldMappings();
-        results = [];
-        for (i = 0, len = ref.length; i < len; i++) {
-          f = ref[i];
-          results.push(f['addressLine1']);
-        }
-        return results;
-      }).call(this);
-      return addressFieldNames.length && (document.querySelectorAll(addressFieldNames).length === addressFieldNames.length);
-    };
-
-    AddressFinderMagento.prototype.applicableFieldMappings = function() {
-      var f, i, len, ref, results;
-      ref = this.fieldMappings;
-      results = [];
-      for (i = 0, len = ref.length; i < len; i++) {
-        f = ref[i];
-        if ((!f['pathRegex'] || window.location.href.match(f['pathRegex'])) && !this.widgets[f['addressLine1']]) {
-          results.push(f);
-        }
-      }
-      return results;
-    };
-
-    AddressFinderMagento.prototype.watchUrl = function() {
-      if (window.location.href !== this.currentUrl) {
-        if (this.debugMode) {
-          console.debug('Url changed');
-        }
-        this.currentUrl = window.location.href;
-        return setTimeout(this.start, 500);
-      } else {
-        if (this.debugMode) {
-          console.debug('Watching url');
-        }
-        return setTimeout(this.watchUrl, 1000);
-      }
-    };
-
-    AddressFinderMagento.prototype.initAF = function() {
-      var addressLine1Element, i, len, mappings, ref, results;
-      ref = this.applicableFieldMappings();
-      results = [];
-      for (i = 0, len = ref.length; i < len; i++) {
-        mappings = ref[i];
-        addressLine1Element = document.querySelector(mappings['addressLine1']);
-        if (this.debugMode) {
-          console.debug("Initialising widget on " + mappings['addressLine1']);
-        }
-        results.push(this.widgets[mappings['addressLine1']] = new AddressFinderWidget(addressLine1Element, mappings, this.licenceKey, this.debugMode, this.widgetOptions));
-      }
-      return results;
-    };
-
-    return AddressFinderMagento;
-
-  })();
+  return AddressFinderMagento;
 });
