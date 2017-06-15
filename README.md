@@ -37,7 +37,7 @@ docker-compose exec phpfpm bin/magento info:adminuri
 
 ### Can't see your changes?
 
-##### RequireJS
+#### RequireJS
 
 Magento allows `requirejs-config.js` files to be defined per module. Multiple config files are concatenated into a single file.
 
@@ -49,7 +49,7 @@ rm -rf pub/static/*
 bin/magento setup:static-content:deploy
 ```
 
-##### The `etc` directory
+#### The `etc` directory
 
 If you modify `etc/adminhtml/system.xml` or `etc/config.xml`, you may need to clear and flush the cache to see changes.
 
