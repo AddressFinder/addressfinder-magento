@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:Magento_Config:etc/system_file.xsd">
+  <system>
+    <section id="AddressFinder_Widget" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
+      <label>AddressFinder</label>
+      <tab>service</tab>
+      <resource>AddressFinder_Widget::settings</resource>
+      <group id="settings" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
+
+        <label>AddressFinder</label>
+
+        <field id="licence_key" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
+          <label>Licence Key</label>
+          <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
+          <comment><![CDATA[Get started with a FREE licence key for <a href='https://portal.addressfinder.io/signup/au?utm_source=magento&utm_medium=extension&utm_campaign=magento_admin&utm_term=Australia'>Australia</a> or <a href='https://portal.addressfinder.io/signup/nz?utm_source=magento&utm_medium=extension&utm_campaign=magento_admin&utm_term=New%20Zealand'>New Zealand</a>.]]></comment>
+        </field>
+
+        <field id="debug_mode" type="select" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="0">
+          <label>Debug Mode</label>
+          <source_model>Magento\Config\Model\Config\Source\Enabledisable</source_model>
+          <comment>Print debug messages to the Javascript Console.</comment>
+        </field>
+
+        <field id="widget_options" type="textarea" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="0">
+          <label>Widget Options</label>
+          <comment><![CDATA[Must be in valid JSON format. For a list of options, see our Javascript widget reference for <a href='https://addressfinder.com.au/docs/widget_docs?utm_source=magento&utm_medium=extension&utm_campaign=magento_admin&utm_term=Australia#options'>Australia</a> or <a href='https://addressfinder.nz/docs/widget_docs?utm_source=magento&utm_medium=extension&utm_campaign=magento_admin&utm_term=New%20Zealand#options'>New Zealand</a>.]]></comment>
+        </field>
+      </group>
+    </section>
+  </system>
+</config>
