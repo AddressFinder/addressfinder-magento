@@ -1,0 +1,40 @@
+{
+  "name": "addressfinder-magento",
+  "version": "1.0.0",
+  "description": "## Development",
+  "main": "gulpfile.js",
+  "dependencies": {
+    "file-system": "^2.2.2",
+    "gulp": "^3.9.1",
+    "gulp-coffee": "^2.3.4",
+    "gulp-coffeelint": "^0.6.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-rename": "^1.2.2",
+    "gulp-uglify": "^3.0.0",
+    "gulp-watch": "^4.3.11"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AbleTech/addressfinder-magento.git"
+  },
+  "keywords": [
+    "magento",
+    "addressfinder",
+    "widget",
+    "extension",
+    "autocomplete",
+    "address",
+    "verification",
+    "verify"
+  ],
+  "author": "@Abletech",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/AbleTech/addressfinder-magento/issues"
+  },
+  "homepage": "https://github.com/AbleTech/addressfinder-magento#readme"
+}
