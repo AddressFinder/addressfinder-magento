@@ -10,8 +10,8 @@
 
 ```
 bash pre-setup.sh
-docker-compose run --rm setup
-docker-compose up -d app
+docker-compose -f docker-compose-php7.yml run --rm setup
+docker-compose -f docker-compose-php7.yml up app
 bash post-setup.sh
 
 open http://localhost:8000/
@@ -32,7 +32,7 @@ The following table indicates which file to edit for making page specific change
 Each Magento install creates a unique url to the admin portal.
 
 ```
-docker-compose exec phpfpm bin/magento info:adminuri
+docker-compose -f docker-compose-php7.yml exec phpfpm bin/magento info:adminuri
 ```
 
 ### Can't see your changes?
@@ -44,7 +44,7 @@ Magento allows `requirejs-config.js` files to be defined per module. Multiple co
 When making updates to any `requirejs-config.js`, you may need to recompile static content to see changes.
 
 ```
-docker-compose exec phpfpm bash
+docker-compose -f docker-compose-php7.yml exec phpfpm bash
 rm -rf pub/static/*
 bin/magento setup:static-content:deploy
 ```
@@ -54,8 +54,8 @@ bin/magento setup:static-content:deploy
 If you modify `etc/adminhtml/system.xml` or `etc/config.xml`, you may need to clear and flush the cache to see changes.
 
 ```
-docker-compose exec phpfpm bin/magento cache:clean
-docker-compose exec phpfpm bin/magento cache:flush
+docker-compose -f docker-compose-php7.yml exec phpfpm bin/magento cache:clean
+docker-compose -f docker-compose-php7.yml exec phpfpm bin/magento cache:flush
 ```
 
 ## Packaging

@@ -1,8 +1,8 @@
 version: '2'
 
 volumes:
-  appdata:
-  dbdata:
+  appdata-php7:
+  dbdata-php7:
 
 services:
   app:
@@ -11,19 +11,19 @@ services:
       - phpfpm
       - db
     volumes:
-      - appdata:/var/www/html
+      - appdata-php7:/var/www/html
       - ./.composer:/var/www/.composer
       # - ./AddressFinder:/var/www/html/app/code/AddressFinder
     ports:
       - 8000:80
 
   phpfpm:
-    image: mageinferno/magento2-php:7.0.8-fpm-3
+    image: mageinferno/magento2-php:7.0-fpm-1
     links:
       - db
     volumes:
-      - appdata:/var/www/html
-      - appdata:/srv/www
+      - appdata-php7:/var/www/html
+      - appdata-php7:/srv/www
       - ./.composer:/var/www/.composer
       # - ./AddressFinder:/var/www/html/app/code/AddressFinder
       # - ./AddressFinder:/srv/www/app/code/AddressFinder
@@ -31,17 +31,17 @@ services:
   db:
     image: mariadb:10.1
     volumes:
-      - dbdata:/var/lib/mysql
+      - dbdata-php7:/var/lib/mysql
     ports:
       - 8001:3306
     env_file: .env/mysql.env
 
   setup:
-    image: mageinferno/magento2-php:7.0.8-fpm-3
+    image: mageinferno/magento2-php:7.0-fpm-1
     command: /usr/local/bin/mage-setup
     links:
       - db
     volumes:
-      - appdata:/srv/www
+      - appdata-php7:/srv/www
       - ./.composer:/var/www/.composer
     env_file: .env/setup.env

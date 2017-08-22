@@ -1,6 +1,5 @@
 .composer/cache/
 .composer/auth.json
-docker-compose.yml
 html/
 node_modules
 .DS_Store

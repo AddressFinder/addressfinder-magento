@@ -1,10 +1,5 @@
 #!/bin/bash
 
-if ! [ -f "./docker-compose.yml" ]; then
-  echo 'Creating docker-compose.yml file'
-  cp -n docker-compose-example.yml docker-compose.yml
-fi
-
 if ! [ -f ".composer/auth.json" ]; then
   echo 'Creating auth.json file'
   cp -n .composer/auth-example.json .composer/auth.json
