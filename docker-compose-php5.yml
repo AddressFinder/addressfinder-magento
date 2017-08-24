@@ -1,8 +1,8 @@
 version: '2'
 
 volumes:
-  appdata:
-  dbdata:
+  appdata-php5:
+  dbdata-php5:
 
 services:
   app:
@@ -11,7 +11,7 @@ services:
       - phpfpm
       - db
     volumes:
-      - appdata:/var/www/html
+      - appdata-php5:/var/www/html
       - ./.composer:/var/www/.composer
       # - ./AddressFinder:/var/www/html/app/code/AddressFinder
     ports:
@@ -22,8 +22,8 @@ services:
     links:
       - db
     volumes:
-      - appdata:/var/www/html
-      - appdata:/srv/www
+      - appdata-php5:/var/www/html
+      - appdata-php5:/srv/www
       - ./.composer:/var/www/.composer
       # - ./AddressFinder:/var/www/html/app/code/AddressFinder
       # - ./AddressFinder:/srv/www/app/code/AddressFinder
@@ -31,7 +31,7 @@ services:
   db:
     image: mariadb:10.1
     volumes:
-      - dbdata:/var/lib/mysql
+      - dbdata-php5:/var/lib/mysql
     ports:
       - 8001:3306
     env_file: .env/mysql.env
@@ -42,6 +42,6 @@ services:
     links:
       - db
     volumes:
-      - appdata:/srv/www
+      - appdata-php5:/srv/www
       - ./.composer:/var/www/.composer
     env_file: .env/setup.env
