@@ -13,20 +13,20 @@ services:
     volumes:
       - appdata-php7:/var/www/html
       - ./.composer:/var/www/.composer
-      # - ./AddressFinder:/var/www/html/app/code/AddressFinder
+      - ./AddressFinder:/var/www/html/app/code/AddressFinder
     ports:
       - 8000:80
 
   phpfpm:
-    image: mageinferno/magento2-php:7.0-fpm-1
+    image: mageinferno/magento2-php:7.0.8-fpm-3
     links:
       - db
     volumes:
       - appdata-php7:/var/www/html
       - appdata-php7:/srv/www
       - ./.composer:/var/www/.composer
-      # - ./AddressFinder:/var/www/html/app/code/AddressFinder
-      # - ./AddressFinder:/srv/www/app/code/AddressFinder
+      - ./AddressFinder:/var/www/html/app/code/AddressFinder
+      - ./AddressFinder:/srv/www/app/code/AddressFinder
 
   db:
     image: mariadb:10.1
@@ -37,7 +37,7 @@ services:
     env_file: .env/mysql.env
 
   setup:
-    image: mageinferno/magento2-php:7.0-fpm-1
+    image: mageinferno/magento2-php:7.0.8-fpm-3
     command: /usr/local/bin/mage-setup
     links:
       - db
