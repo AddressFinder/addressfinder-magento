@@ -35,6 +35,15 @@ Each Magento install creates a unique url to the admin portal.
 docker-compose -f docker-compose-php7.yml exec phpfpm bin/magento info:adminuri
 ```
 
+### Creating a new admin user
+
+```docker-compose -f docker-compose-php7.yml exec phpfpm bash
+
+bin/magento admin:user:create --admin-firstname=kate --admin-lastname=norquay --admin-email=kate@mail.com --admin-user=kate --admin-password=G00dG00d
+
+```
+Passwords must be at least 8 characters long, include both numbers and letters, and a variety of cases.
+
 ### Can't see your changes?
 
 #### RequireJS
