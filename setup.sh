@@ -46,4 +46,6 @@ if ! [ -L "./html/code/AddressFinder" ]; then
   docker-compose -f docker-compose-php$phpversion.yml exec phpfpm ./bin/magento setup:di:compile
 fi
 
+docker-compose down
+
 echo 'Setup finished. Go to http://localhost:8000'
