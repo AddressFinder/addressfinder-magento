@@ -48,4 +48,4 @@ fi
 
 docker-compose down
 
-echo 'Setup finished. Go to http://localhost:8000'
+echo 'Setup finished. Open http://localhost:8000'
