@@ -13,7 +13,7 @@ services:
     volumes:
       - appdata-php5:/var/www/html
       - ./.composer:/var/www/.composer
-      # - ./AddressFinder:/var/www/html/app/code/AddressFinder
+      - ./AddressFinder:/var/www/html/app/code/AddressFinder
     ports:
       - 8000:80
 
@@ -25,8 +25,8 @@ services:
       - appdata-php5:/var/www/html
       - appdata-php5:/srv/www
       - ./.composer:/var/www/.composer
-      # - ./AddressFinder:/var/www/html/app/code/AddressFinder
-      # - ./AddressFinder:/srv/www/app/code/AddressFinder
+      - ./AddressFinder:/var/www/html/app/code/AddressFinder
+      - ./AddressFinder:/srv/www/app/code/AddressFinder
 
   db:
     image: mariadb:10.1

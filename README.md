@@ -2,18 +2,20 @@
 
 ## Development
 
-### Requirements
+#### Download
 
 - [Docker for Mac](https://docs.docker.com/docker-for-mac/install/)
 
-### Setup
+#### Setup
 
 ```
-bash pre-setup.sh
-docker-compose -f docker-compose-php7.yml run --rm setup
-docker-compose -f docker-compose-php7.yml up app
-bash post-setup.sh
+bash setup.sh
+```
 
+#### Run
+
+```
+docker-compose -f <docker-compose-file> up app -d
 open http://localhost:8000/
 ```
 
@@ -32,39 +34,39 @@ The following table indicates which file to edit for making page specific change
 Each Magento install creates a unique url to the admin portal.
 
 ```
-docker-compose -f docker-compose-php7.yml exec phpfpm bin/magento info:adminuri
+docker-compose -f <docker-compose-file> exec phpfpm bin/magento info:adminuri
 ```
 
 ### Creating a new admin user
 
-```docker-compose -f docker-compose-php7.yml exec phpfpm bash
-
-bin/magento admin:user:create --admin-firstname=kate --admin-lastname=norquay --admin-email=kate@mail.com --admin-user=kate --admin-password=G00dG00d
-
 ```
+docker-compose -f <docker-compose-file> exec phpfpm bash
+bin/magento admin:user:create --admin-firstname=kate --admin-lastname=norquay --admin-email=kate@mail.com --admin-user=kate --admin-password=G00dG00d
+```
+
 Passwords must be at least 8 characters long, include both numbers and letters, and a variety of cases.
 
 ### Can't see your changes?
 
-#### RequireJS
+##### RequireJS
 
 Magento allows `requirejs-config.js` files to be defined per module. Multiple config files are concatenated into a single file.
 
 When making updates to any `requirejs-config.js`, you may need to recompile static content to see changes.
 
 ```
-docker-compose -f docker-compose-php7.yml exec phpfpm bash
+docker-compose -f <docker-compose-file> exec phpfpm bash
 rm -rf pub/static/*
 bin/magento setup:static-content:deploy
 ```
 
-#### The `etc` directory
+##### The `etc` directory
 
 If you modify `etc/adminhtml/system.xml` or `etc/config.xml`, you may need to clear and flush the cache to see changes.
 
 ```
-docker-compose -f docker-compose-php7.yml exec phpfpm bin/magento cache:clean
-docker-compose -f docker-compose-php7.yml exec phpfpm bin/magento cache:flush
+docker-compose -f <docker-compose-file> exec phpfpm bin/magento cache:clean
+docker-compose -f <docker-compose-file> exec phpfpm bin/magento cache:flush
 ```
 
 ## Packaging
