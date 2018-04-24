@@ -34,16 +34,16 @@ if ! [ -d "./html" ]; then
 fi
 
 echo 'Disabling cache for development purposes'
-docker-compose -f "docker-compose-php"$phpversion".yml" exec phpfpm ./bin/magento cache:disable
+docker-compose -f docker-compose-php$phpversion.yml exec phpfpm ./bin/magento cache:disable
 
 echo 'Setting Magento mode to Developer'
-docker-compose -f "docker-compose-php"$phpversion".yml" exec phpfpm ./bin/magento deploy:mode:set developer
+docker-compose -f docker-compose-php$phpversion.yml exec phpfpm ./bin/magento deploy:mode:set developer
 
 if ! [ -L "./html/code/AddressFinder" ]; then
   echo 'Installing the AddressFinder module'
-  docker-compose -f "docker-compose-php"$phpversion".yml" exec phpfpm ./bin/magento module:enable AddressFinder_Widget
-  docker-compose -f "docker-compose-php"$phpversion".yml" exec phpfpm ./bin/magento setup:upgrade
-  docker-compose -f "docker-compose-php"$phpversion".yml" exec phpfpm ./bin/magento setup:di:compile
+  docker-compose -f docker-compose-php$phpversion.yml exec phpfpm ./bin/magento module:enable AddressFinder_Widget
+  docker-compose -f docker-compose-php$phpversion.yml exec phpfpm ./bin/magento setup:upgrade
+  docker-compose -f docker-compose-php$phpversion.yml exec phpfpm ./bin/magento setup:di:compile
 fi
 
 echo 'Setup finished. Go to http://localhost:8000'
