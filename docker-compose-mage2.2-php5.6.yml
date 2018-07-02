@@ -1,8 +1,8 @@
 version: '2'
 
 volumes:
-  appdata-php7:
-  dbdata-php7:
+  appdata-mage22-php56:
+  dbdata-mage22-php56:
 
 services:
   app:
@@ -11,19 +11,19 @@ services:
       - phpfpm
       - db
     volumes:
-      - appdata-php7:/var/www/html
+      - appdata-mage22-php56:/var/www/html
       - ./.composer:/var/www/.composer
       - ./AddressFinder:/var/www/html/app/code/AddressFinder
     ports:
       - 8000:80
 
   phpfpm:
-    image: mageinferno/magento2-php:7.0.8-fpm-3
+    image: mageinferno/magento2-php:5.6.23-fpm-3
     links:
       - db
     volumes:
-      - appdata-php7:/var/www/html
-      - appdata-php7:/srv/www
+      - appdata-mage22-php56:/var/www/html
+      - appdata-mage22-php56:/srv/www
       - ./.composer:/var/www/.composer
       - ./AddressFinder:/var/www/html/app/code/AddressFinder
       - ./AddressFinder:/srv/www/app/code/AddressFinder
@@ -31,17 +31,19 @@ services:
   db:
     image: mariadb:10.1
     volumes:
-      - dbdata-php7:/var/lib/mysql
+      - dbdata-mage22-php56:/var/lib/mysql
     ports:
       - 8001:3306
-    env_file: .env/mysql.env
+    env_file: .docker/mysql.env
 
   setup:
-    image: mageinferno/magento2-php:7.0.8-fpm-3
+    image: mageinferno/magento2-php:5.6.23-fpm-3
     command: /usr/local/bin/mage-setup
     links:
       - db
     volumes:
-      - appdata-php7:/srv/www
+      - appdata-mage22-php56:/srv/www
       - ./.composer:/var/www/.composer
-    env_file: .env/setup.env
+    environment:
+      - M2SETUP_VERSION=2.2.5
+    env_file: .docker/setup.env

@@ -15,9 +15,14 @@ bash setup.sh
 #### Run
 
 ```
-docker-compose -f <docker-compose-file> up app -d
+docker-compose -f <docker-compose-file> up app
 open http://localhost:8000/
 ```
+
+#### To get the widget working
+- Change your store configuration to support New Zealand & Australia.
+
+    Do this at `Admin > Stores > Configuration > General > Country Options`
 
 ### Making changes
 To modify the generic Javascript, make your necessary changes to `./src/addressfinder_magento.coffee` then run `gulp` to automatically build the `addressfinder_magento.js` file in the AddressFinder module.

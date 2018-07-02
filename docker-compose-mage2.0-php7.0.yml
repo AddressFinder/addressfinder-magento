@@ -1,8 +1,8 @@
 version: '2'
 
 volumes:
-  appdata-php5:
-  dbdata-php5:
+  appdata-mage20-php70:
+  dbdata-mage20-php70:
 
 services:
   app:
@@ -11,19 +11,19 @@ services:
       - phpfpm
       - db
     volumes:
-      - appdata-php5:/var/www/html
+      - appdata-mage20-php70:/var/www/html
       - ./.composer:/var/www/.composer
       - ./AddressFinder:/var/www/html/app/code/AddressFinder
     ports:
       - 8000:80
 
   phpfpm:
-    image: mageinferno/magento2-php:5.6.23-fpm-3
+    image: mageinferno/magento2-php:7.0.8-fpm-3
     links:
       - db
     volumes:
-      - appdata-php5:/var/www/html
-      - appdata-php5:/srv/www
+      - appdata-mage20-php70:/var/www/html
+      - appdata-mage20-php70:/srv/www
       - ./.composer:/var/www/.composer
       - ./AddressFinder:/var/www/html/app/code/AddressFinder
       - ./AddressFinder:/srv/www/app/code/AddressFinder
@@ -31,17 +31,19 @@ services:
   db:
     image: mariadb:10.1
     volumes:
-      - dbdata-php5:/var/lib/mysql
+      - dbdata-mage20-php70:/var/lib/mysql
     ports:
       - 8001:3306
     env_file: .env/mysql.env
 
   setup:
-    image: mageinferno/magento2-php:5.6.23-fpm-3
+    image: mageinferno/magento2-php:7.0.8-fpm-3
     command: /usr/local/bin/mage-setup
     links:
       - db
     volumes:
-      - appdata-php5:/srv/www
+      - appdata-mage20-php70:/srv/www
       - ./.composer:/var/www/.composer
+    environment:
+      - M2SETUP_VERSION=2.0.18
     env_file: .env/setup.env
