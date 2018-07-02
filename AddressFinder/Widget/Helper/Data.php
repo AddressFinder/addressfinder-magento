@@ -7,8 +7,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     private $storeManager;
     private $objectManager;
     private $encryptor;
-    private $storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
-    private $settingsNamespace = "AddressFinder_Widget/settings/";
 
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
@@ -30,7 +28,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
     public function getConfig($field)
     {
-        $value = $this->scopeConfig->getValue($settingsNamespace . $field, $storeScope);
+        $value = $this->scopeConfig->getValue("AddressFinder_Widget/settings/" . $field, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
         return $value;
     }
 }
