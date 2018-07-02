@@ -24,10 +24,6 @@ open http://localhost:8000/
 
     Do this at `Admin > Stores > Configuration > General > Country Options`
 
-### Logs
-
-You'll find the logs in `/var/www/html/var/log`
-
 ### Making changes
 To modify the generic Javascript, make your necessary changes to `./src/addressfinder_magento.coffee` then run `gulp` to automatically build the `addressfinder_magento.js` file in the AddressFinder module.
 

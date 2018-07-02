@@ -12,7 +12,7 @@ services:
       - db
     volumes:
       - appdata-mage21-php56:/var/www/html
-      - ./.composer:/srv/www/var/composer_home
+      - ./.composer:/var/www/.composer
       - ./AddressFinder:/var/www/html/app/code/AddressFinder
     ports:
       - 8000:80
@@ -24,7 +24,7 @@ services:
     volumes:
       - appdata-mage21-php56:/var/www/html
       - appdata-mage21-php56:/srv/www
-      - ./.composer:/srv/www/var/composer_home
+      - ./.composer:/var/www/.composer
       - ./AddressFinder:/var/www/html/app/code/AddressFinder
       - ./AddressFinder:/srv/www/app/code/AddressFinder
 
@@ -43,7 +43,7 @@ services:
       - db
     volumes:
       - appdata-mage21-php56:/srv/www
-      - ./.composer:/srv/www/var/composer_home
+      - ./.composer:/var/www/.composer
     environment:
       - M2SETUP_VERSION=2.1.14
     env_file: .docker/setup.env
