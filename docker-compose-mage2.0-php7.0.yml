@@ -34,7 +34,7 @@ services:
       - dbdata-mage20-php70:/var/lib/mysql
     ports:
       - 8001:3306
-    env_file: .env/mysql.env
+    env_file: .docker/mysql.env
 
   setup:
     image: mageinferno/magento2-php:7.0.8-fpm-3
@@ -46,4 +46,4 @@ services:
       - ./.composer:/srv/www/var/composer_home
     environment:
       - M2SETUP_VERSION=2.0.18
-    env_file: .env/setup.env
+    env_file: .docker/setup.env
