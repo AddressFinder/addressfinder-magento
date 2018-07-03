@@ -1,5 +1,5 @@
 <?php
-  $licenceKey = $this->helper('AddressFinder\Widget\Helper\Data')->getEncryptedConfig('licence_key');
+  $licenceKey = $this->helper('AddressFinder\Widget\Helper\Data')->getConfig('licence_key');
   if (!empty($licenceKey)) {
     $debugMode = $this->helper('AddressFinder\Widget\Helper\Data')->getConfig('debug_mode');
     $widgetOptions = $this->helper('AddressFinder\Widget\Helper\Data')->getConfig('widget_options');
