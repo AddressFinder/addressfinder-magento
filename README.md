@@ -15,7 +15,7 @@ bash setup.sh
 #### Run
 
 ```
-docker-compose -f <docker-compose-file> up app
+docker-compose -f docker-compose.yml -f docker-compose.<versions>.yml up app
 open http://localhost:8000/
 ```
 
@@ -23,6 +23,10 @@ open http://localhost:8000/
 - Change your store configuration to support New Zealand & Australia.
 
     Do this at `Admin > Stores > Configuration > General > Country Options`
+
+### Logs
+
+You'll find the logs in `/var/www/html/var/log`
 
 ### Making changes
 To modify the generic Javascript, make your necessary changes to `./src/addressfinder_magento.coffee` then run `gulp` to automatically build the `addressfinder_magento.js` file in the AddressFinder module.
@@ -39,13 +43,13 @@ The following table indicates which file to edit for making page specific change
 Each Magento install creates a unique url to the admin portal.
 
 ```
-docker-compose -f <docker-compose-file> exec phpfpm bin/magento info:adminuri
+docker-compose -f docker-compose.yml -f docker-compose.<versions>.yml exec phpfpm bin/magento info:adminuri
 ```
 
 ### Creating a new admin user
 
 ```
-docker-compose -f <docker-compose-file> exec phpfpm bash
+docker-compose -f docker-compose.yml -f docker-compose.<versions>.yml exec phpfpm bash
 bin/magento admin:user:create --admin-firstname=kate --admin-lastname=norquay --admin-email=kate@mail.com --admin-user=kate --admin-password=G00dG00d
 ```
 
@@ -60,7 +64,7 @@ Magento allows `requirejs-config.js` files to be defined per module. Multiple co
 When making updates to any `requirejs-config.js`, you may need to recompile static content to see changes.
 
 ```
-docker-compose -f <docker-compose-file> exec phpfpm bash
+docker-compose -f docker-compose.yml -f docker-compose.<versions>.yml exec phpfpm bash
 rm -rf pub/static/*
 bin/magento setup:static-content:deploy
 ```
@@ -70,8 +74,8 @@ bin/magento setup:static-content:deploy
 If you modify `etc/adminhtml/system.xml` or `etc/config.xml`, you may need to clear and flush the cache to see changes.
 
 ```
-docker-compose -f <docker-compose-file> exec phpfpm bin/magento cache:clean
-docker-compose -f <docker-compose-file> exec phpfpm bin/magento cache:flush
+docker-compose -f docker-compose.yml -f docker-compose.<versions>.yml exec phpfpm bin/magento cache:clean
+docker-compose -f docker-compose.yml -f docker-compose.<versions>.yml exec phpfpm bin/magento cache:flush
 ```
 
 ## Packaging
