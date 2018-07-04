@@ -1,27 +1,13 @@
 #!/bin/bash
 
-if ! [ -f ".composer/auth.json" ]; then
-  echo 'Creating .composer/auth.json file'
-  cp -n .composer/auth-example.json .composer/auth.json
-  echo 'Credentials located at https://sites.google.com/a/abletech.co.nz/wiki/addressfinder/credentials/'
+echo 'Composer Authentication will be required...'
+echo 'Credentials are located at https://sites.google.com/a/abletech.co.nz/wiki/addressfinder/credentials/'
 
-  echo "PUBLIC_KEY:"
-  read publickey
-
-  echo "PRIVATE_KEY:"
-  read privatekey
-
-  sed -i '' s/MAGENTO_PUBLIC_KEY/$publickey/ .composer/auth.json
-  sed -i '' s/MAGENTO_PRIVATE_KEY/$privatekey/ .composer/auth.json
-
-  echo "More info: http://devdocs.magento.com/guides/v2.0/install-gde/prereq/connect-auth.html"
-fi
-
-echo "Which Magento 2 version? 2.0/2.1/[2.2]:"
+echo "Which Magento 2 version? 2.0/[2.1]:"
 read mageversion
 
 if [ -z $mageversion ]; then
-  mageversion='2.2'
+  mageversion='2.1'
 fi
 
 echo "Which PHP version? 5.6/[7.0]:"

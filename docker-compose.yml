@@ -5,7 +5,7 @@ services:
     links:
       - db
     volumes:
-      - ./.composer:/var/www/.composer
+      - ~/.composer:/var/www/.composer
       - ./AddressFinder:/var/www/html/app/code/AddressFinder
       - ./AddressFinder:/srv/www/app/code/AddressFinder
 
@@ -17,7 +17,7 @@ services:
     ports:
       - 8000:80
     volumes:
-      - ./.composer:/var/www/.composer
+      - ~/.composer:/var/www/.composer
       - ./AddressFinder:/var/www/html/app/code/AddressFinder
 
   db:
@@ -31,5 +31,5 @@ services:
     links:
       - db
     volumes:
-      - ./.composer:/var/www/.composer
+      - ~/.composer:/var/www/.composer
     env_file: .docker/setup.env
