@@ -5,7 +5,7 @@
 Follow the user guide on the AddressFinder website:
 
 - [Australian website](https://addressfinder.com.au/docs/magento-2-user-guide/)
-- [New Zealand website](https://addressfinder.co.nz/docs/magento-2-user-guide/)
+- [New Zealand website](https://addressfinder.nz/docs/magento-2-user-guide/)
 
 ## Development
 
