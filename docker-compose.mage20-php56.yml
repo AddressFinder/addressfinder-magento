@@ -1,0 +1,31 @@
+version: '2'
+
+volumes:
+  appdata-mage20-php56:
+  dbdata-mage20-php56:
+
+services:
+  app:
+    container_name: app-mage20-php56
+    volumes:
+      - appdata-mage20-php56:/var/www/html
+
+  phpfpm:
+    container_name: phpfpm-mage20-php56
+    image: mageinferno/magento2-php:5.6.23-fpm-3
+    volumes:
+      - appdata-mage20-php56:/var/www/html
+      - appdata-mage20-php56:/srv/www
+
+  db:
+    container_name: db-mage20-php56
+    volumes:
+      - dbdata-mage20-php56:/var/lib/mysql
+
+  setup:
+    container_name: setup-mage20-php56
+    image: mageinferno/magento2-php:5.6.23-fpm-3
+    volumes:
+      - appdata-mage20-php56:/srv/www
+    environment:
+      - M2SETUP_VERSION=2.0.18

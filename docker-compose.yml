@@ -1,0 +1,35 @@
+version: '2'
+
+services:
+  phpfpm:
+    links:
+      - db
+    volumes:
+      - ~/.composer:/var/www/.composer
+      - ./AddressFinder:/var/www/html/app/code/AddressFinder
+      - ./AddressFinder:/srv/www/app/code/AddressFinder
+
+  app:
+    image: mageinferno/magento2-nginx:1.11-1
+    links:
+      - phpfpm
+      - db
+    ports:
+      - 8000:80
+    volumes:
+      - ~/.composer:/var/www/.composer
+      - ./AddressFinder:/var/www/html/app/code/AddressFinder
+
+  db:
+    image: mariadb:10.1
+    ports:
+      - 8001:3306
+    env_file: .docker/mysql.env
+
+  setup:
+    command: /usr/local/bin/mage-setup
+    links:
+      - db
+    volumes:
+      - ~/.composer:/var/www/.composer
+    env_file: .docker/setup.env

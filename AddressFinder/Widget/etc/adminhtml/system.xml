@@ -11,7 +11,7 @@
 
         <field id="licence_key" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
           <label>Licence Key</label>
-          <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
+          <validate>required-entry</validate>
           <comment><![CDATA[Get started with a FREE licence key for <a href='https://portal.addressfinder.io/signup/au?utm_source=magento&utm_medium=extension&utm_campaign=magento_admin&utm_term=Australia'>Australia</a> or <a href='https://portal.addressfinder.io/signup/nz?utm_source=magento&utm_medium=extension&utm_campaign=magento_admin&utm_term=New%20Zealand'>New Zealand</a>.]]></comment>
         </field>
 

@@ -9,6 +9,7 @@ define ->
       @licenceKey = options.licenceKey
       @fieldMappings = options.fieldMappings || {}
       @widgetOptions = @_parseWidgetOptions(options.widgetOptions)
+      @attachToParent = options.attachToParent
       @widgets = []
       if @debugMode
         console.debug('Licence key: '+@licenceKey)
@@ -27,6 +28,11 @@ define ->
     _initWidget: (selector) =>
       addressLine1Element = document.querySelector(selector)
       return unless addressLine1Element? && @_widgetNeedsInit(addressLine1Element)
+
+      if @attachToParent
+        @widgetOptions['container'] = addressLine1Element.parentElement
+        addressLine1Element.parentElement.style.position = 'relative'
+        console.debug('Widget options:',@widgetOptions) if @debugMode
 
       @widgets.push new AddressFinderMagento.Widget(
         selector,

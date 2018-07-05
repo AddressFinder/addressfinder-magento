@@ -5,26 +5,37 @@
 Follow the user guide on the AddressFinder website:
 
 - [Australian website](https://addressfinder.com.au/docs/magento-2-user-guide/)
-- [New Zealand website](https://addressfinder.co.nz/docs/magento-2-user-guide/)
+- [New Zealand website](https://addressfinder.nz/docs/magento-2-user-guide/)
 
 ## Development
 
-#### Requirements
+#### Download
 
 - [Docker for Mac](https://docs.docker.com/docker-for-mac/install/)
 
 #### Setup
 
 ```
-bash pre-setup.sh
-docker-compose run --rm setup
-docker-compose up -d app
-bash post-setup.sh
+bash setup.sh
+```
 
+#### Run
+
+```
+docker-compose -f docker-compose.yml -f docker-compose.<versions>.yml up app
 open http://localhost:8000/
 ```
 
-#### Making changes
+#### To get the widget working
+- Change your store configuration to support New Zealand & Australia.
+
+    Do this at `Admin > Stores > Configuration > General > Country Options`
+
+### Logs
+
+You'll find the logs in `/var/www/html/var/log`
+
+### Making changes
 To modify the generic Javascript, make your necessary changes to `./src/addressfinder_magento.coffee` then run `gulp` to automatically build the `addressfinder_magento.js` file in the AddressFinder module.
 
 The following table indicates which file to edit for making page specific changes:
@@ -35,34 +46,43 @@ The following table indicates which file to edit for making page specific change
 | Website > Checkout | AddressFinder/Widget/view/frontend/templates/checkout_index_index.phtml |
 | Admin > Stores > Configuration > Services > AddressFinder | AddressFinder/Widget/etc/adminhtml/system.xml, AddressFinder/Widget/etc/config.xml |
 
-#### Access to Magento Admin
+### Access to Magento Admin
 Each Magento install creates a unique url to the admin portal.
 
 ```
-docker-compose exec phpfpm bin/magento info:adminuri
+docker-compose -f docker-compose.yml -f docker-compose.<versions>.yml exec phpfpm bin/magento info:adminuri
 ```
 
-#### Can't see your changes?
+### Creating a new admin user
 
-###### RequireJS
+```
+docker-compose -f docker-compose.yml -f docker-compose.<versions>.yml exec phpfpm bash
+bin/magento admin:user:create --admin-firstname=kate --admin-lastname=norquay --admin-email=kate@mail.com --admin-user=kate --admin-password=G00dG00d
+```
+
+Passwords must be at least 8 characters long, include both numbers and letters, and a variety of cases.
+
+### Can't see your changes?
+
+##### RequireJS
 
 Magento allows `requirejs-config.js` files to be defined per module. Multiple config files are concatenated into a single file.
 
 When making updates to any `requirejs-config.js`, you may need to recompile static content to see changes.
 
 ```
-docker-compose exec phpfpm bash
+docker-compose -f docker-compose.yml -f docker-compose.<versions>.yml exec phpfpm bash
 rm -rf pub/static/*
 bin/magento setup:static-content:deploy
 ```
 
-###### The `etc` directory
+##### The `etc` directory
 
 If you modify `etc/adminhtml/system.xml` or `etc/config.xml`, you may need to clear and flush the cache to see changes.
 
 ```
-docker-compose exec phpfpm bin/magento cache:clean
-docker-compose exec phpfpm bin/magento cache:flush
+docker-compose -f docker-compose.yml -f docker-compose.<versions>.yml exec phpfpm bin/magento cache:clean
+docker-compose -f docker-compose.yml -f docker-compose.<versions>.yml exec phpfpm bin/magento cache:flush
 ```
 
 ## Packaging
