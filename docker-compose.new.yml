@@ -9,8 +9,7 @@ services:
       # - "35729:35729" # live reload
     volumes:
       - ./html:/var/www/html
-      - ./AddressFinder:/var/www/html/app/code/AddressFinder
-      - ~/.composer:/var/www/.composer
+      # SYMLINK PLUGIN HERE
       - ~/.npm:/var/www/.npm
       # - ~/.nvm:/var/www/.nvm
     environment:

@@ -9,24 +9,42 @@ Follow the user guide on the AddressFinder website:
 
 ## Development
 
-#### Download
+Download [Docker for Mac](https://docs.docker.com/docker-for-mac/install/)
 
-- [Docker for Mac](https://docs.docker.com/docker-for-mac/install/)
-
-#### Setup
+### Setup for Magento 2.0 or 2.1
+There are different docker-compose files for the versions of Magento and PHP because they all need individual docker volumes for quicker spin-up in development (i.e. you won't have to re-install Magento every time you switch version).
 
 ```
 bash setup.sh
-```
-
-#### Run
-
-```
 docker-compose -f docker-compose.yml -f docker-compose.<versions>.yml up app
 open http://localhost:8000/
 ```
 
-#### To get the widget working
+Create an new admin user. Passwords must be at least 8 characters long, include both numbers and letters, and a variety of cases.
+
+```
+docker-compose -f docker-compose.yml -f docker-compose.<versions>.yml exec phpfpm bash
+bin/magento admin:user:create --admin-firstname=kate --admin-lastname=norquay --admin-email=kate@mail.com --admin-user=kate --admin-password=G00dG00d
+```
+
+Get the Magento Admin path. Each Magento install creates a unique url to the admin portal.
+
+```
+docker-compose -f docker-compose.yml -f docker-compose.<versions>.yml exec phpfpm bin/magento info:adminuri
+```
+
+### Setup for Magento 2.2
+
+    docker-compose -f docker-compose.new.yml up
+    docker-compose -f docker-compose.new.yml exec apache rm index.php
+    docker-compose -f docker-compose.new.yml exec apache install-magento2
+
+Symlink the AddressFinder plugin to the Magento codebase
+
+    sed -i '' "s/# SYMLINK PLUGIN HERE/- .\/AddressFinder:\/var\/www\/html\/app\/code\/AddressFinder/" docker-compose.new.yml
+
+
+### To get the widget working
 - Change your store configuration to support New Zealand & Australia.
 
     Do this at `Admin > Stores > Configuration > General > Country Options`
@@ -35,32 +53,20 @@ open http://localhost:8000/
 
 You'll find the logs in `/var/www/html/var/log`
 
-### Making changes
-To modify the generic Javascript, make your necessary changes to `./src/addressfinder_magento.coffee` then run `gulp` to automatically build the `addressfinder_magento.js` file in the AddressFinder module.
+### Javascript
+Make your changes to `./src/addressfinder_magento.coffee` then run `gulp` to automatically build the `addressfinder_magento.js` file in the AddressFinder module (See view/frontend/web/js).
+
+Changes will be updated in the Magento codebase immediately.
+
+### Where to look
 
 The following table indicates which file to edit for making page specific changes:
 
-| Page | File |
+| File | Page |
 | :--- | :--- |
-| Website > My Account > Edit Address | AddressFinder/Widget/view/frontend/templates/customer_address_form.phtml |
-| Website > Checkout | AddressFinder/Widget/view/frontend/templates/checkout_index_index.phtml |
-| Admin > Stores > Configuration > Services > AddressFinder | AddressFinder/Widget/etc/adminhtml/system.xml, AddressFinder/Widget/etc/config.xml |
-
-### Access to Magento Admin
-Each Magento install creates a unique url to the admin portal.
-
-```
-docker-compose -f docker-compose.yml -f docker-compose.<versions>.yml exec phpfpm bin/magento info:adminuri
-```
-
-### Creating a new admin user
-
-```
-docker-compose -f docker-compose.yml -f docker-compose.<versions>.yml exec phpfpm bash
-bin/magento admin:user:create --admin-firstname=kate --admin-lastname=norquay --admin-email=kate@mail.com --admin-user=kate --admin-password=G00dG00d
-```
-
-Passwords must be at least 8 characters long, include both numbers and letters, and a variety of cases.
+| AddressFinder/Widget/view/frontend/templates/customer_address_form.phtml | Website > My Account > Edit Address |
+|  AddressFinder/Widget/view/frontend/templates/checkout_index_index.phtml | Website > Checkout |
+| AddressFinder/Widget/etc/adminhtml/system.xml, AddressFinder/Widget/etc/config.xml | Admin > Stores > Configuration > Services > AddressFinder |
 
 ### Can't see your changes?
 
