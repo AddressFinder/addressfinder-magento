@@ -28,5 +28,4 @@ services:
     command: /usr/local/bin/mage-setup
     links:
       - db
-    volumes:
     env_file: .docker/setup.env
