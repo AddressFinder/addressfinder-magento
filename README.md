@@ -36,7 +36,7 @@ docker-compose -f docker-compose.yml -f docker-compose.<versions>.yml exec phpfp
 ### Setup for Magento 2.2
 
     docker-compose -f docker-compose.new.yml up
-    docker-compose -f docker-compose.new.yml exec apache rm index.php
+    docker-compose -f docker-compose.new.yml exec apache rm /var/www/html/index.php
     docker-compose -f docker-compose.new.yml exec apache install-magento2
 
 Symlink the AddressFinder plugin to the Magento codebase

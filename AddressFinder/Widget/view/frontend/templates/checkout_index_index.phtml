@@ -1,8 +1,8 @@
 <?php
-  $licenceKey = $this->helper('AddressFinder\Widget\Helper\Data')->getConfig('licence_key');
+  $licenceKey = $block->getConfig('licence_key');
   if (!empty($licenceKey)) {
-    $debugMode = $this->helper('AddressFinder\Widget\Helper\Data')->getConfig('debug_mode');
-    $widgetOptions = $this->helper('AddressFinder\Widget\Helper\Data')->getConfig('widget_options');
+    $debugMode = $block->getConfig('debug_mode');
+    $widgetOptions = $block->getConfig('widget_options');
 ?>
 
 <script>
