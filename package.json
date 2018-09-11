@@ -10,7 +10,6 @@
     "gulp-coffeelint": "^0.6.0",
     "gulp-concat": "^2.6.1",
     "gulp-rename": "^1.2.2",
-    "gulp-uglify": "^3.0.0",
     "gulp-watch": "^4.3.11"
   },
   "devDependencies": {},
