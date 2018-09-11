@@ -5,8 +5,8 @@ services:
     links:
       - db
     volumes:
-      - ./AddressFinder:/var/www/html/app/code/AddressFinder
-      - ./AddressFinder:/srv/www/app/code/AddressFinder
+      - ./:/var/www/html/app/code/AddressFinder/AddressFinder
+      - ./:/srv/www/app/code/AddressFinder/AddressFinder
 
   app:
     image: mageinferno/magento2-nginx:1.11-1
@@ -16,7 +16,7 @@ services:
     ports:
       - 8000:80
     volumes:
-      - ./AddressFinder:/var/www/html/app/code/AddressFinder
+      - ./:/var/www/html/app/code/AddressFinder/AddressFinder
 
   db:
     image: mariadb:10.1

@@ -1,0 +1,42 @@
+<?php
+
+/** @var \AddressFinder\AddressFinder\Block\Checkout $block */
+?>
+<?php if ($block->isEnabled()): ?>
+
+    <script>
+        require(['addressfinder_magento', 'addressfinder', 'domReady!'], function (AddressFinderMagento, AddressFinder) {
+            var options = {
+                licenceKey: "<?=$block->getLicenceKey()?>",
+                <?php if ($block->isDebugMode()): ?>
+                    debugMode: true,
+                <?php endif ?>
+                <?php if ($block->hasWidgetOptions()): ?>
+                    widgetOptions: <?=$block->getWidgetOptions()?>,
+                <?php endif ?>
+                attachToParent: true,
+                fieldMappings: {
+                    ".billing-address-form input[name='street[0]']": {
+                        addressLine2: "input[name='street[1]']",
+                        city: "input[name=city]",
+                        region: "input[name=region]",
+                        postcode: "input[name=postcode]",
+                        country: "select[name=country_id]"
+                    },
+                    ".form-shipping-address input[name='street[0]']": {
+                        addressLine2: "input[name='street[1]']",
+                        city: "input[name=city]",
+                        region: "input[name=region]",
+                        postcode: "input[name=postcode]",
+                        country: "select[name=country_id]"
+                    }
+                }
+            };
+
+            window.AddressFinder = AddressFinder;
+
+            new AddressFinderMagento.Checkout(options).start();
+        });
+    </script>
+
+<?php endif ?>

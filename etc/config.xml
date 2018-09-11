@@ -1,12 +1,13 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
   <default>
-    <AddressFinder_AddressFinder>
-      <settings>
+    <addressfinder>
+      <general>
+        <enabled>0</enabled>
         <licence_key>ADDRESSFINDER_DEMO_KEY</licence_key>
         <debug_mode>0</debug_mode>
         <widget_options>{}</widget_options>
-      </settings>
-    </AddressFinder_AddressFinder>
+      </general>
+    </addressfinder>
   </default>
 </config>

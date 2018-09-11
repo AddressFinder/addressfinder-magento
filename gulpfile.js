@@ -7,7 +7,7 @@ var coffee     = require('gulp-coffee');
 // Configuration
 var coffeeFiles  = './src/*.coffee';
 var distFolder   = './view/frontend/web/js';
-var distFileName = 'addressfinder_magento.js';
+var distFileName = 'addressfinder-magento.js';
 
 gulp.task('default', ['lint', 'concat', 'js-watch'], function() {
   // place code for your default task here

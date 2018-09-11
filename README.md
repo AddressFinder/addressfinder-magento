@@ -7,6 +7,24 @@ Follow the user guide on the AddressFinder website:
 - [Australian website](https://addressfinder.com.au/docs/magento-2-user-guide/)
 - [New Zealand website](https://addressfinder.nz/docs/magento-2-user-guide/)
 
+## Installation
+
+To install the AddressFinder module for Magento 2, simply run:
+
+```bash
+composer require addressfinder/module-magento2
+bin/magento module:enable AddressFinder_AddressFinder
+bin/magento setup:upgrade
+bin/magento cache:flush
+```
+
+You'll generally need to recompile your dependency injection cache and redeploy themes, especially in production. This process varies from site to site and is outside the context of installing this module, but generally is:
+
+```bash
+bin/magento setup:di:compile
+bin/magento setup:static-content:deploy
+```
+
 ## Development
 
 Download [Docker for Mac](https://docs.docker.com/docker-for-mac/install/)
@@ -44,7 +62,7 @@ Symlink the AddressFinder plugin to the Magento codebase
     sed -i '' "s/# SYMLINK PLUGIN HERE/- .\/AddressFinder:\/var\/www\/html\/app\/code\/AddressFinder/" docker-compose.new.yml
 
 
-### To get the widget working
+### To get the module working
 - Change your store configuration to support New Zealand & Australia.
 
     Do this at `Admin > Stores > Configuration > General > Country Options`
@@ -64,9 +82,9 @@ The following table indicates which file to edit for making page specific change
 
 | File | Page |
 | :--- | :--- |
-| AddressFinder/Widget/view/frontend/templates/customer_address_form.phtml | Website > My Account > Edit Address |
-|  AddressFinder/Widget/view/frontend/templates/checkout_index_index.phtml | Website > Checkout |
-| AddressFinder/Widget/etc/adminhtml/system.xml, AddressFinder/Widget/etc/config.xml | Admin > Stores > Configuration > Services > AddressFinder |
+| AddressFinder/AddressFinder/view/frontend/templates/customer.phtml | Website > My Account > Edit Address |
+|  AddressFinder/AddressFinder/view/frontend/templates/checkout.phtml | Website > Checkout |
+| AddressFinder/AddressFinder/etc/adminhtml/system.xml, AddressFinder/AddressFinder/etc/config.xml | Admin > Stores > Configuration > Services > AddressFinder |
 
 ### Can't see your changes?
 
