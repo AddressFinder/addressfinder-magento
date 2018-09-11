@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:Magento_Config:etc/system_file.xsd">
   <system>
-    <section id="AddressFinder_Widget" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
+    <section id="AddressFinder_AddressFinder" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
       <label>AddressFinder</label>
       <tab>service</tab>
-      <resource>AddressFinder_Widget::settings</resource>
+      <resource>AddressFinder_AddressFinder::settings</resource>
       <group id="settings" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
 
         <label>AddressFinder</label>

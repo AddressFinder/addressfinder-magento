@@ -1,6 +1,6 @@
 <?php
 
-namespace AddressFinder\Widget\Helper;
+namespace AddressFinder\AddressFinder\Helper;
 
 class Data extends \Magento\Framework\App\Helper\AbstractHelper
 {
@@ -19,7 +19,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
     public function getConfig($field)
     {
-        $value = $this->scopeConfig->getValue("AddressFinder_Widget/settings/" . $field, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        $value = $this->scopeConfig->getValue("AddressFinder_AddressFinder/settings/" . $field, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
         return $value;
     }
 }

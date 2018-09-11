@@ -37,7 +37,7 @@ docker-compose -f docker-compose.yml -f docker-compose.mage$mageversion-php$phpv
 
 if ! [ -L "./html/code/AddressFinder" ]; then
   echo 'Installing the AddressFinder module'
-  docker-compose -f docker-compose.yml -f docker-compose.mage$mageversion-php$phpversion.yml exec phpfpm ./bin/magento module:enable AddressFinder_Widget
+  docker-compose -f docker-compose.yml -f docker-compose.mage$mageversion-php$phpversion.yml exec phpfpm ./bin/magento module:enable AddressFinder_AddressFinder
   docker-compose -f docker-compose.yml -f docker-compose.mage$mageversion-php$phpversion.yml exec phpfpm ./bin/magento setup:upgrade
   docker-compose -f docker-compose.yml -f docker-compose.mage$mageversion-php$phpversion.yml exec phpfpm ./bin/magento setup:di:compile
 fi

@@ -10,6 +10,6 @@ sed -i '' "s/\"version\": \".*\"/\"version\": \""$version"\"/" package.json
 sed -i '' "s/setup_version=\".*\"/setup_version=\""$version"\"/" AddressFinder/Widget/etc/module.xml
 
 cd AddressFinder/Widget
-zip -r "../../addressfinder_widget-"$version".zip" ./* -x '.git/*'
+zip -r "../../addressfinder_addressfinder-"$version".zip" ./* -x '.git/*'
 
 cd ../../
