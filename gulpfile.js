@@ -1,8 +1,6 @@
 var gulp       = require('gulp');
-var fs         = require('fs');
 var coffeelint = require('gulp-coffeelint');
 var concat     = require('gulp-concat');
-var rename     = require('gulp-rename');
 var watch      = require('gulp-watch');
 var coffee     = require('gulp-coffee');
 
