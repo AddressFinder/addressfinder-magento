@@ -1,16 +1,13 @@
 var gulp       = require('gulp');
-var fs         = require('fs');
 var coffeelint = require('gulp-coffeelint');
 var concat     = require('gulp-concat');
-var rename     = require('gulp-rename');
-var uglify     = require('gulp-uglify');
 var watch      = require('gulp-watch');
 var coffee     = require('gulp-coffee');
 
 // Configuration
 var coffeeFiles  = './src/*.coffee';
-var distFolder   = './AddressFinder/Widget/view/frontend/web/js';
-var distFileName = 'addressfinder_magento.js';
+var distFolder   = './view/frontend/web/js';
+var distFileName = 'addressfinder-magento.js';
 
 gulp.task('default', ['lint', 'concat', 'js-watch'], function() {
   // place code for your default task here
@@ -33,7 +30,6 @@ gulp.task('concat', function() {
   return gulp.src(coffeeFiles)
     .pipe(coffee({bare: true}))
     .pipe(concat(distFileName))
-    .pipe(uglify()) // and minify
     .pipe(gulp.dest(distFolder));
 });
 

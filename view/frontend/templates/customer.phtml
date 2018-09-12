@@ -1,0 +1,35 @@
+<?php
+
+/** @var \AddressFinder\AddressFinder\Block\Customer $block */
+?>
+<?php if ($block->isEnabled()): ?>
+
+    <script>
+        require(['addressfinder_magento', 'addressfinder', 'domReady!'], function (AddressFinderMagento, AddressFinder) {
+            var options = {
+                licenceKey: "<?=$block->getLicenceKey()?>",
+                <?php if ($block->isDebugMode()): ?>
+                    debugMode: true,
+                <?php endif ?>
+                <?php if ($block->hasWidgetOptions()): ?>
+                    widgetOptions: <?=$block->getWidgetOptions()?>,
+                <?php endif ?>
+                attachToParent: false,
+                fieldMappings: {
+                    "input#street_1": {
+                        addressLine2: "input#street_2",
+                        city: "input[name=city]",
+                        region: "input[name=region]",
+                        postcode: "input[name=postcode]",
+                        country: "select[name=country_id]"
+                    }
+                }
+            };
+
+            window.AddressFinder = AddressFinder;
+
+            new AddressFinderMagento.Page(options).start();
+        });
+    </script>
+
+<?php endif ?>
