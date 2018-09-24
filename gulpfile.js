@@ -5,7 +5,7 @@ var watch      = require('gulp-watch');
 var coffee     = require('gulp-coffee');
 
 // Configuration
-var coffeeFiles  = './src/*.coffee';
+var coffeeFiles  = './view/frontend/web/coffee/*.coffee';
 var distFolder   = './view/frontend/web/js';
 var distFileName = 'addressfinder-magento.js';
 
