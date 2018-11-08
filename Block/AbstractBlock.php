@@ -72,7 +72,8 @@ class AbstractBlock extends Template
     }
 
     /**
-     * Gets widget options and validates that they're actually JSON.
+     * Gets widget options. Note that the options are validated by the Javascript later, where a
+     * nice error message can be presented to the user. 
      *
      * @return string|null
      */
@@ -81,14 +82,28 @@ class AbstractBlock extends Template
         /** @var string|null $json */
         $json = $this->_scopeConfig->getValue('addressfinder/general/widget_options', ScopeInterface::SCOPE_STORE);
 
-        // If there's no JSON, bail out early
-        if (!$json) {
-            return;
-        }
+        return $json;
+    }
 
-        // We'll just validate the JSON by decoding it. The decoder throws
-        // a number of exceptiosn for invalid JSON...
-        $this->jsonDecoder->decode($json);
+    /**
+     * Gets widget options and escapes any double-quote characters with a backslash. This
+     * enables the string to be embedded straight into the HTML (wrapped in quotes).
+     * 
+     * If no widgetOptions are available, then string containing "{}" is returned. 
+     *
+     * @return string
+     */
+    public function getWidgetOptionsEscaped()
+    {
+        /** @var string|null $json */
+        $json = $this->_scopeConfig->getValue('addressfinder/general/widget_options', ScopeInterface::SCOPE_STORE);
+
+        if (!$json) {
+            return "{}";
+        }
+        
+        // prefix all double-quotes with a backslash
+        $json = str_replace('"', '\"', $json);
 
         // If we've got this far, the JSON is valid. Wel'l return the orignal JSON
         // because there's a few ways of re-encoding that could result in some
