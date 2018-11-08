@@ -12,7 +12,7 @@
                     debugMode: true,
                 <?php endif ?>
                 <?php if ($block->hasWidgetOptions()): ?>
-                    widgetOptions: <?=$block->getWidgetOptions()?>,
+                    widgetOptions: "<?=$block->getWidgetOptionsEscaped()?>",
                 <?php endif ?>
                 attachToParent: true,
                 fieldMappings: {
