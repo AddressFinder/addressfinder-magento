@@ -217,7 +217,7 @@ define(function() {
     };
 
     Widget.prototype.populate = function(fullAddress, metadata) {
-      var wrapper;
+      var event, wrapper;
       if (this.au.enabled) {
         this.addressLine1Element.value = metadata.address_line_1;
         this.addressLine2Element.value = metadata.address_line_2;
@@ -232,11 +232,17 @@ define(function() {
         this.regionElement.value = metadata.region;
         this.postcodeElement.value = metadata.postcode;
       }
-      this.addressLine1Element.dispatchEvent(new Event('change'));
-      this.addressLine2Element.dispatchEvent(new Event('change'));
-      this.cityElement.dispatchEvent(new Event('change'));
-      this.regionElement.dispatchEvent(new Event('change'));
-      return this.postcodeElement.dispatchEvent(new Event('change'));
+      if (typeof Event === "function") {
+        event = new Event("change");
+      } else {
+        event = document.createEvent("Event");
+        event.initEvent("change", true, true);
+      }
+      this.addressLine1Element.dispatchEvent(event);
+      this.addressLine2Element.dispatchEvent(event);
+      this.cityElement.dispatchEvent(event);
+      this.regionElement.dispatchEvent(event);
+      return this.postcodeElement.dispatchEvent(event);
     };
 
     return Widget;
