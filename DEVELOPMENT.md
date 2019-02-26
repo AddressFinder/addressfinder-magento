@@ -1,0 +1,1 @@
+How to set up a test environment for magento
