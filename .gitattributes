@@ -1,0 +1,6 @@
+.gitattributes export-ignore
+.gitignore export-ignore
+.docker export-ignore
+docker-* export-ignore
+package.sh export-ignore
+setup.sh export-ignore
