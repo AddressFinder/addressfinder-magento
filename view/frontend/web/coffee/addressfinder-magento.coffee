@@ -151,10 +151,16 @@ define ->
         @regionElement.value = metadata.region
         @postcodeElement.value = metadata.postcode
 
-      @addressLine1Element.dispatchEvent(new Event('change'))
-      @addressLine2Element.dispatchEvent(new Event('change'))
-      @cityElement.dispatchEvent(new Event('change'))
-      @regionElement.dispatchEvent(new Event('change'))
-      @postcodeElement.dispatchEvent(new Event('change'))
+      if typeof Event == "function"
+        event = new Event("change", {bubbles: true, cancellable: true})
+      else
+        event = document.createEvent("Event")
+        event.initEvent("change", true, true)
+
+      @addressLine1Element.dispatchEvent(event)
+      @addressLine2Element.dispatchEvent(event)
+      @cityElement.dispatchEvent(event)
+      @regionElement.dispatchEvent(event)
+      @postcodeElement.dispatchEvent(event)
 
   return AddressFinderMagento
