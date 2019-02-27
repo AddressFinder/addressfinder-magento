@@ -3,68 +3,39 @@ You need a setup a test environment for each version of Magento you want to test
 
 ## Installing Mangento
 
-1. Clone Alex Cheng's docker image for Magento
+1. Clone the docker image for Magento. Check out the branch associated with the version of Magento you want. You will need a seperate clone
+   for each version you Magento you want
 
-   ``` git clone  git@github.com:alexcheng1982/docker-magento2.git ```
+   For Magento 2.3
 
-2. Checkout the tag associated with the version of Magento you want to test.
+   ``` git clone --branch 2.3 git@github.com:AbleTech/docker-magento2.git docker-magento-2.3 ```
 
-   ``` git checkout tags/2.2.7 ```
+      For Magento 2.2
 
-3. Alter the docker file so your data is saved when docker shuts down. This     means that you won't have to reinstall magento or the AddressFinder          plugin every time you want to test.
+   ``` git clone --branch 2.2 git@github.com:AbleTech/docker-magento2.git docker-magento-2.2 ```
 
-   You will need to add volumes for db-data and web-data. Notice that /data is removed from the end of the db volume, as this causes some dependencies not to be saved.
+      For Magento 2.1
 
-   Your docker compose file should look something like this:
+   ``` git clone --branch 2.1 git@github.com:AbleTech/docker-magento2.git docker-magento-2.1 ```
 
-    ```
-    version: '3.0'
-    services:
-      web:
-        image: alexcheng/magento2:2.2
-        volumes: 
-          - web-data:/var/www/html
-        ports:
-          - "80:80"
-        links:
-          - db
-        env_file:
-          - env
-      db:
-        image: mysql:5.6.23
-        volumes:
-          - db-data:/var/lib/mysql
-        env_file:
-          - env
-      phpmyadmin:
-        image: phpmyadmin/phpmyadmin
-        ports:
-          - "8580:80"
-        links:
-          - db     
-    volumes:
-      db-data:
-      web-data: 
-    ```
+      For Magento 2.0
 
-4. Start the docker container
+   ``` git clone --branch 2.0 git@github.com:AbleTech/docker-magento2.git docker-magento-2.0 ```
+
+2. Start the docker container
 
     ``` docker-compose up ```
 
-    If your docker-compose file has different name than the standard docker-compose.yml, you will have to run:
-
-    ```docker-compose -f name-of-your-file.yml up```
-
-5. In a seperate tab run: (you should be inside the var/www/html directory)
+3. In a seperate tab run: (you should be inside the var/www/html directory)
 
     ``` docker-compose exec web bash ```
 
-6.  Install Magento
+4.  Install Magento
 
     ``` install-magento ```
 
 
-7. Edit your host file to redirect localhost to local.magento
+5. Edit your host file to redirect localhost to local.magento
    
    to open the file: ``` sudo vim /etc/hosts ```
    
