@@ -26,6 +26,6 @@ git push --tags origin master
 ### Magento Marketplace deploys
 
 For a Magento Marketplace deploy you need to create a zip package for distribution. Run `bash package.sh`. You will be prompted to enter the version
-number of your new release. Once you enter it, a file named something like 'addressfinder_addressfinder-1.1.4.zip' will be created in this directory.
+number of your new release. Once you enter it, a file named something like 'addressfinder_addressfinder-1.1.5.zip' will be created in this directory.
 This file can be uploaded to the Magento Marketplace by Matt, who will add all the necessary release information. 
 
