@@ -26,7 +26,7 @@ You need a setup a test environment for each version of Magento you want to test
 
     ``` docker-compose up ```
 
-3. In a seperate tab run: (you should be inside the var/www/html directory)
+3. In a seperate tab run: (after running this command, you should be inside the var/www/html directory)
 
     ``` docker-compose exec web bash ```
 
@@ -35,7 +35,7 @@ You need a setup a test environment for each version of Magento you want to test
     ``` install-magento ```
 
 
-5. Edit your host file to redirect localhost to local.magento
+5. In a new tab, edit your host file to redirect localhost to local.magento
    
    to open the file: ``` sudo vim /etc/hosts ```
    
@@ -46,8 +46,8 @@ You need a setup a test environment for each version of Magento you want to test
 
 8. Open your browser at:
 
-  * Admin pages: http://magento.local/index.php/admin
-  * Shop pages: http://magento.local/index.php/
+  * Admin pages: http://local.magento/index.php/admin
+  * Shop pages: http://local.magento/index.php/
 
   You can login to the admin using the credentails MAGENTO_ADMIN_USERNAME and MAGENTO_ADMIN_PASSWORD from the env file.
 

@@ -233,7 +233,10 @@ define(function() {
         this.postcodeElement.value = metadata.postcode;
       }
       if (typeof Event === "function") {
-        event = new Event("change");
+        event = new Event("change", {
+          bubbles: true,
+          cancellable: true
+        });
       } else {
         event = document.createEvent("Event");
         event.initEvent("change", true, true);
