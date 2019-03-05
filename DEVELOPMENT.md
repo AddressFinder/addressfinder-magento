@@ -65,11 +65,11 @@ You need a setup a test environment for each version of Magento you want to test
 ## Installing the AddressFinder Plugin
 
 Inside the docker container run:
-1. su www-data
-2. composer require addressfinder/module-magento2 
-3. bin/magento module:enable AddressFinder_AddressFinder
-4. bin/magento setup:upgrade
-5. bin/magento cache:flush
+1. ```su www-data```
+2. ```composer require addressfinder/module-magento2```
+3. ```bin/magento module:enable AddressFinder_AddressFinder```
+4. ```bin/magento setup:upgrade```
+5. ```bin/magento cache:flush```
 
 ## Enable the AddressFinder Plugin in the store
 
@@ -88,6 +88,24 @@ Inside the docker container run:
    ``` cd vendor/addressfinder/module-magento2/view/frontend/web/js ```
 
 5. You can use vim to paste your changes into this file
+
+## Making changes to the requirejs-config.js file
+In order to make an update to the requirejs file, we need to edit that file inside the AddressFinder extension, then remove a different
+file (also named requirejs-config.js) from the the static folder. Then we clear the cache and recompile the static content to see our change.
+
+1. ``` docker-compose exec web bash ```
+2. ``` cd vendor/addressfinder/module-magento2/view/frontend/web ```
+3. ``` vim requirejs-config.js ```
+4. Make your change and save.
+5. ``` cd /var/www/html/pub/static/frontend/Magento/luma/en_US ```
+6. ``` rm requirejs-config.js ```
+7. ``` cd /var/www/html ```
+8. ``` bin/magento cache:clean ```
+9. ``` bin/magento cache:flush ```
+10. ``` bin/magento setup:upgrade ```
+11. ``` bin/magento setup:di:compile ```
+12. ``` bin/magento setup:static-content:deploy -f ```
+
 
 
 
