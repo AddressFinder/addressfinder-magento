@@ -12,7 +12,14 @@ gulp
 
 ## Deployment
 
-The Magento plugin is deployed in two ways - through Composer and through the Magento MarketPlace
+The Magento plugin is deployed in two ways - through Composer and through the Magento MarketPlace. For both, create a release and update the version number in all the necessary files:
+- composer.json
+- module.xml
+- package.json and package-lock.json
+
+Add an entry to CHANGELOG.md, describing the change
+
+run `gulp production` to compile the js.
 
 ### Composer deploys
 
