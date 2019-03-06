@@ -1,5 +1,5 @@
 # How to test AddressFinder Magento
-You need a setup a test environment for each version of Magento you want to test. This may be time consuming.
+You need to setup a test environment for each version of Magento you want to test. This may be time consuming.
 
 ## Installing Mangento
 
