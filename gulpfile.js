@@ -9,21 +9,12 @@ var coffeeFiles  = './view/frontend/web/coffee/*.coffee';
 var distFolder   = './view/frontend/web/js';
 var distFileName = 'addressfinder-magento.js';
 
-gulp.task('default', ['lint', 'concat', 'js-watch'], function() {
-  // place code for your default task here
-  console.log('Build complete');
-});
-
-gulp.task('production', ['lint', 'concat'], function() {
-  // place code for your default task here
-  console.log('Build complete');
-});
-
-gulp.task('lint', function() {
+gulp.task('lint', function(done) {
   gulp.src(coffeeFiles)
     .pipe(coffeelint())
     .pipe(coffeelint.reporter())
     .pipe(coffeelint.reporter('fail'));
+  done();
 });
 
 gulp.task('concat', function() {
@@ -42,3 +33,13 @@ gulp.task('js-watch', function() {
       .pipe(gulp.dest(distFolder));
   });
 });
+
+gulp.task('default', gulp.series(['lint', 'concat', 'js-watch'], function(done) {
+  console.log('Build complete');
+  done()
+}));
+
+
+gulp.task('production', gulp.series(['lint', 'concat'], function() {
+  console.log('Build complete');
+}));

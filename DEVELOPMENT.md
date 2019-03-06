@@ -94,7 +94,7 @@ In order to make an update to the requirejs file, we need to edit that file insi
 file (also named requirejs-config.js) from the the static folder. Then we clear the cache and recompile the static content to see our change.
 
 1. `docker-compose exec web bash`
-2. `cd vendor/addressfinder/module-magento2/view/frontend/web`
+2. `cd vendor/addressfinder/module-magento2/view/frontend`
 3. `vim requirejs-config.js`
 4. Make your change and save.
 5. `cd /var/www/html/pub/static/frontend/Magento/luma/en_US`
@@ -105,13 +105,6 @@ file (also named requirejs-config.js) from the the static folder. Then we clear 
 10. `bin/magento setup:upgrade`
 11. `bin/magento setup:di:compile`
 12. `bin/magento setup:static-content:deploy -f`
-
-
-
-
-
-
-
 
 
 

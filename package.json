@@ -9,7 +9,8 @@
     "gulp-coffee": "^2.3.4",
     "gulp-coffeelint": "^0.6.0",
     "gulp-concat": "^2.6.1",
-    "gulp-watch": "^5.0.1"
+    "gulp-watch": "^5.0.1",
+    "gulp-cli": "1.2.2"
   },
   "devDependencies": {},
   "scripts": {
