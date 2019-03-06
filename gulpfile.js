@@ -40,6 +40,7 @@ gulp.task('default', gulp.series(['lint', 'concat', 'js-watch'], function(done) 
 }));
 
 
-gulp.task('production', gulp.series(['lint', 'concat'], function() {
+gulp.task('production', gulp.series(['lint', 'concat'], function(done) {
   console.log('Build complete');
+  done()
 }));
