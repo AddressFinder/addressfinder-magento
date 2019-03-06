@@ -11,6 +11,7 @@ define(function() {
       this._initWidget = bind(this._initWidget, this);
       this._parseWidgetOptions = bind(this._parseWidgetOptions, this);
       this.start = bind(this.start, this);
+      this.version = '1.1.6';
       this.debugMode = options.debugMode || false;
       this.licenceKey = options.licenceKey;
       this.fieldMappings = options.fieldMappings || {};
