@@ -1,10 +1,10 @@
 # How to test AddressFinder Magento
-You need a setup a test environment for each version of Magento you want to test. This may be time consuming.
+You need to setup a test environment for each version of Magento you want to test. This may be time consuming.
 
-## Installing Mangento
+## Installing Magento
 
 1. Clone the docker image for Magento. Check out the branch associated with the version of Magento you want. You will need a seperate clone
-   for each version you Magento you want
+   for each version of Magento you want
 
    For Magento 2.3
 
@@ -36,9 +36,9 @@ You need a setup a test environment for each version of Magento you want to test
 
 
 5. In a new tab, edit your host file to redirect localhost to local.magento
-   
+
    to open the file: `sudo vim /etc/hosts`
-   
+
    add: `127.0.0.1 local.magento`
 
    [Need help with Vim?](https://sites.google.com/a/abletech.co.nz/wiki/technology-tips/beginners-guide-to-vim)
