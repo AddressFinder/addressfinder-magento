@@ -5,6 +5,7 @@ define ->
   class AddressFinderMagento.Page
 
     constructor: (options) ->
+      @version = '1.1.7'
       @debugMode = options.debugMode || false
       @licenceKey = options.licenceKey
       @fieldMappings = options.fieldMappings || {}

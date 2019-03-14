@@ -1,3 +1,7 @@
+# AddressFinder 1.1.7 (March 15th 2019)
+* Update Gulp
+* Add version number to widget code
+
 # AddressFinder 1.1.6 (March 5th 2019)
 * Update Reqwest library to version 2
 
