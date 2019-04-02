@@ -3,7 +3,7 @@ You need to setup a test environment for each version of Magento you want to tes
 
 ## Installing Magento
 
-1. Clone the docker image for Magento into your workspace. Check out the branch associated with the version of Magento you want. You will   need a seperate clone for each version of Magento you want.
+1. Clone the docker image for Magento into your workspace. Check out the branch associated with the version of Magento you want. You will need a seperate clone for each version of Magento you want.
 
    For Magento 2.3
 
