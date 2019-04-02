@@ -3,24 +3,23 @@ You need to setup a test environment for each version of Magento you want to tes
 
 ## Installing Magento
 
-1. Clone the docker image for Magento. Check out the branch associated with the version of Magento you want. You will need a seperate clone
-   for each version of Magento you want
+1. Clone the docker image for Magento into your workspace. Check out the branch associated with the version of Magento you want. You will   need a seperate clone for each version of Magento you want.
 
    For Magento 2.3
 
-   `git clone --branch 2.3 git@github.com:AbleTech/docker-magento2.git docker-magento-2.3`
+   `git clone --branch 2.3 git@github.com:AbleTech/docker-magento2.git docker-magento-2.3 && cd docker-magento-2.3`
 
       For Magento 2.2
 
-   `git clone --branch 2.2 git@github.com:AbleTech/docker-magento2.git docker-magento-2.2`
+   `git clone --branch 2.2 git@github.com:AbleTech/docker-magento2.git docker-magento-2.2 && cd docker-magento-2.2`
 
       For Magento 2.1
 
-   `git clone --branch 2.1 git@github.com:AbleTech/docker-magento2.git docker-magento-2.1`
+   `git clone --branch 2.1 git@github.com:AbleTech/docker-magento2.git docker-magento-2.1 && cd docker-magento-2.1`
 
       For Magento 2.0
 
-   `git clone --branch 2.0 git@github.com:AbleTech/docker-magento2.git docker-magento-2.0`
+   `git clone --branch 2.0 git@github.com:AbleTech/docker-magento2.git docker-magento-2.0 && cd docker-magento-2.0`
 
 2. Start the docker container
 
@@ -79,15 +78,16 @@ Inside the docker container run:
 3. Now if you visit your store AddressFinder should be working. The country dropdown is set to 'United States' by default, so make sure this is changed to New Zealand or Australia
 
 ## How to Test your Changes
-1. Make your changes in the addressfinder-magento.coffee file
-2. Run `gulp`
-3. Copy the compiled javascript
-3.  `docker-compose exec web bash`
-4. Find this javascript file inside the magento container.
+1. `npm install`
+2. Make your changes in the addressfinder-magento.coffee file
+3. Run `gulp`
+4. Copy the compiled javascript
+5.  `docker-compose exec web bash`
+6. Find this javascript file inside the magento container.
 
    `cd vendor/addressfinder/module-magento2/view/frontend/web/js`
 
-5. You can use vim to paste your changes into this file
+7. You can use vim to paste your changes into this file
 
 ## Making changes to the requirejs-config.js file
 In order to make an update to the requirejs file, we need to edit that file inside the AddressFinder extension, then remove a different
@@ -97,8 +97,9 @@ file (also named requirejs-config.js) from the the static folder. Then we clear 
 2. `cd vendor/addressfinder/module-magento2/view/frontend`
 3. `vim requirejs-config.js`
 4. Make your change and save.
-5. `cd /var/www/html/pub/static/frontend/Magento/luma/en_US`
+5. `cd /var/www/html/pub/static/frontend/Magento/luma/en_GB`
 6. `rm requirejs-config.js`
+You may also need to remove the requirejs-config.js file from `/var/www/html/pub/static/frontend/Magento/luma/en_US`
 7. `cd /var/www/html`
 8. `bin/magento cache:clean`
 9. `bin/magento cache:flush`

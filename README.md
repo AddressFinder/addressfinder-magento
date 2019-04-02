@@ -5,10 +5,9 @@ Follow the instructions in DEVELOPMENT.md to setup your test environment and ins
 
 ## Building
 
-```
-npm install
-gulp
-```
+1. `npm install`
+2. `gulp`
+
 
 ## Deployment
 
