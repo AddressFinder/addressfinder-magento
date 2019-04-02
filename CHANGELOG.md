@@ -1,3 +1,6 @@
+# AddressFinder 1.1.8 (April 2nd 2019)
+* Update Documentation for Magento development
+
 # AddressFinder 1.1.7 (March 15th 2019)
 * Update Gulp
 * Add version number to widget code
