@@ -1,17 +1,15 @@
-import optimizedOnePageCheckout from './address_form_config/optimized_one_page_checkout'
-import onePageCheckout from './address_form_config/one_page_checkout'
-import addressBook from './address_form_config/address_book'
-import createAccount from './address_form_config/create_account'
+import billingCheckout from './address_form_config/billing_checkout'
+import shippingCheckout from './address_form_config/shipping_checkout'
+import userForm from './address_form_config/customer_form'
 
 export default class ConfigManager {
 
    load() {
 
     const addressFormConfigurations = [
-      optimizedOnePageCheckout,
-      onePageCheckout,
-      addressBook,
-      createAccount
+      billingCheckout,
+      shippingCheckout,
+      userForm
     ]
 
     return addressFormConfigurations
