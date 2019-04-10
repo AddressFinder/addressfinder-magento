@@ -5,20 +5,19 @@
 <?php if ($block->isEnabled()): ?>
 
     <script>
-        require(['addressfinder_magento', 'addressfinder', 'domReady!'], function (AddressFinderMagento, AddressFinder) {
+        require(['addressfinder_webpage_tools', 'magento_plugin', 'addressfinder', 'domReady!'], function (AddressFinderWebPageTools, MagentoPlugin, AddressFinder) {
             var widgetConfig = {
-                licenceKey: "<?=$block->getLicenceKey()?>",
-                <?php if ($block->isDebugMode()): ?>
-                    debugMode: true,
-                <?php endif ?>
+                    key: "<?=$block->getLicenceKey()?>",
                 <?php if ($block->hasWidgetOptions()): ?>
                     widgetOptions: "<?=$block->getWidgetOptionsEscaped()?>",
+                <?php endif ?>
+                <?php if ($block->isDebugMode()): ?>
+                    debug: true,
                 <?php endif ?>
             }
 
             window.AddressFinder = AddressFinder;
-
-            window.AddressFinderMagento = new AddressFinderMagento()
+            new MagentoPlugin(widgetConfig, AddressFinderWebPageTools)
     });
     </script>
 

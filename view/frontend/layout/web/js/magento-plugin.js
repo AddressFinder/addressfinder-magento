@@ -87,6 +87,10 @@ module.exports = __webpack_require__(1);
 "use strict";
 
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _config_manager = __webpack_require__(2);
@@ -164,10 +168,7 @@ var MagentoPlugin = function () {
   return MagentoPlugin;
 }();
 
-module.exports = {
-  MagentoPlugin: MagentoPlugin,
-  ConfigManager: _config_manager2.default
-};
+exports.default = MagentoPlugin;
 
 /***/ }),
 /* 2 */
@@ -229,35 +230,34 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 exports.default = {
-    label: "Address book",
-    layoutSelector: "input#street_1",
-    countryIdentifier: 'select[name=country_id]',
-    searchIdentifier: "input#street_1",
+    label: "Billing Checkout",
+    layoutSelector: ".billing-address-form input[name='street[0]']",
+    countryIdentifier: '.billing-address-form select[name=country_id]',
+    searchIdentifier: ".billing-address-form input[name='street[0]']",
     nz: {
         countryValue: "NZ",
         elements: {
-            address1: 'input#street_1',
-            suburb: 'input#street_2',
-            city: 'input[name=city]',
-            region: 'input[name=region]',
-            postcode: 'input[name=postcode]'
+            address1: ".billing-address-form input[name='street[0]']",
+            address2: ".billing-address-form input[name='street[1]']",
+            suburb: ".billing-address-form input[name='street[2]']",
+            city: ".billing-address-form input[name=city]",
+            region: '.billing-address-form input[name=region]',
+            postcode: '.billing-address-form input[name=postcode]'
         },
         regionMappings: null
     },
     au: {
         countryValue: "AU",
         elements: {
-            address1: 'input#street_1',
-            address2: 'input#street_2',
-            suburb: 'input[name=city]',
-            state: 'input[name=region]',
-            postcode: 'input[name=postcode]'
+            address1: ".billing-address-form input[name='street[0]']",
+            address2: ".billing-address-form input[name='street[1]']",
+            suburb: '.billing-address-form input[name=city]',
+            state: '.billing-address-form input[name=region]',
+            postcode: '.billing-address-form input[name=postcode]'
         },
         stateMappings: null
     }
 };
-
-// These are incorrect
 
 /***/ }),
 /* 4 */
@@ -271,34 +271,33 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = {
     label: "Address book",
-    layoutSelector: "input#street_1",
-    countryIdentifier: 'select[name=country_id]',
-    searchIdentifier: "input#street_1",
+    layoutSelector: ".form-shipping-address input[name='street[0]']",
+    countryIdentifier: '.form-shipping-address select[name=country_id]',
+    searchIdentifier: ".form-shipping-address input[name='street[0]']",
     nz: {
         countryValue: "NZ",
         elements: {
-            address1: 'input#street_1',
-            suburb: 'input#street_2',
-            city: 'input[name=city]',
-            region: 'input[name=region]',
-            postcode: 'input[name=postcode]'
+            address1: ".form-shipping-address input[name='street[0]']",
+            address2: ".form-shipping-address input[name='street[1]']",
+            suburb: ".form-shipping-address input[name='street[2]']",
+            city: '.form-shipping-address input[name=city]',
+            region: '.form-shipping-address input[name=region]',
+            postcode: '.form-shipping-address input[name=postcode]'
         },
         regionMappings: null
     },
     au: {
         countryValue: "AU",
         elements: {
-            address1: 'input#street_1',
-            address2: 'input#street_2',
-            suburb: 'input[name=city]',
-            state: 'input[name=region]',
-            postcode: 'input[name=postcode]'
+            address1: ".form-shipping-address input[name='street[0]']",
+            address2: ".form-shipping-address input[name='street[1]']",
+            suburb: '.form-shipping-address input[name=city]',
+            state: '.form-shipping-address input[name=region]',
+            postcode: '.form-shipping-address input[name=postcode]'
         },
         stateMappings: null
     }
 };
-
-// These are incorrect
 
 /***/ }),
 /* 5 */
@@ -340,5 +339,5 @@ exports.default = {
 };
 
 /***/ })
-/******/ ]);
+/******/ ])["default"];
 });

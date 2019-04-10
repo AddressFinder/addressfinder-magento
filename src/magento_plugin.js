@@ -1,5 +1,5 @@
 import ConfigManager from './config_manager'
-class MagentoPlugin {
+export default class MagentoPlugin {
   constructor(widgetConfig, AddressFinderWebPageTools) {
     this.AddressFinderWebPageTools = AddressFinderWebPageTools
     this.widgetConfig = widgetConfig
@@ -56,9 +56,3 @@ class MagentoPlugin {
     window.AddressFinder._magentoPlugin = this.PageManager
   }
 }
-
-module.exports = {
-  MagentoPlugin,
-  ConfigManager
-}
-

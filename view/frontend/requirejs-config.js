@@ -1,8 +1,7 @@
 var config = {
   paths: {
-    addressfinder_magento: 'AddressFinder_AddressFinder/js/addressfinder-magento',
-    addressfinder: 'https://api.addressfinder.io/assets/v3/core',
-    reqwest: 'https://api.addressfinder.io/assets/reqwest/v2/reqwest',
-    neat_complete: 'https://api.addressfinder.io/assets/neat-complete/v1/neat-complete'
+    addressfinder_webpage_tools: 'AddressFinder_AddressFinder/js/addressfinder-webpage-tools',
+    magento_plugin: 'AddressFinder_AddressFinder/js/magento-plugin',
+    addressfinder: 'https://api.addressfinder.io/assets/v3/widget'
   },
 };

@@ -8,7 +8,8 @@ const config = {
   output: {
     path: pathLib.resolve(__dirname, "./view/frontend/layout/web/js"),
     library: 'AddressFinderWebPageTools',
-    libraryTarget: 'umd'
+    libraryTarget: 'umd',
+    libraryExport: 'default'
   },
   module: {
     rules: [
@@ -28,7 +29,7 @@ const config = {
 
 switch (process.env.NODE_ENV) {
   case "production":
-    config.output.filename = "addressfinder-magento-min.js";
+    config.output.filename = "magento-plugin-min.js";
     config.plugins = [
       new webpack.optimize.UglifyJsPlugin({
         compress: { warnings: false }
@@ -36,7 +37,7 @@ switch (process.env.NODE_ENV) {
     ]
     break;
   default:
-    config.output.filename = "addressfinder-magento.js";
+    config.output.filename = "magento-plugin.js";
     config.plugins = [];
 }
 
