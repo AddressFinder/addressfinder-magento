@@ -5,7 +5,7 @@
 <?php if ($block->isEnabled()): ?>
 
     <script>
-        require(['addressfinder_plugin', 'addressfinder', 'domReady!'], function (AddressFinderPlugin, AddressFinder) {
+        require(['addressfinder_magento', 'addressfinder', 'domReady!'], function (AddressFinderMagento, AddressFinder) {
             var widgetConfig = {
                 licenceKey: "<?=$block->getLicenceKey()?>",
                 <?php if ($block->isDebugMode()): ?>
@@ -47,13 +47,13 @@
 
             window.AddressFinder = AddressFinder;
 
-            var PageManager = new AddressFinderPlugin.PageManager({
+            var PageManager = new AddressFinderMagento.PageManager({
                 addressFormConfigurations: addressFormConfig,
                 widgetConfig: widgetConfig,
                 eventToDispatch: 'change' 
             })
     
-            window.AddressFinderPlugin._magentoPlugin = PageManager
+            window.AddressFinderMagento = PageManager
     });
     </script>
 

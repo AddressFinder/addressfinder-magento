@@ -91,4 +91,5 @@ Inside the docker container run:
 
 
 7. `cd /var/www/html/bin`
-8. `./magento cache:clean && ./magento cache:flush && ./magento setup:upgrade && ./magento setup:di:compile && ./magento setup:static-content:deploy -f en_GB`
+8. `cd /var/www/html/bin && ./magento cache:clean && ./magento cache:flush && ./magento setup:upgrade && ./magento setup:di:compile && ./magento setup:static-content:deploy -f en_GB`
+`cd .. && chmod 0777 -R var/cache`
