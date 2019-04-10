@@ -1,13 +1,13 @@
 export default {
   label: "Address book",
-  layoutSelector: "input#street_1",
+  layoutSelector: ".form-shipping-address input[name='street[0]']",
   countryIdentifier: 'select[name=country_id]',
-  searchIdentifier: "input#street_1",
+  searchIdentifier: ".form-shipping-address input[name='street[0]']",
   nz: {
-      countryValue: "New Zealand",
+      countryValue: "NZ",
       elements: {
-          address1: 'input#street_1',
-          suburb: 'input#street_2',
+          address1: ".form-shipping-address input[name='street[0]']",
+          suburb: "input[name='street[1]']",
           city: 'input[name=city]',
           region: 'input[name=region]',
           postcode: 'input[name=postcode]',
@@ -15,10 +15,10 @@ export default {
       regionMappings: null
   },
   au: {
-      countryValue: "Australia",
+      countryValue: "AU",
       elements: {
-          address1: 'input#street_1',
-          address2: 'input#street_2',
+          address1: ".form-shipping-address input[name='street[0]']",
+          address2: "input[name='street[1]']",
           suburb: 'input[name=city]',
           state: 'input[name=region]',
           postcode: 'input[name=postcode]',
@@ -26,6 +26,3 @@ export default {
       stateMappings: null
   }
 };
-
-
-// These are incorrect

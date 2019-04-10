@@ -3,10 +3,12 @@ const pathLib = require("path");
 
 const config = {
   entry: [
-    "./src/addressfinder-webpage-tools.js"
+    "./src/magento_plugin.js"
   ],
   output: {
     path: pathLib.resolve(__dirname, "./view/frontend/layout/web/js"),
+    library: 'AddressFinderWebPageTools',
+    libraryTarget: 'umd'
   },
   module: {
     rules: [
