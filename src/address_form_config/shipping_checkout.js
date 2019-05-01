@@ -1,6 +1,6 @@
 export default {
-  label: "Address book",
-  layoutSelector: ".form-shipping-address input[name='street[0]']",
+  label: "Shipping Checkout",
+  layoutSelectors: ["li#opc-shipping_method"],
   countryIdentifier: '.form-shipping-address select[name=country_id]',
   searchIdentifier: ".form-shipping-address input[name='street[0]']",
   nz: {

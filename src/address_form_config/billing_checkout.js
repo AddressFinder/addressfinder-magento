@@ -1,6 +1,6 @@
 export default {
   label: "Billing Checkout",
-  layoutSelector: ".billing-address-form input[name='street[0]']",
+  layoutSelectors: ["li#payment"],
   countryIdentifier: '.billing-address-form select[name=country_id]',
   searchIdentifier: ".billing-address-form input[name='street[0]']",
   nz: {

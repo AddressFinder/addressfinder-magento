@@ -7,7 +7,6 @@ const config = {
   ],
   output: {
     path: pathLib.resolve(__dirname, "./view/frontend/layout/web/js"),
-    library: 'AddressFinderWebPageTools',
     libraryTarget: 'umd',
     libraryExport: 'default'
   },
@@ -19,7 +18,7 @@ const config = {
         use: {
           loader: 'babel-loader',
           options: {
-            presets: ['env']
+            presets: ['@babel/preset-env']
           }
         }
       }

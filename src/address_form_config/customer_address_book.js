@@ -1,6 +1,6 @@
 export default {
   label: "Address book",
-  layoutSelector: "input#street_1",
+  layoutSelectors: ["input#street_1"],
   countryIdentifier: 'select[name=country_id]',
   searchIdentifier: "input#street_1",
   nz: {

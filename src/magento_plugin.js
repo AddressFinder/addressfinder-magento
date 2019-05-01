@@ -1,7 +1,8 @@
+import { PageManager, MutationManager } from './addressfinder-webpage-tools'
 import ConfigManager from './config_manager'
+
 export default class MagentoPlugin {
-  constructor(widgetConfig, AddressFinderWebPageTools) {
-    this.AddressFinderWebPageTools = AddressFinderWebPageTools
+  constructor(widgetConfig) {
     this.widgetConfig = widgetConfig
     this.widgetOptions = this._parseWidgetOptions(widgetConfig.options)
 
@@ -12,10 +13,15 @@ export default class MagentoPlugin {
     this.ConfigManager = new ConfigManager()
 
     // Watches for any mutations to the DOM, so we can reload our configurations when something changes.
-    new this.AddressFinderWebPageTools.MutationManager({
+    new MutationManager({
       mutationEventHandler: this.mutationEventHandler.bind(this),
       ignoredClass: "af_list"
     })
+
+    this.events = {
+      dispatchOnAddressSelected: 'change', // When an address is selected dispatch this event so the store knows fields have changed
+      listenOnCountryElement: 'change' // Listen for this event type on the country element to set the active country
+    }
 
     this._initPlugin()
   }
@@ -41,16 +47,16 @@ export default class MagentoPlugin {
 
   _initPlugin(){
 
-    this.PageManager = new this.AddressFinderWebPageTools.PageManager({
+    this.PageManager = new PageManager({
       addressFormConfigurations: this.ConfigManager.load(),
       widgetConfig: {
         nzKey: this.widgetConfig.key,
         auKey: this.widgetConfig.key,
         nzWidgetOptions: this.widgetOptions,
         auWidgetOptions: this.widgetOptions,
-        debug: this.widgetConfig.debug
+        debug: this.widgetConfig.debug || false
       },
-      eventToDispatch: 'change' 
+      events: this.events
     })
   
     window.AddressFinder._magentoPlugin = this.PageManager
