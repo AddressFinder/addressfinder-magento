@@ -5,7 +5,7 @@
 <?php if ($block->isEnabled()): ?>
 
     <script>
-        require(['addressfinder_webpage_tools', 'magento_plugin', 'addressfinder', 'domReady!'], function (AddressFinderWebPageTools, MagentoPlugin, AddressFinder) {
+        require(['magento_plugin', 'addressfinder', 'domReady!'], function (MagentoPlugin, AddressFinder) {
             var widgetConfig = {
                     key: "<?=$block->getLicenceKey()?>",
                 <?php if ($block->hasWidgetOptions()): ?>
@@ -17,7 +17,7 @@
             }
 
             window.AddressFinder = AddressFinder;
-            new MagentoPlugin(widgetConfig, AddressFinderWebPageTools)
+            new MagentoPlugin(widgetConfig)
     });
     </script>
 

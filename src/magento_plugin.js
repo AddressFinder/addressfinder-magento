@@ -42,7 +42,7 @@ export default class MagentoPlugin {
 
   _initPlugin(){
 
-    let widgetConfig = {
+    const widgetConfig = {
       nzKey: this.widgetConfig.key,
       auKey: this.widgetConfig.key,
       nzWidgetOptions: this.widgetOptions,
