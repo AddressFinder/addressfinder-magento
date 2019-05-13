@@ -131,6 +131,9 @@ function () {
     this.ConfigManager = null;
 
     this._initPlugin();
+
+    this.addressfinderDebugMode = this.addressfinderDebugMode.bind(this);
+    window.addressfinderDebugMode = this.addressfinderDebugMode;
   }
 
   _createClass(MagentoPlugin, [{
@@ -182,6 +185,18 @@ function () {
         countryChangeEventToListenFor: 'change'
       });
       window.AddressFinder._magentoPlugin = this.PageManager;
+    }
+    /*
+    * When addressfinderDebugMode() is typed into the Javascript console the plugin will be reinitialised with debug set to true.
+    * This allows us to debug more easily on customer sites.
+    */
+
+  }, {
+    key: "addressfinderDebugMode",
+    value: function addressfinderDebugMode() {
+      this.widgetConfig.debug = true;
+
+      this._initPlugin();
     }
   }]);
 

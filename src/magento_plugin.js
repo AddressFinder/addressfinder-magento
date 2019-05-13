@@ -14,8 +14,11 @@ export default class MagentoPlugin {
 
     // Manages the form configurations, and creates any dynamic forms
     this.ConfigManager = null
-    
+
     this._initPlugin()
+
+    this.addressfinderDebugMode = this.addressfinderDebugMode.bind(this)
+    window.addressfinderDebugMode = this.addressfinderDebugMode
   }
 
   mutationEventHandler() {
@@ -66,5 +69,14 @@ export default class MagentoPlugin {
     })
   
     window.AddressFinder._magentoPlugin = this.PageManager
+  }
+
+  /*
+  * When addressfinderDebugMode() is typed into the Javascript console the plugin will be reinitialised with debug set to true.
+  * This allows us to debug more easily on customer sites.
+  */
+  addressfinderDebugMode() {
+    this.widgetConfig.debug = true
+    this._initPlugin()
   }
 }
