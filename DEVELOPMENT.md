@@ -82,7 +82,6 @@ Inside the docker container run:
 2. Make your changes in the source directory. If you are making a change to the addressfinder-webpage-tools npm package, you will need to copy and paste the minified file inside the addressfinder-webpage-tools.js file in the source directory. Magento doesn't have support for npm, so we can't include the package in the normal way.
 3. To build run `npm run build` or `npm run build:production` if you want the file minified. These files will be added/updated inside the /view/frontend/layout/web/js folder.  
 
-
 ## How to Test your Changes
 
 The easiest way to test your changes is to copy the frontend directory into your docker image for Magento, and make your changes in there.
@@ -113,30 +112,3 @@ services:
 
  These commands open the docker container, clear the cache and redeploy the static content, and make sure you have the correct permissions.
  You will need to run these commands everytime you make a change.
-
-
-
-
-
-
-
-
-
-
-
-
-1. `npm install`
-2. Make your changes in the addressfinder-magento.coffee file
-3. Run `gulp`
-4. Copy the compiled javascript
-5.  `docker-compose exec web bash`
-6. Find this javascript file inside the magento container.
-
-   `cd vendor/addressfinder/module-magento2/view/frontend/web/js`
-
-7. You can use vim to paste your changes into this file
-
-9. `cd /var/www/html/bin && ./magento cache:clean && ./magento cache:flush && ./magento setup:upgrade && ./magento setup:di:compile && ./magento setup:static-content:deploy -f en_GB`
-
-You may need to run this command so you have the correct permissions.
-`cd .. && chmod 0777 -R var/cache`

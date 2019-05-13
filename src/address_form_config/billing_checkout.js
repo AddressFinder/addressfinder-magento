@@ -1,3 +1,5 @@
+import stateMappings from './state_mappings'
+
 export default {
   label: "Billing Checkout",
   layoutSelectors: ["li#payment"],
@@ -24,6 +26,6 @@ export default {
           state: '.billing-address-form input[name=region]',
           postcode: '.billing-address-form input[name=postcode]',
       },
-      stateMappings: null
+      stateMappings: stateMappings
   }
 };

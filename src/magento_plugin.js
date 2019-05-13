@@ -1,5 +1,8 @@
-import { PageManager, MutationManager } from './addressfinder-webpage-tools'
 import ConfigManager from './config_manager'
+
+// Unlike our other plugins, the Magento plugin doesn't use the addressfinder-webpage-tools npm package. This is because Magento doesn't have
+// support for npm. Instead, we take the file that the npm package outputs, and copy the code into the addressfinder-webpage-tools javascript file. 
+import { PageManager, MutationManager } from './addressfinder-webpage-tools'
 
 export default class MagentoPlugin {
   constructor(widgetConfig) {
@@ -10,19 +13,8 @@ export default class MagentoPlugin {
     this.PageManager = null
 
     // Manages the form configurations, and creates any dynamic forms
-    this.ConfigManager = new ConfigManager()
-
-    // Watches for any mutations to the DOM, so we can reload our configurations when something changes.
-    new MutationManager({
-      mutationEventHandler: this.mutationEventHandler.bind(this),
-      ignoredClass: "af_list"
-    })
-
-    this.events = {
-      dispatchOnAddressSelected: 'change', // When an address is selected dispatch this event so the store knows fields have changed
-      listenOnCountryElement: 'change' // Listen for this event type on the country element to set the active country
-    }
-
+    this.ConfigManager = null
+    
     this._initPlugin()
   }
 
@@ -47,16 +39,30 @@ export default class MagentoPlugin {
 
   _initPlugin(){
 
+    let widgetConfig = {
+      nzKey: this.widgetConfig.key,
+      auKey: this.widgetConfig.key,
+      nzWidgetOptions: this.widgetOptions,
+      auWidgetOptions: this.widgetOptions,
+      debug: this.widgetConfig.debug || false
+    }
+
+    this.ConfigManager = new ConfigManager()
+
+    // Watches for any mutations to the DOM, so we can reload our configurations when something changes.
+    new MutationManager({
+      widgetConfig: widgetConfig,
+      mutationEventHandler: this.mutationEventHandler.bind(this),
+      ignoredClass: "af_list"
+    })
+
     this.PageManager = new PageManager({
       addressFormConfigurations: this.ConfigManager.load(),
-      widgetConfig: {
-        nzKey: this.widgetConfig.key,
-        auKey: this.widgetConfig.key,
-        nzWidgetOptions: this.widgetOptions,
-        auWidgetOptions: this.widgetOptions,
-        debug: this.widgetConfig.debug || false
-      },
-      events: this.events
+      widgetConfig: widgetConfig,
+      // When an address is selected dispatch this event on all the updated form fields. This tells the store the fields have been changed.
+      formFieldChangeEventToDispatch: 'change',
+      // An event listener with this event type is attached to country element. When the country changes the active country for the widget is set.
+      countryChangeEventToListenFor: 'change'
     })
   
     window.AddressFinder._magentoPlugin = this.PageManager

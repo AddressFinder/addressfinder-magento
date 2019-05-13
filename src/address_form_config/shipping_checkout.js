@@ -1,3 +1,6 @@
+
+import stateMappings from './state_mappings'
+
 export default {
   label: "Shipping Checkout",
   layoutSelectors: ["li#opc-shipping_method"],
@@ -24,6 +27,6 @@ export default {
           state: '.form-shipping-address input[name=region]',
           postcode: '.form-shipping-address input[name=postcode]',
       },
-      stateMappings: null
+      stateMappings: stateMappings
   }
 };

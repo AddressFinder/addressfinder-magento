@@ -1,3 +1,5 @@
+import stateMappings from './state_mappings'
+
 export default {
   label: "Address book",
   layoutSelectors: ["input#street_1"],
@@ -23,6 +25,6 @@ export default {
           state: 'input[name=region]',
           postcode: 'input[name=postcode]',
       },
-      stateMappings: null
+      stateMappings: stateMappings
   }
 };
