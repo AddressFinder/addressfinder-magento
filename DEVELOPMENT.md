@@ -84,13 +84,11 @@ Inside the docker container run:
 
 ## How to Test your Changes
 
-The easiest way to test your changes is to copy the frontend directory into your docker image for Magento, and make your changes in there.
-
 1. Navigate to your docker image. For example `docker-magento-2.2`
 2. Run the steps to install Magento and the AddressFinder plugin, if you haven't already.
 3. Stop your docker container if it is running.
-4. Copy and paste the frontend directory from this project into the root of your docker image project.
-5. Add this line `- ./frontend:/var/www/html/vendor/addressfinder/module-magento2/view/frontend` into the docker-compose.yml file, under web volumes.
+5. Add this line `- /Users/katenorquay/addressfinder/addressfinder-magento/view/frontend:/var/www/html/vendor/addressfinder/module-magento2/view/frontend` into the docker-compose.yml file, under web volumes. This will add the frontend folder from your addressfinder-magento project 
+into the addressfinder extension folder inside your docker container. (Obviously you will need to update the addressfinder-magento project path to its location on your machine. You can find this by navigating to the folder and typing the command `pwd`)
 
 For example: 
 
@@ -101,14 +99,18 @@ services:
     image: alexcheng/magento2:2.2
     volumes: 
       - web-data-test:/var/www/html
-      - ./frontend:/var/www/html/vendor/addressfinder/module-magento2/view/frontend
+      - /Users/katenorquay/addressfinder/addressfinder-magento/view/frontend:/var/www/html/vendor/addressfinder/module-magento2/view/frontend
 ```
 
-6. `docker-compose up`
-7. You can now make changes to the js in the docker image frontend folder. To see these changes reflected in the store:
- a) `docker-compose exec web bash`
- b) `cd /var/www/html/bin && ./magento cache:clean && ./magento cache:flush && ./magento setup:upgrade && ./magento setup:di:compile && ./magento setup:static-content:deploy -f en_GB`
- c) `cd .. && chmod 0777 -R var/cache`
+6. Start docker: `docker-compose up`
+7. Bash into the docker container: `docker-compose exec web bash`
+8. Now we create a symlink between the addressfinder extension, and Magento's static content. This means that we don't have to recompile the
+static content everytime we make a change. First remove the js folder from the static content file so we can start fresh:
+`rm -rf /var/www/html/pub/static/frontend/Magento/luma/en_GB/AddressFinder_AddressFinder/js`
+9. Create the symlink: `ln -s /var/www/html/vendor/addressfinder/module-magento2/view/frontend/web/js /var/www/html/pub/static/frontend/Magento/luma/en_GB/AddressFinder_AddressFinder/js`
+10. Build your js files to add them to the static folder: `npm run watch`. Any further changes you make to the src folder will be watched and recompiled by webpack. 
 
- These commands open the docker container, clear the cache and redeploy the static content, and make sure you have the correct permissions.
- You will need to run these commands everytime you make a change.
+If you would prefer to compile the static content yourself
+ a) Clear the cache, compile and deploy static content: `cd /var/www/html/bin && ./magento cache:clean && ./magento cache:flush && ./magento setup:upgrade && ./magento setup:di:compile && ./magento setup:static-content:deploy -f en_GB en_US`
+ b) Set permissions: `cd .. && chmod 0777 -R var/cache`
+

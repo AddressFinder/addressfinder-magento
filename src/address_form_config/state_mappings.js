@@ -1,10 +1,10 @@
 export default {
-  'ACT': 'Australian Capital Territory',
-  'NSW': 'New South Wales',
-  'NT' : 'Northern Territory',
-  'QLD': 'Queensland',
-  'SA' : 'South Australia',
-  'TAS': 'Tasmania',
-  'VIC': 'Victoria',
-  'WA' : 'Western Australia'
+  'ACT': '569',
+  'NSW': '570',
+  'NT' : '576',
+  'QLD': '572',
+  'SA' : '573',
+  'TAS': '574',
+  'VIC': '571',
+  'WA' : '575'
 }

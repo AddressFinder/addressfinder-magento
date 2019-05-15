@@ -6,7 +6,7 @@ const config = {
     "./src/magento_plugin.js"
   ],
   output: {
-    path: pathLib.resolve(__dirname, "./view/frontend/layout/web/js"),
+    path: pathLib.resolve(__dirname, "./view/frontend/web/js"),
     libraryTarget: 'umd',
     libraryExport: 'default'
   },

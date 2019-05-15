@@ -23,7 +23,7 @@ export default {
           address1: ".billing-address-form input[name='street[0]']",
           address2: ".billing-address-form input[name='street[1]']",
           suburb: '.billing-address-form input[name=city]',
-          state: '.billing-address-form input[name=region]',
+          state: '.billing-address-form select[name=region_id]',
           postcode: '.billing-address-form input[name=postcode]',
       },
       stateMappings: stateMappings
