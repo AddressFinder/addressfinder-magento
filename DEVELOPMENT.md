@@ -76,6 +76,9 @@ Inside the docker container run:
 
 If you have been testing your changes by modifying the web volumes in your docker container (see 'How to test your Changes' below), you will need to remove that line to update the plugin. 
 
+3. Clear the cache, compile and deploy static content: `cd /var/www/html/bin && ./magento cache:clean && ./magento cache:flush && ./magento setup:upgrade && ./magento setup:di:compile && ./magento setup:static-content:deploy -f en_GB en_US`
+4. Set permissions: `cd .. && chmod 0777 -R var/cache`
+
 ## Enable the AddressFinder Plugin in the store
 
 1. Click on Stores/Configuration.
