@@ -104,13 +104,13 @@ services:
 
 6. Start docker: `docker-compose up`
 7. Bash into the docker container: `docker-compose exec web bash`
-8. Now we create a symlink between the addressfinder extension, and Magento's static content. This means that we don't have to recompile the
+
+8. Clear the cache, compile and deploy static content: `cd /var/www/html/bin && ./magento cache:clean && ./magento cache:flush && ./magento setup:upgrade && ./magento setup:di:compile && ./magento setup:static-content:deploy -f en_GB en_US`
+9. Set permissions: `cd .. && chmod 0777 -R var/cache`
+10. Now we create a symlink between the addressfinder extension, and Magento's static content. This means that we don't have to recompile the
 static content everytime we make a change. First remove the js folder from the static content file so we can start fresh:
 `rm -rf /var/www/html/pub/static/frontend/Magento/luma/en_GB/AddressFinder_AddressFinder/js`
-9. Create the symlink: `ln -s /var/www/html/vendor/addressfinder/module-magento2/view/frontend/web/js /var/www/html/pub/static/frontend/Magento/luma/en_GB/AddressFinder_AddressFinder/js`
-10. Build your js files to add them to the static folder: `npm run watch`. Any further changes you make to the src folder will be watched and recompiled by webpack. 
+11. Create the symlink: `ln -s /var/www/html/vendor/addressfinder/module-magento2/view/frontend/web/js /var/www/html/pub/static/frontend/Magento/luma/en_GB/AddressFinder_AddressFinder/js`
+12. Build your js files to add them to the static folder: `npm run watch`. Any further changes you make to the src folder will be watched and recompiled by webpack. 
 
-If you would prefer to compile the static content yourself
- a) Clear the cache, compile and deploy static content: `cd /var/www/html/bin && ./magento cache:clean && ./magento cache:flush && ./magento setup:upgrade && ./magento setup:di:compile && ./magento setup:static-content:deploy -f en_GB en_US`
- b) Set permissions: `cd .. && chmod 0777 -R var/cache`
 
