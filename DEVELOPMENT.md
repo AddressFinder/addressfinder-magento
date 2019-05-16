@@ -70,6 +70,12 @@ Inside the docker container run:
 4. `bin/magento setup:upgrade`
 5. `bin/magento cache:flush`
 
+## Updating the AddressFinder Plugin
+1. `su www-data`
+2. `composer update`
+
+If you have been testing your changes by modifying the web volumes in your docker container (see 'How to test your Changes' below), you will need to remove that line to update the plugin. 
+
 ## Enable the AddressFinder Plugin in the store
 
 1. Click on Stores/Configuration.
