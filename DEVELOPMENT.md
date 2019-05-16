@@ -77,36 +77,40 @@ Inside the docker container run:
 3. Uncheck the 'Use system value' checkbox and enter any configuration options. Save your changes.
 3. Now if you visit your store AddressFinder should be working. The country dropdown is set to 'United States' by default, so make sure this is changed to New Zealand or Australia
 
-## How to Test your Changes
+## Building your changes
 1. `npm install`
-2. Make your changes in the addressfinder-magento.coffee file
-3. Run `gulp`
-4. Copy the compiled javascript
-5.  `docker-compose exec web bash`
-6. Find this javascript file inside the magento container.
+2. Make your changes in the source directory. If you are making a change to the addressfinder-webpage-tools npm package, you will need to copy and paste the minified file inside the addressfinder-webpage-tools.js file in the source directory. Magento doesn't have support for npm, so we can't include the package in the normal way.
+3. To build run `npm run build` or `npm run build:production` if you want the file minified. These files will be added/updated inside the /view/frontend/layout/web/js folder.  
 
-   `cd vendor/addressfinder/module-magento2/view/frontend/web/js`
+## How to Test your Changes
 
-7. You can use vim to paste your changes into this file
+1. Navigate to your docker image. For example `docker-magento-2.2`
+2. Run the steps to install Magento and the AddressFinder plugin, if you haven't already.
+3. Stop your docker container if it is running.
+5. Add this line `- /Users/katenorquay/addressfinder/addressfinder-magento/view/frontend:/var/www/html/vendor/addressfinder/module-magento2/view/frontend` into the docker-compose.yml file, under web volumes. This will add the frontend folder from your addressfinder-magento project 
+into the addressfinder extension folder inside your docker container. (Obviously you will need to update the addressfinder-magento project path to its location on your machine. You can find this by navigating to the folder and typing the command `pwd`)
 
-## Making changes to the requirejs-config.js file
-In order to make an update to the requirejs file, we need to edit that file inside the AddressFinder extension, then remove a different
-file (also named requirejs-config.js) from the the static folder. Then we clear the cache and recompile the static content to see our change.
+For example: 
 
-1. `docker-compose exec web bash`
-2. `cd vendor/addressfinder/module-magento2/view/frontend`
-3. `vim requirejs-config.js`
-4. Make your change and save.
-5. `cd /var/www/html/pub/static/frontend/Magento/luma/en_GB`
-6. `rm requirejs-config.js`
-You may also need to remove the requirejs-config.js file from `/var/www/html/pub/static/frontend/Magento/luma/en_US`
-7. `cd /var/www/html`
-8. `bin/magento cache:clean`
-9. `bin/magento cache:flush`
-10. `bin/magento setup:upgrade`
-11. `bin/magento setup:di:compile`
-12. `bin/magento setup:static-content:deploy -f`
+``` 
+version: '3.0'
+services:
+  web:
+    image: alexcheng/magento2:2.2
+    volumes: 
+      - web-data-test:/var/www/html
+      - /Users/katenorquay/addressfinder/addressfinder-magento/view/frontend:/var/www/html/vendor/addressfinder/module-magento2/view/frontend
+```
 
+6. Start docker: `docker-compose up`
+7. Bash into the docker container: `docker-compose exec web bash`
 
+8. Clear the cache, compile and deploy static content: `cd /var/www/html/bin && ./magento cache:clean && ./magento cache:flush && ./magento setup:upgrade && ./magento setup:di:compile && ./magento setup:static-content:deploy -f en_GB en_US`
+9. Set permissions: `cd .. && chmod 0777 -R var/cache`
+10. Now we create a symlink between the addressfinder extension, and Magento's static content. This means that we don't have to recompile the
+static content everytime we make a change. First remove the js folder from the static content file so we can start fresh:
+`rm -rf /var/www/html/pub/static/frontend/Magento/luma/en_GB/AddressFinder_AddressFinder/js`
+11. Create the symlink: `ln -s /var/www/html/vendor/addressfinder/module-magento2/view/frontend/web/js /var/www/html/pub/static/frontend/Magento/luma/en_GB/AddressFinder_AddressFinder/js`
+12. Build your js files to add them to the static folder: `npm run watch`. Any further changes you make to the src folder will be watched and recompiled by webpack. 
 
 
