@@ -124,7 +124,8 @@ function () {
     _classCallCheck(this, MagentoPlugin);
 
     this.widgetConfig = widgetConfig;
-    this.widgetOptions = this._parseWidgetOptions(widgetConfig.options); // Manages the mapping of the form configurations to the DOM. 
+    this.widgetOptions = this._parseWidgetOptions(widgetConfig.options);
+    this.version = "1.2.0"; // Manages the mapping of the form configurations to the DOM. 
 
     this.PageManager = null; // Manages the form configurations, and creates any dynamic forms
 

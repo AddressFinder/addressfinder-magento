@@ -15,10 +15,11 @@ The Magento plugin is deployed in two ways - through Composer and through the Ma
 - composer.json
 - module.xml
 - package.json and package-lock.json
+- magento_plugin.js
 
 Add an entry to CHANGELOG.md, describing the change
 
-run `gulp production` to compile the js.
+run `npm run build:production` to compile the js.
 
 ### Composer deploys
 

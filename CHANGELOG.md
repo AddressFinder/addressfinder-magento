@@ -1,3 +1,6 @@
+# AddressFinder 1.2.0 (May 17th 2019)
+* Use webpage tools package
+
 # AddressFinder 1.1.8 (April 2nd 2019)
 * Update Documentation for Magento development
 
