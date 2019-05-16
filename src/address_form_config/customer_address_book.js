@@ -22,7 +22,7 @@ export default {
           address1: 'input#street_1',
           address2: 'input#street_2',
           suburb: 'input[name=city]',
-          state: 'input[name=region]',
+          state: 'select[name=region_id]',
           postcode: 'input[name=postcode]',
       },
       stateMappings: stateMappings
