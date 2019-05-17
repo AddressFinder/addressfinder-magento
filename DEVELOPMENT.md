@@ -123,3 +123,8 @@ static content everytime we make a change. First remove the js folder from the s
 12. Build your js files to add them to the static folder: `npm run watch`. Any further changes you make to the src folder will be watched and recompiled by webpack. 
 
 
+## Useful commands
+Remove docker images and volumes (start again): `docker-compose down --rmi all -v`
+Give read/write permissions for all files: `chmod 0777 -R .`
+
+
