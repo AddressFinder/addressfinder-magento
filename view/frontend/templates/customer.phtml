@@ -9,7 +9,7 @@
             var widgetConfig = {
                     key: "<?=$block->getLicenceKey()?>",
                 <?php if ($block->hasWidgetOptions()): ?>
-                    widgetOptions: "<?=$block->getWidgetOptionsEscaped()?>",
+                    options: "<?=$block->getWidgetOptionsEscaped()?>",
                 <?php endif ?>
                 <?php if ($block->isDebugMode()): ?>
                     debug: true,
