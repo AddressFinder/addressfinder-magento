@@ -1,7 +1,7 @@
 # AddressFinder Magento
 
 ## Testing
-Follow the instructions in DEVELOPMENT.md to setup your test environment and install the AddressFinder plugin to your magento store.
+Follow the instructions in [DEVELOPMENT.md](DEVELOPMENT.md) to setup your test environment and install the AddressFinder plugin to your magento store.
 
 ## Building
 
