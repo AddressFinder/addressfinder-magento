@@ -9,7 +9,7 @@ export default class MagentoPlugin {
     this.widgetConfig = widgetConfig
     this.widgetOptions = this._parseWidgetOptions(widgetConfig.options)
 
-    this.version = "1.2.0"
+    this.version = "1.2.1"
 
     // Manages the mapping of the form configurations to the DOM. 
     this.PageManager = null
@@ -42,7 +42,7 @@ export default class MagentoPlugin {
     }
   };
 
-  _initPlugin(){
+  _initPlugin() {
 
     const widgetConfig = {
       nzKey: this.widgetConfig.key,
@@ -69,7 +69,7 @@ export default class MagentoPlugin {
       // An event listener with this event type is attached to country element. When the country changes the active country for the widget is set.
       countryChangeEventToListenFor: 'change'
     })
-  
+
     window.AddressFinder._magentoPlugin = this.PageManager
   }
 
