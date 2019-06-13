@@ -1,3 +1,6 @@
+# AddressFinder 1.2.1 (June 13th 2019)
+* Fix fault with incorrectly named widgetOptions
+
 # AddressFinder 1.2.0 (May 17th 2019)
 * Use webpage tools package
 
