@@ -125,7 +125,7 @@ function () {
 
     this.widgetConfig = widgetConfig;
     this.widgetOptions = this._parseWidgetOptions(widgetConfig.options);
-    this.version = "1.2.0"; // Manages the mapping of the form configurations to the DOM. 
+    this.version = "1.2.1"; // Manages the mapping of the form configurations to the DOM. 
 
     this.PageManager = null; // Manages the form configurations, and creates any dynamic forms
 
