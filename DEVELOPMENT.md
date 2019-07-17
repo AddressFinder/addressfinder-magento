@@ -5,7 +5,16 @@ You need to setup a test environment for each version of Magento you want to tes
 
 1. Clone the docker image for Magento into your workspace. Check out the branch associated with the version of Magento you want. You will need a seperate clone for each version of Magento you want.
 
-   For Magento 2.3
+      
+      For Magento 2.3.2
+
+   `git clone --branch 2.3.2.0 git@github.com:AbleTech/docker-magento2.git docker-magento-2.3.2 && cd docker-magento-2.3.2`
+
+      For Magento 2.3.1
+
+   `git clone --branch 2.3.1.0 git@github.com:AbleTech/docker-magento2.git docker-magento-2.3.1 && cd docker-magento-2.3.1`
+
+      For Magento 2.3
 
    `git clone --branch 2.3 git@github.com:AbleTech/docker-magento2.git docker-magento-2.3 && cd docker-magento-2.3`
 
