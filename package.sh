@@ -1,6 +1,6 @@
 #!/bin/bash
 
-gulp production
+npm run build:production
 
 echo "Enter version number: "
 read version
