@@ -1,6 +1,6 @@
 {
   "name": "addressfinder-magento",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "## Development",
   "main": "./src/addressfinder-webpage-tools.js",
   "devDependencies": {

@@ -125,7 +125,7 @@ function () {
 
     this.widgetConfig = widgetConfig;
     this.widgetOptions = this._parseWidgetOptions(widgetConfig.options);
-    this.version = "1.2.0"; // Manages the mapping of the form configurations to the DOM. 
+    this.version = "1.2.1"; // Manages the mapping of the form configurations to the DOM. 
 
     this.PageManager = null; // Manages the form configurations, and creates any dynamic forms
 
@@ -408,11 +408,11 @@ function () {
           l = t & w.P,
           f = t & w.B,
           d = a ? y : c ? y[e] || (y[e] = {}) : (y[e] || {})[_],
-          h = a ? v : v[e] || (v[e] = {}),
-          p = h[_] || (h[_] = {});
+          p = a ? v : v[e] || (v[e] = {}),
+          h = p[_] || (p[_] = {});
 
       for (r in a && (n = e), n) {
-        i = ((o = !s && d && void 0 !== d[r]) ? d : n)[r], u = f && o ? b(i, y) : l && "function" == typeof i ? b(Function.call, i) : i, d && g(d, r, i, t & w.U), h[r] != i && m(h, r, u), l && p[r] != i && (p[r] = i);
+        i = ((o = !s && d && void 0 !== d[r]) ? d : n)[r], u = f && o ? b(i, y) : l && "function" == typeof i ? b(Function.call, i) : i, d && g(d, r, i, t & w.U), p[r] != i && m(p, r, u), l && h[r] != i && (h[r] = i);
       }
     };
 
@@ -653,14 +653,14 @@ function () {
 
     t.exports = function (f, t) {
       var d = 1 == f,
-          h = 2 == f,
-          p = 3 == f,
+          p = 2 == f,
+          h = 3 == f,
           y = 4 == f,
           v = 6 == f,
           m = 5 == f || v,
           g = t || r;
       return function (t, e, n) {
-        for (var r, o, i = w(t), u = _(i), s = b(e, n, 3), a = S(u.length), c = 0, l = d ? g(t, a) : h ? g(t, 0) : void 0; c < a; c++) {
+        for (var r, o, i = w(t), u = _(i), s = b(e, n, 3), a = S(u.length), c = 0, l = d ? g(t, a) : p ? g(t, 0) : void 0; c < a; c++) {
           if ((m || c in u) && (o = s(r = u[c], c, i), f)) if (d) l[c] = o;else if (o) switch (f) {
             case 3:
               return !0;
@@ -676,7 +676,7 @@ function () {
           } else if (y) return !1;
         }
 
-        return v ? -1 : p || y ? y : l;
+        return v ? -1 : h || y ? y : l;
       };
     };
   }, function (t, e, n) {
@@ -833,18 +833,18 @@ function () {
         O = n(24),
         A = n(65),
         T = n(0)("iterator"),
-        j = !([].keys && "next" in [].keys()),
-        F = "values";
+        F = !([].keys && "next" in [].keys()),
+        j = "values";
 
     t.exports = function (t, e, n, r, o, i, u) {
       x(n, e, r);
 
       function s(t) {
-        if (!j && t in p) return p[t];
+        if (!F && t in h) return h[t];
 
         switch (t) {
           case "keys":
-          case F:
+          case j:
             return function () {
               return new n(this, t);
             };
@@ -859,22 +859,22 @@ function () {
           c,
           l,
           f = e + " Iterator",
-          d = o == F,
-          h = !1,
-          p = t.prototype,
-          y = p[T] || p["@@iterator"] || o && p[o],
+          d = o == j,
+          p = !1,
+          h = t.prototype,
+          y = h[T] || h["@@iterator"] || o && h[o],
           v = y || s(o),
           m = o ? d ? s("entries") : v : void 0,
-          g = "Array" == e && p.entries || y;
-      if (g && (l = A(g.call(new t()))) !== Object.prototype && l.next && (O(l, f, !0), _ || "function" == typeof l[T] || E(l, T, b)), d && y && y.name !== F && (h = !0, v = function v() {
+          g = "Array" == e && h.entries || y;
+      if (g && (l = A(g.call(new t()))) !== Object.prototype && l.next && (O(l, f, !0), _ || "function" == typeof l[T] || E(l, T, b)), d && y && y.name !== j && (p = !0, v = function v() {
         return y.call(this);
-      }), _ && !u || !j && !h && p[T] || E(p, T, v), C[e] = v, C[f] = b, o) if (a = {
-        values: d ? v : s(F),
+      }), _ && !u || !F && !p && h[T] || E(h, T, v), C[e] = v, C[f] = b, o) if (a = {
+        values: d ? v : s(j),
         keys: i ? v : s("keys"),
         entries: m
       }, u) for (c in a) {
-        c in p || S(p, c, a[c]);
-      } else w(w.P + w.F * (j || h), e, a);
+        c in h || S(h, c, a[c]);
+      } else w(w.P + w.F * (F || p), e, a);
       return a;
     };
   }, function (t, e, n) {
@@ -895,7 +895,7 @@ function () {
     "use strict";
 
     function r(t) {
-      var e = K[t] = j(_N[D]);
+      var e = K[t] = F(_N[D]);
       return e._k = t, e;
     }
 
@@ -916,14 +916,14 @@ function () {
 
     function u(t, e) {
       if (t = O(t), e = A(e, !0), t !== B || !l(K, e) || l(J, e)) {
-        var n = H(t, e);
+        var n = L(t, e);
         return !n || !l(K, e) || l(t, q) && t[q][e] || (n.enumerable = !0), n;
       }
     }
 
     function s(t) {
       for (var e, n = V(O(t)), r = [], o = 0; n.length > o;) {
-        l(K, e = n[o++]) || e == q || e == p || r.push(e);
+        l(K, e = n[o++]) || e == q || e == h || r.push(e);
       }
 
       return r;
@@ -941,8 +941,8 @@ function () {
         l = n(4),
         f = n(9),
         d = n(3),
-        h = n(13),
-        p = n(52).KEY,
+        p = n(13),
+        h = n(52).KEY,
         y = n(10),
         v = n(17),
         m = n(24),
@@ -957,14 +957,14 @@ function () {
         O = n(8),
         A = n(22),
         T = n(12),
-        j = n(41),
-        F = n(57),
+        F = n(41),
+        j = n(57),
         M = n(58),
         k = n(6),
         P = n(15),
-        H = M.f,
-        L = k.f,
-        V = F.f,
+        L = M.f,
+        H = k.f,
+        V = j.f,
         _N = c.Symbol,
         z = c.JSON,
         I = z && z.stringify,
@@ -980,29 +980,29 @@ function () {
         Y = c.QObject,
         Q = !Y || !Y[D] || !Y[D].findChild,
         Z = f && y(function () {
-      return 7 != j(L({}, "a", {
+      return 7 != F(H({}, "a", {
         get: function get() {
-          return L(this, "a", {
+          return H(this, "a", {
             value: 7
           }).a;
         }
       })).a;
     }) ? function (t, e, n) {
-      var r = H(B, e);
-      r && delete B[e], L(t, e, n), r && t !== B && L(B, e, r);
-    } : L,
+      var r = L(B, e);
+      r && delete B[e], H(t, e, n), r && t !== B && H(B, e, r);
+    } : H,
         X = U && "symbol" == _typeof(_N.iterator) ? function (t) {
       return "symbol" == _typeof(t);
     } : function (t) {
       return t instanceof _N;
     },
         $ = function $(t, e, n) {
-      return t === B && $(J, e, n), C(t), e = A(e, !0), C(n), l(K, e) ? (n.enumerable ? (l(t, q) && t[q][e] && (t[q][e] = !1), n = j(n, {
+      return t === B && $(J, e, n), C(t), e = A(e, !0), C(n), l(K, e) ? (n.enumerable ? (l(t, q) && t[q][e] && (t[q][e] = !1), n = F(n, {
         enumerable: T(0, !1)
-      })) : (l(t, q) || L(t, q, T(1, {})), t[q][e] = !0), Z(t, e, n)) : L(t, e, n);
+      })) : (l(t, q) || H(t, q, T(1, {})), t[q][e] = !0), Z(t, e, n)) : H(t, e, n);
     };
 
-    U || (h((_N = function N() {
+    U || (p((_N = function N() {
       if (this instanceof _N) throw TypeError("Symbol is not a constructor!");
 
       var e = g(0 < arguments.length ? arguments[0] : void 0),
@@ -1016,7 +1016,7 @@ function () {
       }), r(e);
     })[D], "toString", function () {
       return this._k;
-    }), M.f = u, k.f = $, n(42).f = F.f = s, n(21).f = i, n(39).f = a, f && !n(18) && h(B, "propertyIsEnumerable", i, !0), _.f = function (t) {
+    }), M.f = u, k.f = $, n(42).f = j.f = s, n(21).f = i, n(39).f = a, f && !n(18) && p(B, "propertyIsEnumerable", i, !0), _.f = function (t) {
       return r(b(t));
     }), d(d.G + d.W + d.F * !U, {
       Symbol: _N
@@ -1049,7 +1049,7 @@ function () {
       }
     }), d(d.S + d.F * !U, "Object", {
       create: function create(t, e) {
-        return void 0 === e ? j(t) : o(j(t), e);
+        return void 0 === e ? F(t) : o(F(t), e);
       },
       defineProperty: $,
       defineProperties: o,
@@ -1246,7 +1246,7 @@ function () {
       return t = o(t), r(t, i) ? t[i] : "function" == typeof t.constructor && t instanceof t.constructor ? t.constructor.prototype : t instanceof Object ? u : null;
     };
   }, function (t, e, n) {
-    for (var r = n(67), o = n(15), i = n(13), u = n(2), s = n(5), a = n(16), c = n(0), l = c("iterator"), f = c("toStringTag"), d = a.Array, h = {
+    for (var r = n(67), o = n(15), i = n(13), u = n(2), s = n(5), a = n(16), c = n(0), l = c("iterator"), f = c("toStringTag"), d = a.Array, p = {
       CSSRuleList: !0,
       CSSStyleDeclaration: !1,
       CSSValueList: !1,
@@ -1278,10 +1278,10 @@ function () {
       TextTrackCueList: !1,
       TextTrackList: !1,
       TouchList: !1
-    }, p = o(h), y = 0; y < p.length; y++) {
+    }, h = o(p), y = 0; y < h.length; y++) {
       var v,
-          m = p[y],
-          g = h[m],
+          m = h[y],
+          g = p[m],
           b = u[m],
           _ = b && b.prototype;
 
@@ -1419,8 +1419,8 @@ function () {
 
     var d = n(23),
         r = n(3),
-        h = n(31),
-        p = n(83),
+        p = n(31),
+        h = n(83),
         y = n(84),
         v = n(27),
         m = n(85),
@@ -1433,7 +1433,7 @@ function () {
             n,
             r,
             o,
-            i = h(t),
+            i = p(t),
             u = "function" == typeof this ? this : Array,
             s = arguments.length,
             a = 1 < s ? arguments[1] : void 0,
@@ -1443,7 +1443,7 @@ function () {
         if (c && (a = d(a, 2 < s ? arguments[2] : void 0, 2)), null == f || u == Array && y(f)) for (n = new u(e = v(i.length)); l < e; l++) {
           m(n, l, c ? a(i[l], l) : i[l]);
         } else for (o = f.call(i), n = new u(); !(r = o.next()).done; l++) {
-          m(n, l, c ? p(o, a, [r.value, l], !0) : r.value);
+          m(n, l, c ? h(o, a, [r.value, l], !0) : r.value);
         }
         return n.length = l, n;
       }
@@ -1566,35 +1566,6 @@ function () {
     }
 
     function i(t, e) {
-      return function (t) {
-        if (Array.isArray(t)) return t;
-      }(t) || function (t, e) {
-        var n = [],
-            r = !0,
-            o = !1,
-            i = void 0;
-
-        try {
-          for (var u, s = t[Symbol.iterator](); !(r = (u = s.next()).done) && (n.push(u.value), !e || n.length !== e); r = !0) {
-            ;
-          }
-        } catch (t) {
-          o = !0, i = t;
-        } finally {
-          try {
-            r || null == s["return"] || s["return"]();
-          } finally {
-            if (o) throw i;
-          }
-        }
-
-        return n;
-      }(t, e) || function () {
-        throw new TypeError("Invalid attempt to destructure non-iterable instance");
-      }();
-    }
-
-    function u(t, e) {
       for (var n = 0; n < e.length; n++) {
         var r = e[n];
         r.enumerable = r.enumerable || !1, r.configurable = !0, "value" in r && (r.writable = !0), Object.defineProperty(t, r.key, r);
@@ -1609,7 +1580,7 @@ function () {
       }
 
       return function (t, e, n) {
-        e && u(t.prototype, e), n && u(t, n);
+        e && i(t.prototype, e), n && i(t, n);
       }(o, [{
         key: "destroy",
         value: function value() {
@@ -1629,48 +1600,27 @@ function () {
             enable: function enable() {},
             disable: function disable() {},
             destroy: function destroy() {}
-          }, this.boundCountryChangedListener = this._countryChanged.bind(this), this.formHelperConfig.countryElement ? (this.formHelperConfig.countryElement.addEventListener(this.countryChangeEventToListenFor, this.boundCountryChangedListener), this.boundCountryChangedListener(null, !0)) : this.widgetConfig.defaultCountry && this._setActiveCountry(this.widgetConfig.defaultCountry);
+          }, this.boundCountryChangedListener = this._countryChanged.bind(this), this.formHelperConfig.countryElement ? (this.formHelperConfig.countryElement.addEventListener(this.countryChangeEventToListenFor, this.boundCountryChangedListener), this.boundCountryChangedListener()) : this.widgetConfig.defaultCountry && this._setActiveCountry(this.widgetConfig.defaultCountry);
         }
       }, {
         key: "_countryChanged",
-        value: function value(t, e) {
-          var n;
+        value: function value() {
+          var t;
 
           switch (this.formHelperConfig.countryElement.value) {
             case this.formHelperConfig.nz.countryValue:
-              n = "nz";
+              t = "nz";
               break;
 
             case this.formHelperConfig.au.countryValue:
-              n = "au";
+              t = "au";
               break;
 
             default:
-              n = "null";
+              t = "null";
           }
 
-          if (this._setActiveCountry(n), !e) {
-            this.countryCodes.filter(function (t) {
-              return t != n;
-            }).forEach(this._clearElementValues.bind(this));
-          }
-        }
-      }, {
-        key: "_clearElementValues",
-        value: function value(t) {
-          var o = this;
-          (function (t) {
-            for (var e = [], n = Object.keys(t), r = 0; r < n.length; r++) {
-              e.push([n[r], t[n[r]]]);
-            }
-
-            return e;
-          })(this.formHelperConfig[t].elements).forEach(function (t) {
-            var e = i(t, 2),
-                n = e[0],
-                r = e[1];
-            r && o._setElementValue(r, "", n);
-          });
+          this._setActiveCountry(t);
         }
       }, {
         key: "_setActiveCountry",
@@ -1736,9 +1686,14 @@ function () {
       }, {
         key: "_setElementValue",
         value: function value(t, e, n) {
-          if (t) t.value = e, this._dispatchEvent(t);else {
-            var r = "AddressFinder Error: Attempted to update value for element that could not be found.\n\nElement: " + n + "\nValue: " + e;
-            window.console && console.warn(r);
+          if (t) {
+            var r = t.value;
+            t.value = e;
+            var o = t._valueTracker;
+            o && o.setValue(r), this._dispatchEvent(t);
+          } else {
+            var i = "AddressFinder Error: Attempted to update value for element that could not be found.\n\nElement: " + n + "\nValue: " + e;
+            window.console && console.warn(i);
           }
         }
       }, {
@@ -1769,14 +1724,14 @@ function () {
       }]), o;
     }();
 
-    function s(t, e) {
+    function u(t, e) {
       for (var n = 0; n < e.length; n++) {
         var r = e[n];
         r.enumerable = r.enumerable || !1, r.configurable = !0, "value" in r && (r.writable = !0), Object.defineProperty(t, r.key, r);
       }
     }
 
-    var a = function () {
+    var s = function () {
       function i(t) {
         var e = t.addressFormConfigurations,
             n = t.widgetConfig,
@@ -1784,11 +1739,11 @@ function () {
             o = t.countryChangeEventToListenFor;
         !function (t, e) {
           if (!(t instanceof e)) throw new TypeError("Cannot call a class as a function");
-        }(this, i), this.version = "1.5.1", this.formHelpers = [], this.addressFormConfigurations = e, this.widgetConfig = n, this.formFieldChangeEventToDispatch = r, this.countryChangeEventToListenFor = o, this.identifiedFormHelperConfig = [], this.reload = this.reload.bind(this), this.loadFormHelpers();
+        }(this, i), this.version = "1.6.0", this.formHelpers = [], this.addressFormConfigurations = e, this.widgetConfig = n, this.formFieldChangeEventToDispatch = r, this.countryChangeEventToListenFor = o, this.identifiedFormHelperConfig = [], this.reload = this.reload.bind(this), this.loadFormHelpers();
       }
 
       return function (t, e, n) {
-        e && s(t.prototype, e), n && s(t, n);
+        e && u(t.prototype, e), n && u(t, n);
       }(i, [{
         key: "reload",
         value: function value(t) {
@@ -1931,7 +1886,7 @@ function () {
       }]), i;
     }();
 
-    function c(t) {
+    function a(t) {
       return function (t) {
         if (Array.isArray(t)) {
           for (var e = 0, n = new Array(t.length); e < t.length; e++) {
@@ -1947,14 +1902,14 @@ function () {
       }();
     }
 
-    function l(t, e) {
+    function c(t, e) {
       for (var n = 0; n < e.length; n++) {
         var r = e[n];
         r.enumerable = r.enumerable || !1, r.configurable = !0, "value" in r && (r.writable = !0), Object.defineProperty(t, r.key, r);
       }
     }
 
-    var f = function () {
+    var l = function () {
       function o(t) {
         var e = t.widgetConfig,
             n = t.mutationEventHandler,
@@ -1965,7 +1920,7 @@ function () {
       }
 
       return function (t, e, n) {
-        e && l(t.prototype, e), n && l(t, n);
+        e && c(t.prototype, e), n && c(t, n);
       }(o, [{
         key: "monitorMutations",
         value: function value() {
@@ -1979,7 +1934,7 @@ function () {
         value: function value(t) {
           var n = this;
           t.reduce(function (t, e) {
-            return e.target && e.target.classList && e.target.classList.contains(n.ignoredClass) ? t : t.concat(c(e.addedNodes)).concat(c(e.removedNodes));
+            return e.target && e.target.classList && e.target.classList.contains(n.ignoredClass) ? t : t.concat(a(e.addedNodes)).concat(a(e.removedNodes));
           }, []).find(function (t) {
             return !(t.classList && t.classList.contains(n.ignoredClass));
           }) && this._setMutationTimeout();
@@ -2011,11 +1966,11 @@ function () {
     }();
 
     n.d(e, "PageManager", function () {
-      return a;
+      return s;
     }), n.d(e, "FormManager", function () {
       return o;
     }), n.d(e, "MutationManager", function () {
-      return f;
+      return l;
     });
   }], o.c = r, o.d = function (t, e, n) {
     o.o(t, e) || Object.defineProperty(t, e, {

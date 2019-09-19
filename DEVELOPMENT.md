@@ -70,6 +70,15 @@ Inside the docker container run:
 4. `bin/magento setup:upgrade`
 5. `bin/magento cache:flush`
 
+## Updating the AddressFinder Plugin
+1. `su www-data`
+2. `composer update`
+
+If you have been testing your changes by modifying the web volumes in your docker container (see 'How to test your Changes' below), you will need to remove that line to update the plugin. 
+
+3. Clear the cache, compile and deploy static content: `cd /var/www/html/bin && ./magento cache:clean && ./magento cache:flush && ./magento setup:upgrade && ./magento setup:di:compile && ./magento setup:static-content:deploy -f en_GB en_US`
+4. Set permissions: `cd .. && chmod 0777 -R var/cache`
+
 ## Enable the AddressFinder Plugin in the store
 
 1. Click on Stores/Configuration.
@@ -112,5 +121,10 @@ static content everytime we make a change. First remove the js folder from the s
 `rm -rf /var/www/html/pub/static/frontend/Magento/luma/en_GB/AddressFinder_AddressFinder/js`
 11. Create the symlink: `ln -s /var/www/html/vendor/addressfinder/module-magento2/view/frontend/web/js /var/www/html/pub/static/frontend/Magento/luma/en_GB/AddressFinder_AddressFinder/js`
 12. Build your js files to add them to the static folder: `npm run watch`. Any further changes you make to the src folder will be watched and recompiled by webpack. 
+
+
+## Useful commands
+Remove docker images and volumes (start again): `docker-compose down --rmi all -v`
+Give read/write permissions for all files: `chmod 0777 -R .`
 
 
