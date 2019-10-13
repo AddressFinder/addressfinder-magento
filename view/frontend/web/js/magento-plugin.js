@@ -113,7 +113,7 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
  // Unlike our other plugins, the Magento plugin doesn't use the addressfinder-webpage-tools npm package. This is because Magento doesn't have
-// support for npm. Instead, we take the file that the npm package outputs, and copy the code into the addressfinder-webpage-tools javascript file. 
+// support for npm. Instead, we take the file that the npm package outputs, and copy the code into the addressfinder-webpage-tools javascript file.
 
 
 
@@ -125,7 +125,7 @@ function () {
 
     this.widgetConfig = widgetConfig;
     this.widgetOptions = this._parseWidgetOptions(widgetConfig.options);
-    this.version = "1.2.1"; // Manages the mapping of the form configurations to the DOM. 
+    this.version = "1.2.2"; // Manages the mapping of the form configurations to the DOM.
 
     this.PageManager = null; // Manages the form configurations, and creates any dynamic forms
 
