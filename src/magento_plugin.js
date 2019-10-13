@@ -1,7 +1,7 @@
 import ConfigManager from './config_manager'
 
 // Unlike our other plugins, the Magento plugin doesn't use the addressfinder-webpage-tools npm package. This is because Magento doesn't have
-// support for npm. Instead, we take the file that the npm package outputs, and copy the code into the addressfinder-webpage-tools javascript file. 
+// support for npm. Instead, we take the file that the npm package outputs, and copy the code into the addressfinder-webpage-tools javascript file.
 import { PageManager, MutationManager } from './addressfinder-webpage-tools'
 
 export default class MagentoPlugin {
@@ -9,9 +9,9 @@ export default class MagentoPlugin {
     this.widgetConfig = widgetConfig
     this.widgetOptions = this._parseWidgetOptions(widgetConfig.options)
 
-    this.version = "1.2.1"
+    this.version = "1.2.2"
 
-    // Manages the mapping of the form configurations to the DOM. 
+    // Manages the mapping of the form configurations to the DOM.
     this.PageManager = null
 
     // Manages the form configurations, and creates any dynamic forms
