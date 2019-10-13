@@ -79,6 +79,20 @@ Inside the docker container run:
 4. `bin/magento setup:upgrade`
 5. `bin/magento cache:flush`
 
+### Alternatively you can add to app/code
+
+1. Checkout the project or download the zip
+2. Create the directory ```AddressFinder/AddressFinder``` in ```app/code```.
+3. Copy the contents into that directory.
+4. `bin/magento module:enable AddressFinder_AddressFinder`
+5. `bin/magento setup:upgrade`
+6. If not in developer mode
+   `bin/magento setup:di:compile`
+   `bin/magento setup:static-content:deploy`
+7. Finally run
+   `bin/magento cache:flush`
+
+
 ## Updating the AddressFinder Plugin
 1. `su www-data`
 2. `composer update`
