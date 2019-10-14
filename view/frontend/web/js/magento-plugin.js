@@ -194,9 +194,7 @@ function () {
     key: "_setVersionNumbers",
     value: function _setVersionNumbers() {
       // rename webpage tools version from 'version' to 'webpageToolsVersion'
-      delete Object.assign(this.PageManager, {
-        'webpageToolsVersion': this.PageManager['version']
-      })['version'];
+      this.PageManager['webpageToolsVersion'] = this.PageManager.version;
       this.PageManager.version = this.version;
     }
     /*
