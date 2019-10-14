@@ -125,7 +125,7 @@ function () {
 
     this.widgetConfig = widgetConfig;
     this.widgetOptions = this._parseWidgetOptions(widgetConfig.options);
-    this.version = "1.2.2"; // Manages the mapping of the form configurations to the DOM.
+    this.version = "1.2.3"; // Manages the mapping of the form configurations to the DOM.
 
     this.PageManager = null; // Manages the form configurations, and creates any dynamic forms
 
@@ -185,7 +185,17 @@ function () {
         // An event listener with this event type is attached to country element. When the country changes the active country for the widget is set.
         countryChangeEventToListenFor: 'change'
       });
+
+      this._setVersionNumbers();
+
       window.AddressFinder._magentoPlugin = this.PageManager;
+    }
+  }, {
+    key: "_setVersionNumbers",
+    value: function _setVersionNumbers() {
+      // rename webpage tools version from 'version' to 'webpageToolsVersion'
+      this.PageManager['webpageToolsVersion'] = this.PageManager.version;
+      this.PageManager.version = this.version;
     }
     /*
     * When addressfinderDebugMode() is typed into the Javascript console the plugin will be reinitialised with debug set to true.

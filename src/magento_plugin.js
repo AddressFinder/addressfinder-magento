@@ -9,7 +9,7 @@ export default class MagentoPlugin {
     this.widgetConfig = widgetConfig
     this.widgetOptions = this._parseWidgetOptions(widgetConfig.options)
 
-    this.version = "1.2.2"
+    this.version = "1.2.3"
 
     // Manages the mapping of the form configurations to the DOM.
     this.PageManager = null
@@ -70,7 +70,15 @@ export default class MagentoPlugin {
       countryChangeEventToListenFor: 'change'
     })
 
+    this._setVersionNumbers()
+
     window.AddressFinder._magentoPlugin = this.PageManager
+  }
+
+  _setVersionNumbers() {
+    // rename webpage tools version from 'version' to 'webpageToolsVersion'
+    this.PageManager['webpageToolsVersion'] = this.PageManager.version
+    this.PageManager.version = this.version
   }
 
   /*

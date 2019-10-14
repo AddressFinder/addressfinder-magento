@@ -1,6 +1,6 @@
 {
   "name": "addressfinder-magento",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "## Development",
   "main": "./src/addressfinder-webpage-tools.js",
   "devDependencies": {
@@ -12,7 +12,8 @@
     "webpack": "^3.5.1"
   },
   "dependencies": {
-    "core-js": "^2.5.0"
+    "core-js": "^2.5.0",
+    "gulp": "^4.0.2"
   },
   "scripts": {
     "watch": "npm run build && NODE_ENV=production webpack -w --config webpack.config.js",
