@@ -70,7 +70,15 @@ export default class MagentoPlugin {
       countryChangeEventToListenFor: 'change'
     })
 
+    this._setVersionNumbers()
+
     window.AddressFinder._magentoPlugin = this.PageManager
+  }
+
+  _setVersionNumbers() {
+    // rename webpage tools version from 'version' to 'webpageToolsVersion'
+    this.PageManager['webpageToolsVersion'] = this.PageManager.version
+    this.PageManager.version = this.version
   }
 
   /*

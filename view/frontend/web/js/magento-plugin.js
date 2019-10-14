@@ -185,7 +185,19 @@ function () {
         // An event listener with this event type is attached to country element. When the country changes the active country for the widget is set.
         countryChangeEventToListenFor: 'change'
       });
+
+      this._setVersionNumbers();
+
       window.AddressFinder._magentoPlugin = this.PageManager;
+    }
+  }, {
+    key: "_setVersionNumbers",
+    value: function _setVersionNumbers() {
+      // rename webpage tools version from 'version' to 'webpageToolsVersion'
+      delete Object.assign(this.PageManager, {
+        'webpageToolsVersion': this.PageManager['version']
+      })['version'];
+      this.PageManager.version = this.version;
     }
     /*
     * When addressfinderDebugMode() is typed into the Javascript console the plugin will be reinitialised with debug set to true.
