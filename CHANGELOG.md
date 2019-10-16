@@ -1,3 +1,6 @@
+# AddressFinder 1.2.4 (October 16th 2019)
+* Readme.md updates
+
 # AddressFinder 1.2.3 (October 15th 2019)
 * Differentiate between Magento version and webpage tools version
 
