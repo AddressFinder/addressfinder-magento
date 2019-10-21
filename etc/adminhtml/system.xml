@@ -39,6 +39,12 @@
             <field id="enabled">1</field>
           </depends>
         </field>
+
+        <field id="default_country" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+          <label>Default Country</label>
+          <source_model>AddressFinder\AddressFinder\Model\Config\Source\Defaultcountry</source_model>
+        </field>
+
       </group>
     </section>
   </system>
