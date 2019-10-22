@@ -49,8 +49,11 @@ export default class MagentoPlugin {
       auKey: this.widgetConfig.key,
       nzWidgetOptions: this.widgetOptions,
       auWidgetOptions: this.widgetOptions,
-      debug: this.widgetConfig.debug || false
+      debug: this.widgetConfig.debug || false,
+      defaultCountry: this.widgetConfig.default_country || 'nz'
     }
+
+    console.log(this.widgetConfig, 'hi')
 
     this.ConfigManager = new ConfigManager()
 

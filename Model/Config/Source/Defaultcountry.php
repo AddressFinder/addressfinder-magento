@@ -12,8 +12,8 @@ class Defaultcountry implements \Magento\Framework\Data\OptionSourceInterface
     public function toOptionArray()
     {
         return [
-            'NZ' => 'New Zealand',
-            'AU' => 'Australia',
+            'nz' => 'New Zealand',
+            'au' => 'Australia',
         ];
     }
 }
