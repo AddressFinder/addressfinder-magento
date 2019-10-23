@@ -2,7 +2,7 @@
 
 namespace AddressFinder\AddressFinder\Model\Config\Source;
 
-class Defaultcountry implements \Magento\Framework\Data\OptionSourceInterface
+class DefaultSearchcountry implements \Magento\Framework\Data\OptionSourceInterface
 {
     /**
      * Return array of options as value-label pairs, eg. value => label

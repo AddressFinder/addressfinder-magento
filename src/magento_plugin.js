@@ -50,7 +50,7 @@ export default class MagentoPlugin {
       nzWidgetOptions: this.widgetOptions,
       auWidgetOptions: this.widgetOptions,
       debug: this.widgetConfig.debug || false,
-      defaultCountry: this.widgetConfig.default_country
+      defaultCountry: this.widgetConfig.default_search_country
     }
 
     this.ConfigManager = new ConfigManager()

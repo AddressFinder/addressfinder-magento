@@ -66,9 +66,9 @@ class AbstractBlock extends Template
      *
      * @return string|null
      */
-    public function getDefaultCountry()
+    public function getDefaultSearchCountry()
     {
-        return $this->_scopeConfig->getValue('addressfinder/general/default_country', ScopeInterface::SCOPE_STORE);
+        return $this->_scopeConfig->getValue('addressfinder/general/default_search_country', ScopeInterface::SCOPE_STORE);
     }
 
 
