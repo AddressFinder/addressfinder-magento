@@ -129,6 +129,8 @@ services:
       - /Users/katenorquay/addressfinder/addressfinder-magento/view/frontend:/var/www/html/vendor/addressfinder/module-magento2/view/frontend
 ```
 
+If you want to change the Magento files, as well as the javascript, you can use `- /Users/katenorquay/addressfinder/addressfinder-magento:/var/www/html/vendor/addressfinder/module-magento2`
+
 3. Start docker: `docker-compose up`
 4. Bash into the docker container: `docker-compose exec web bash`
 5. Clear the cache, compile and deploy static content: `cd /var/www/html/bin && ./magento cache:clean && ./magento cache:flush && ./magento setup:upgrade && ./magento setup:di:compile && ./magento setup:static-content:deploy -f en_GB en_US`
