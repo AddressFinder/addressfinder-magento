@@ -40,10 +40,10 @@
           </depends>
         </field>
 
-        <field id="default_country" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
-          <label>Default Country</label>
+        <field id="default_search_country" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+          <label>Default Search Country</label>
           <source_model>AddressFinder\AddressFinder\Model\Config\Source\DefaultSearchcountry</source_model>
-          <comment>The country to be used if no country select box is found in the checkout.</comment>
+          <comment>Default country to be searched if your checkout has no country select field.</comment>
         </field>
 
       </group>
