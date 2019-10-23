@@ -44,6 +44,9 @@
           <label>Default Search Country</label>
           <source_model>AddressFinder\AddressFinder\Model\Config\Source\DefaultSearchcountry</source_model>
           <comment>Default country to be searched if your checkout has no country select field.</comment>
+          <depends>
+            <field id="enabled">1</field>
+          </depends>
         </field>
 
       </group>
