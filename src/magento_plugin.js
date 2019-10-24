@@ -9,7 +9,7 @@ export default class MagentoPlugin {
     this.widgetConfig = widgetConfig
     this.widgetOptions = this._parseWidgetOptions(widgetConfig.options)
 
-    this.version = "1.2.4"
+    this.version = "1.2.5"
 
     // Manages the mapping of the form configurations to the DOM.
     this.PageManager = null
@@ -49,7 +49,8 @@ export default class MagentoPlugin {
       auKey: this.widgetConfig.key,
       nzWidgetOptions: this.widgetOptions,
       auWidgetOptions: this.widgetOptions,
-      debug: this.widgetConfig.debug || false
+      debug: this.widgetConfig.debug || false,
+      defaultCountry: this.widgetConfig.default_search_country
     }
 
     this.ConfigManager = new ConfigManager()

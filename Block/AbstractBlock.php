@@ -61,6 +61,17 @@ class AbstractBlock extends Template
         return $this->_scopeConfig->isSetFlag('addressfinder/general/debug_mode', ScopeInterface::SCOPE_STORE);
     }
 
+        /**
+     * Gets the default country
+     *
+     * @return string|null
+     */
+    public function getDefaultSearchCountry()
+    {
+        return $this->_scopeConfig->getValue('addressfinder/general/default_search_country', ScopeInterface::SCOPE_STORE);
+    }
+
+
     /**
      * Tells if the block has widget options or not.
      *
@@ -73,7 +84,7 @@ class AbstractBlock extends Template
 
     /**
      * Gets widget options. Note that the options are validated by the Javascript later, where a
-     * nice error message can be presented to the user. 
+     * nice error message can be presented to the user.
      *
      * @return string|null
      */
@@ -88,8 +99,8 @@ class AbstractBlock extends Template
     /**
      * Gets widget options and escapes any double-quote characters with a backslash. This
      * enables the string to be embedded straight into the HTML (wrapped in quotes).
-     * 
-     * If no widgetOptions are available, then string containing "{}" is returned. 
+     *
+     * If no widgetOptions are available, then string containing "{}" is returned.
      *
      * @return string
      */
@@ -101,7 +112,7 @@ class AbstractBlock extends Template
         if (!$json) {
             return "{}";
         }
-        
+
         // prefix all double-quotes with a backslash
         $json = str_replace('"', '\"', $json);
 

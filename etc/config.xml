@@ -7,6 +7,7 @@
         <licence_key>ADDRESSFINDER_DEMO_KEY</licence_key>
         <debug_mode>0</debug_mode>
         <widget_options>{}</widget_options>
+        <default_search_country>au</default_search_country>
       </general>
     </addressfinder>
   </default>
