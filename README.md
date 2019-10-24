@@ -40,7 +40,7 @@
 
 We test the plugin by using docker images for Magento 2. We install the plugin inside this test store.
 
-1. Clone the image for the version of Magento you want to use.
+1. Clone the image for the version of Magento you want to use, then start the container with `docker-compose up`
 
     For Magento 2.3.2
 
@@ -66,7 +66,7 @@ We test the plugin by using docker images for Magento 2. We install the plugin i
 
    `git clone --branch 2.0 git@github.com:AbleTech/docker-magento2.git docker-magento-2.0 && cd docker-magento-2.0`
 
-2. Install Magento
+2. Install Magento. In a new tab run:
  `docker-compose exec web install-magento`
 
 3. In a new tab, edit your host file to redirect localhost to local.magento
@@ -128,6 +128,8 @@ services:
       - web-data-test:/var/www/html
       - /Users/katenorquay/addressfinder/addressfinder-magento/view/frontend:/var/www/html/vendor/addressfinder/module-magento2/view/frontend
 ```
+
+If you want to change the Magento files, as well as the javascript, you can use `- /Users/katenorquay/addressfinder/addressfinder-magento:/var/www/html/vendor/addressfinder/module-magento2`
 
 3. Start docker: `docker-compose up`
 4. Bash into the docker container: `docker-compose exec web bash`

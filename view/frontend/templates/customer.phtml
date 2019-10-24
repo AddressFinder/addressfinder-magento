@@ -14,6 +14,7 @@
                 <?php if ($block->isDebugMode()): ?>
                     debug: true,
                 <?php endif ?>
+                    default_country: "<?=$block->getDefaultSearchCountry()?>"
             }
 
             window.AddressFinder = AddressFinder;
