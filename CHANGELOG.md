@@ -1,3 +1,6 @@
+# AddressFinder 1.2.5 (October 25th 2019)
+* Added default static country to default to if the country select field is not present.
+
 # AddressFinder 1.2.4 (October 16th 2019)
 * Readme.md updates
 
