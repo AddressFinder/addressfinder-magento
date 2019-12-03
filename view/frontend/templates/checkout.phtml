@@ -4,12 +4,13 @@
 <?php if ($block->isEnabled()): ?>
 
     <script>
-        require(['magento_plugin', 'addressfinder', 'domReady!'], function (MagentoPlugin, AddressFinder) {
-          var widgetConfig = <?=json_encode($block->getWidgetConfig()) ?>;
+      require(['magento_plugin', 'addressfinder', 'domReady!'], function (MagentoPlugin, AddressFinder) {
+        var widgetConfig = <?=json_encode($block->getWidgetConfig()) ?>;
+        var formsConfig = <?=json_encode($block->getFormsConfig()) ?>;
 
-          window.AddressFinder = AddressFinder;
-          new MagentoPlugin(widgetConfig);
-        });
+        window.AddressFinder = AddressFinder;
+        new MagentoPlugin(widgetConfig, formsConfig);
+      });
     </script>
 
 <?php endif ?>

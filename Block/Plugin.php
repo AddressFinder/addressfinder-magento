@@ -3,17 +3,29 @@
 namespace AddressFinder\AddressFinder\Block;
 
 use AddressFinder\AddressFinder\Model\WidgetConfigProvider;
+use Magento\Framework\Data\Collection;
+use Magento\Framework\Data\CollectionFactory;
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\Element\Template\Context as TemplateContext;
 use Magento\Store\Model\ScopeInterface;
 use Magento\Framework\Json\DecoderInterface;
 
-class AbstractBlock extends Template
+class Plugin extends Template
 {
     /**
      * @var WidgetConfigProvider
      */
     private $configProvider;
+
+    /**
+     * @var CollectionFactory
+     */
+    private $collectionFactory;
+
+    /**
+     * @var Collection
+     */
+    private $formsConfig;
 
     /**
      * @inheritdoc
@@ -23,12 +35,14 @@ class AbstractBlock extends Template
     public function __construct(
         TemplateContext $context,
         WidgetConfigProvider $configProvider,
+        CollectionFactory $collectionFactory,
         array $data = []
     )
     {
         parent::__construct($context, $data);
 
         $this->configProvider = $configProvider;
+        $this->collectionFactory = $collectionFactory;
     }
 
     /**
@@ -49,5 +63,31 @@ class AbstractBlock extends Template
     public function getWidgetConfig()
     {
         return $this->configProvider->all();
+    }
+
+    /**
+     * Gets forms configuration.
+     *
+     * @return Collection
+     */
+    public function getFormsConfig()
+    {
+        if (null === $this->formsConfig) {
+            /** @var Collection $forms */
+            $this->formsConfig = $this->collectionFactory->create();
+
+            $this->_eventManager->dispatch(
+                'addressfinder_form_config',
+                [
+                    'forms' => $this->formsConfig,
+                ]
+            );
+
+            if (0 === $this->formsConfig->count()) {
+                $this->_logger->warning('There are no configured forms for AddressFinder.');
+            }
+        }
+
+        return $this->formsConfig;
     }
 }
