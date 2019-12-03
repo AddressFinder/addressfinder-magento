@@ -103,11 +103,9 @@ This plugin is made up of two parts.
 1. The Magento plugin, which provides the specific configuration for Magento, and connects to a Magento store
 2. AddressFinder Webpage Tools. This is an NPM package that adds the autocomplete capability. https://github.com/abletech/addressfinder-webpage-tools
 
-To make changes to addressfinder-webpage-tools npm package, you will need to copy and paste the file inside the addressfinder-webpage-tools.js file in the source directory. Magento doesn't have support for npm, so we can't include the package in the normal way.
-
-To build the plugin
+To build the plugin, simply visit the module's folder and run:
 1. `npm install`
-2. `npm run build` or `npm run build:production` if you want the file minified. These files will be added/updated inside the /view/frontend/layout/web/js folder.
+2. `npm run build`. These files will be added/updated inside the `view/frontend/layout/web/js` folder. Magento will take care of minification wherever your store is in production mode.
 
 
 ## Seeing your changes inside your Magento Test store
@@ -136,22 +134,22 @@ If you want to change the Magento files, as well as the javascript, you can use 
 5. Clear the cache, compile and deploy static content: `cd /var/www/html/bin && ./magento cache:clean && ./magento cache:flush && ./magento setup:upgrade && ./magento setup:di:compile && ./magento setup:static-content:deploy -f en_GB en_US`
 6. Set permissions: `cd .. && chmod 0777 -R var/cache`
 7. Now we create a symlink between the addressfinder extension, and Magento's static content. This means that we don't have to recompile the
-static content everytime we make a change. First remove the js folder from the static content file so we can start fresh:
+static content everytime we make a change. First remove the `js` folder from the static content file so we can start fresh:
 `rm -rf /var/www/html/pub/static/frontend/Magento/luma/en_GB/AddressFinder_AddressFinder/js`
 8. Create the symlink: `ln -s /var/www/html/vendor/addressfinder/module-magento2/view/frontend/web/js /var/www/html/pub/static/frontend/Magento/luma/en_GB/AddressFinder_AddressFinder/js`
-9. Build your js files to add them to the static folder: `npm run watch`. Any further changes you make to the src folder will be watched and recompiled by webpack.
+9. Build your js files to add them to the static folder: `npm run watch`. Any further changes you make to the `view/frontend/web/js/source/` folder will be watched and recompiled by webpack.
 
 ## Deployment
 
 The Magento plugin is deployed in two ways - through Composer and through the Magento MarketPlace. For both, create a release and update the version number in all the necessary files:
-- composer.json
-- module.xml
-- package.json and package-lock.json
-- magento_plugin.js
+- `composer.json`
+- `module.xml`
+- `package.json` and `package-lock.json`
+- `magento-plugin.js`
 
 Add an entry to CHANGELOG.md, describing the change
 
-run `npm run build:production` to compile the js.
+run `npm run build` to compile the JavaScript.
 
 ### Composer deploys
 

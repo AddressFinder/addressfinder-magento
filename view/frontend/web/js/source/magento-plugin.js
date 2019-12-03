@@ -1,8 +1,9 @@
-import ConfigManager from './config_manager'
+
+import ConfigManager from './config-manager'
 
 // Unlike our other plugins, the Magento plugin doesn't use the addressfinder-webpage-tools npm package. This is because Magento doesn't have
 // support for npm. Instead, we take the file that the npm package outputs, and copy the code into the addressfinder-webpage-tools javascript file.
-import { PageManager, MutationManager } from './addressfinder-webpage-tools'
+import {PageManager, MutationManager} from '@addressfinder/addressfinder-webpage-tools'
 
 export default class MagentoPlugin {
   constructor(widgetConfig) {

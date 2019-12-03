@@ -1,4 +1,4 @@
-import stateMappings from './state_mappings'
+import stateMappings from './state-mappings'
 
 export default {
   label: "Billing Checkout",

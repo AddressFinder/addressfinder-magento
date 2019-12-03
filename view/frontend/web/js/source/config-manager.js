@@ -1,6 +1,6 @@
-import billingCheckout from './address_form_config/billing_checkout'
-import shippingCheckout from './address_form_config/shipping_checkout'
-import customerAddressBook from './address_form_config/customer_address_book'
+import billingCheckout from './address-form-config/billing-checkout'
+import shippingCheckout from './address-form-config/shipping-checkout'
+import customerAddressBook from './address-form-config/customer-address-book'
 
 export default class ConfigManager {
 

@@ -1,12 +1,10 @@
-const webpack = require("webpack");
-const pathLib = require("path");
+const path = require("path");
 
 const config = {
-  entry: [
-    "./src/magento_plugin.js"
-  ],
+  entry: path.resolve(__dirname, './view/frontend/web/js/source', 'magento-plugin.js'),
   output: {
-    path: pathLib.resolve(__dirname, "./view/frontend/web/js"),
+    path: path.resolve(__dirname, "./view/frontend/web/js"),
+    filename: "magento-plugin.js",
     libraryTarget: 'umd',
     libraryExport: 'default'
   },
@@ -14,7 +12,7 @@ const config = {
     rules: [
       {
         test: /\.js$/,
-        exclude: /(node_modules|bower_components)/,
+        exclude: /(node_modules)/,
         use: {
           loader: 'babel-loader',
           options: {
@@ -25,19 +23,5 @@ const config = {
     ]
   }
 };
-
-switch (process.env.NODE_ENV) {
-  case "production":
-    config.output.filename = "magento-plugin-min.js";
-    config.plugins = [
-      new webpack.optimize.UglifyJsPlugin({
-        compress: { warnings: false }
-      })
-    ]
-    break;
-  default:
-    config.output.filename = "magento-plugin.js";
-    config.plugins = [];
-}
 
 module.exports = config;
