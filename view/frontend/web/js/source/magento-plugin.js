@@ -6,7 +6,7 @@ import {PageManager, MutationManager} from '@addressfinder/addressfinder-webpage
 export default class MagentoPlugin {
   constructor(widgetConfig) {
     this.widgetConfig = widgetConfig
-    this.widgetOptions = this._parseWidgetOptions(widgetConfig.options)
+    this.widgetOptions = widgetConfig.options || {}
 
     this.version = "1.2.5"
 
@@ -30,17 +30,6 @@ export default class MagentoPlugin {
     }
   }
 
-  _parseWidgetOptions(options) {
-    try {
-      return JSON.parse(options);
-    } catch (error) {
-      if (this.debugMode) {
-        console.warn("Widget options ignored. They must be in valid JSON format");
-      }
-      return {};
-    }
-  };
-
   _initPlugin() {
 
     const widgetConfig = {
@@ -52,7 +41,7 @@ export default class MagentoPlugin {
       defaultCountry: this.widgetConfig.default_search_country
     }
 
-    this.ConfigManager = new ConfigManager()
+  this.ConfigManager = new ConfigManager()
 
     // Watches for any mutations to the DOM, so we can reload our configurations when something changes.
     new MutationManager({
