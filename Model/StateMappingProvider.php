@@ -15,6 +15,11 @@ class StateMappingProvider
     private $countryInformationAcquirer;
 
     /**
+     * Array of cached mappings per-country.
+     */
+    private $mappings = [];
+
+    /**
      * StateMappingProvider constructor.
      * @param CountryInformationAcquirerInterface $countryInformationAcquirer
      */
@@ -27,19 +32,22 @@ class StateMappingProvider
      * Gets state mappings for the given country code.
      *
      * @param string $countryCode Two-digit country code.
+     *
      * @return array
      * @throws NoSuchEntityException
      */
-    public function forCountry(string $countryCode)
+    public function forCountry($countryCode)
     {
-        $country = $this->countryInformationAcquirer->getCountryInfo($countryCode);
+        if (!array_key_exists($countryCode, $this->mappings)) {
+            $country = $this->countryInformationAcquirer->getCountryInfo($countryCode);
 
-        $mappings = [];
+            $this->mappings[$countryCode] = [];
 
-        foreach ($country->getAvailableRegions() as $region) {
-            $mappings[$region->getCode()] = $region->getId();
+            foreach ($country->getAvailableRegions() as $region) {
+                $this->mappings[$countryCode][$region->getCode()] = $region->getId();
+            }
         }
 
-        return $mappings;
+        return $this->mappings[$countryCode];
     }
 }

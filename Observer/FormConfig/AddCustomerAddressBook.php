@@ -8,6 +8,7 @@ use Magento\Framework\DataObject;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
+use Psr\Log\LoggerInterface;
 
 class AddCustomerAddressBook implements ObserverInterface
 {
@@ -17,11 +18,19 @@ class AddCustomerAddressBook implements ObserverInterface
     private $stateMappingProvider;
 
     /**
-     * Creates a new "Checkout Billing Address" observer.
+     * @var LoggerInterface
      */
-    public function __construct(StateMappingProvider $stateMappingProvider)
+    private $logger;
+
+    /**
+     * Creates a new "Add Customer Address Book" observer.
+     *
+     * @param StateMappingProvider $stateMappingProvider
+     */
+    public function __construct(StateMappingProvider $stateMappingProvider, LoggerInterface $logger)
     {
         $this->stateMappingProvider = $stateMappingProvider;
+        $this->logger = $logger;
     }
 
     /**
@@ -33,33 +42,37 @@ class AddCustomerAddressBook implements ObserverInterface
         /** @var Collection $forms */
         $forms = $observer->getEvent()->getData('forms');
 
-        $forms->addItem(new DataObject([
-            'label' => 'Customer Address Book',
-            'layoutSelectors' => ['input#street_1'],
-            'countryIdentifier' => 'select[name=country_id]',
-            'searchIdentifier' => 'input#street_1',
-            'nz' => [
-                'countryValue' => 'NZ',
-                'elements' => [
-                    'address1' => 'input#street_1',
-                    'suburb' => 'input#street_2',
-                    'city' => 'input[name=city]',
-                    'region' => 'input[name=region]',
-                    'postcode' => 'input[name=postcode]',
+        try {
+            $forms->addItem(new DataObject([
+                'label' => 'Customer Address Book',
+                'layoutSelectors' => ['input#street_1'],
+                'countryIdentifier' => 'select[name=country_id]',
+                'searchIdentifier' => 'input#street_1',
+                'nz' => [
+                    'countryValue' => 'NZ',
+                    'elements' => [
+                        'address1' => 'input#street_1',
+                        'suburb' => 'input#street_2',
+                        'city' => 'input[name=city]',
+                        'region' => 'input[name=region]',
+                        'postcode' => 'input[name=postcode]',
+                    ],
+                    'regionMappings' => null,
                 ],
-                'regionMappings' => null,
-            ],
-            'au' => [
-                'countryValue' => 'AU',
-                'elements' => [
-                    'address1' => 'input#street_1',
-                    'address2' => 'input#street_2',
-                    'suburb' => 'input[name=city]',
-                    'state' => 'select[name=region_id]',
-                    'postcode' => 'input[name=postcode]',
+                'au' => [
+                    'countryValue' => 'AU',
+                    'elements' => [
+                        'address1' => 'input#street_1',
+                        'address2' => 'input#street_2',
+                        'suburb' => 'input[name=city]',
+                        'state' => 'select[name=region_id]',
+                        'postcode' => 'input[name=postcode]',
+                    ],
+                    'stateMappings' => $this->stateMappingProvider->forCountry('AU'),
                 ],
-                'stateMappings' => $this->stateMappingProvider->forCountry('AU'),
-            ],
-        ]));
+            ]));
+        } catch (NoSuchEntityException $e) {
+            $this->logger->error(sprintf('Could not fetch state mappings: %s.', $e->getMessage()));
+        }
     }
 }
