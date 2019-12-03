@@ -8,6 +8,7 @@ const config = {
     libraryTarget: 'umd',
     libraryExport: 'default'
   },
+  devtool: 'source-maps',
   module: {
     rules: [
       {
