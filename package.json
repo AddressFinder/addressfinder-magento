@@ -1,24 +1,19 @@
 {
   "name": "addressfinder-magento",
   "version": "1.2.5",
-  "description": "## Development",
-  "main": "./src/addressfinder-webpage-tools.js",
   "devDependencies": {
-    "@babel/cli": "^7.0.0",
-    "@babel/core": "^7.0.0",
-    "@babel/preset-env": "^7.0.0",
-    "babel-loader": "^8.0.0",
-    "uglify-js": "^3.0.27",
-    "webpack": "^3.5.1"
-  },
-  "dependencies": {
-    "core-js": "^2.5.0",
-    "gulp": "^4.0.2"
+    "@addressfinder/addressfinder-webpage-tools": "^1.8.1",
+    "@babel/cli": "^7.7.4",
+    "@babel/core": "^7.7.4",
+    "@babel/preset-env": "^7.7.4",
+    "babel-loader": "^8.0.6",
+    "uglify-js": "^3.7.1",
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.10"
   },
   "scripts": {
-    "watch": "npm run build && NODE_ENV=production webpack -w --config webpack.config.js",
-    "build": "webpack --config webpack.config.js",
-    "build:production": "npm run build && NODE_ENV=production webpack --config webpack.config.js"
+    "watch": "npm run build && webpack -w --config webpack.config.js --mode=development",
+    "build": "webpack --config webpack.config.js --mode=none"
   },
   "repository": {
     "type": "git",
@@ -37,7 +32,7 @@
   "author": "@Abletech",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/AbleTech/addressfinder-magento/issues"
+    "url": "https://github.com/abletech/addressfinder-magento/issues"
   },
-  "homepage": "https://github.com/AbleTech/addressfinder-magento#readme"
+  "homepage": "https://github.com/abletech/addressfinder-magento#readme"
 }
