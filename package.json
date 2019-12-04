@@ -2,7 +2,7 @@
   "name": "addressfinder-magento",
   "version": "1.2.5",
   "devDependencies": {
-    "@addressfinder/addressfinder-webpage-tools": "^1.8.0",
+    "@addressfinder/addressfinder-webpage-tools": "^1.8.1",
     "@babel/cli": "^7.7.4",
     "@babel/core": "^7.7.4",
     "@babel/preset-env": "^7.7.4",
