@@ -122,7 +122,7 @@ function () {
     _classCallCheck(this, MagentoPlugin);
 
     this.widgetConfig = widgetConfig;
-    this.widgetOptions = this._parseWidgetOptions(widgetConfig.options);
+    this.widgetOptions = widgetConfig.options || {};
     this.version = "1.2.5"; // Manages the mapping of the form configurations to the DOM.
 
     this.PageManager = null; // Manages the form configurations, and creates any dynamic forms
@@ -143,19 +143,6 @@ function () {
 
       if (this.PageManager) {
         this.PageManager.reload(addressFormConfigurations);
-      }
-    }
-  }, {
-    key: "_parseWidgetOptions",
-    value: function _parseWidgetOptions(options) {
-      try {
-        return JSON.parse(options);
-      } catch (error) {
-        if (this.debugMode) {
-          console.warn("Widget options ignored. They must be in valid JSON format");
-        }
-
-        return {};
       }
     }
   }, {
