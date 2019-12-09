@@ -111,7 +111,7 @@ class AddCheckoutBillingAddress implements ObserverInterface
                                 $code
                             ),
                             'suburb' => sprintf(
-                                'div[name="billingAddress%s.street.2"] input[name="street[2]"]',
+                                'div[name="billingAddress%s.street.2"] input[name="city"]',
                                 $code
                             ),
                             'state' => sprintf(
