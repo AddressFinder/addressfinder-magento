@@ -1,3 +1,8 @@
+# AddressFinder 1.3.0 (December 9th 2019)
+* Utilise NPM
+* Upgrades JavaScript dependencies
+* Refactor project structure
+
 # AddressFinder 1.2.5 (October 25th 2019)
 * Added default static country to default to if the country select field is not present.
 
