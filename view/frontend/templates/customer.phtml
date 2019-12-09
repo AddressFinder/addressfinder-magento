@@ -6,20 +6,11 @@
 
     <script>
         require(['magento_plugin', 'addressfinder', 'domReady!'], function (MagentoPlugin, AddressFinder) {
-            var widgetConfig = {
-                    key: "<?=$block->getLicenceKey()?>",
-                <?php if ($block->hasWidgetOptions()): ?>
-                    options: "<?=$block->getWidgetOptionsEscaped()?>",
-                <?php endif ?>
-                <?php if ($block->isDebugMode()): ?>
-                    debug: true,
-                <?php endif ?>
-                    default_country: "<?=$block->getDefaultSearchCountry()?>"
-            }
+            var widgetConfig = <?=json_encode($block->getWidgetConfig()) ?>;
 
             window.AddressFinder = AddressFinder;
-            new MagentoPlugin(widgetConfig)
-    });
+            new MagentoPlugin(widgetConfig);
+        });
     </script>
 
 <?php endif ?>
