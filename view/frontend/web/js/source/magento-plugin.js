@@ -1,20 +1,15 @@
-
-import ConfigManager from './config-manager'
-
 import {PageManager, MutationManager} from '@addressfinder/addressfinder-webpage-tools'
 
 export default class MagentoPlugin {
-  constructor(widgetConfig) {
+  constructor(widgetConfig, formsConfig) {
     this.widgetConfig = widgetConfig
+    this.formsConfig = formsConfig || []
     this.widgetOptions = widgetConfig.options || {}
 
     this.version = "1.3.0"
 
     // Manages the mapping of the form configurations to the DOM.
     this.PageManager = null
-
-    // Manages the form configurations, and creates any dynamic forms
-    this.ConfigManager = null
 
     this._initPlugin()
 
@@ -24,9 +19,8 @@ export default class MagentoPlugin {
 
   mutationEventHandler() {
     // When the form mutates, reload our form configurations, and reload the form helpers in the page manager.
-    let addressFormConfigurations = this.ConfigManager.load()
     if (this.PageManager) {
-      this.PageManager.reload(addressFormConfigurations)
+      this.PageManager.reload(this.formsConfig)
     }
   }
 
@@ -41,8 +35,6 @@ export default class MagentoPlugin {
       defaultCountry: this.widgetConfig.default_search_country
     }
 
-  this.ConfigManager = new ConfigManager()
-
     // Watches for any mutations to the DOM, so we can reload our configurations when something changes.
     new MutationManager({
       widgetConfig: widgetConfig,
@@ -51,7 +43,7 @@ export default class MagentoPlugin {
     })
 
     this.PageManager = new PageManager({
-      addressFormConfigurations: this.ConfigManager.load(),
+      addressFormConfigurations: this.formsConfig,
       widgetConfig: widgetConfig,
       // When an address is selected dispatch this event on all the updated form fields. This tells the store the fields have been changed.
       formFieldChangeEventToDispatch: 'change',
