@@ -65,7 +65,7 @@ class AddCheckoutShippingAddress implements ObserverInterface
                     'elements' => [
                         'address1' => '.form-shipping-address input[name="street[0]"]',
                         'address2' => '.form-shipping-address input[name="street[1]"]',
-                        'suburb' => '.form-shipping-address input[name="street[2]"]',
+                        'suburb' => '.form-shipping-address input[name="city"]',
                         'state' => '.form-shipping-address select[name=region_id]',
                         'postcode' => '.form-shipping-address input[name=postcode]',
                     ],
