@@ -62,10 +62,6 @@ We test the plugin by using docker images for Magento 2. We install the plugin i
 
    `git clone --branch 2.1 git@github.com:AbleTech/docker-magento2.git docker-magento-2.1 && cd docker-magento-2.1`
 
-      For Magento 2.0
-
-   `git clone --branch 2.0 git@github.com:AbleTech/docker-magento2.git docker-magento-2.0 && cd docker-magento-2.0`
-
 2. Install Magento. In a new tab run:
  `docker-compose exec web install-magento`
 
