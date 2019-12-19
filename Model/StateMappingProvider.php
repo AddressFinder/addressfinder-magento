@@ -1,9 +1,8 @@
 <?php
 
-
 namespace AddressFinder\AddressFinder\Model;
 
-
+use AddressFinder\AddressFinder\Exception\NoStateMappingsException;
 use Magento\Directory\Api\CountryInformationAcquirerInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
 
@@ -21,6 +20,7 @@ class StateMappingProvider
 
     /**
      * StateMappingProvider constructor.
+     *
      * @param CountryInformationAcquirerInterface $countryInformationAcquirer
      */
     public function __construct(CountryInformationAcquirerInterface $countryInformationAcquirer)
@@ -34,16 +34,23 @@ class StateMappingProvider
      * @param string $countryCode Two-digit country code.
      *
      * @return array
-     * @throws NoSuchEntityException
+     * @throws NoSuchEntityException    When the country code does not exist
+     * @throws NoStateMappingsException When there are no state mappings for the country code
      */
     public function forCountry($countryCode)
     {
         if (!array_key_exists($countryCode, $this->mappings)) {
             $country = $this->countryInformationAcquirer->getCountryInfo($countryCode);
 
+            $regions = $country->getAvailableRegions();
+
+            if (!is_array($regions)) {
+                throw NoStateMappingsException::forCountry($countryCode);
+            }
+
             $this->mappings[$countryCode] = [];
 
-            foreach ($country->getAvailableRegions() as $region) {
+            foreach ($regions as $region) {
                 $this->mappings[$countryCode][$region->getCode()] = $region->getId();
             }
         }

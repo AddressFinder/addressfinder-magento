@@ -2,6 +2,7 @@
 
 namespace AddressFinder\AddressFinder\Observer\FormConfig;
 
+use AddressFinder\AddressFinder\Exception\NoStateMappingsException;
 use AddressFinder\AddressFinder\Model\StateMappingProvider;
 use Magento\Framework\Data\Collection;
 use Magento\Framework\DataObject;
@@ -35,7 +36,6 @@ class AddCustomerAddressBook implements ObserverInterface
 
     /**
      * {@inheritDoc}
-     * @throws NoSuchEntityException
      */
     public function execute(Observer $observer)
     {
@@ -43,36 +43,46 @@ class AddCustomerAddressBook implements ObserverInterface
         $forms = $observer->getEvent()->getData('forms');
 
         try {
-            $forms->addItem(new DataObject([
-                'label' => 'Customer Address Book',
-                'layoutSelectors' => ['input#street_1'],
-                'countryIdentifier' => 'select[name=country_id]',
-                'searchIdentifier' => 'input#street_1',
-                'nz' => [
-                    'countryValue' => 'NZ',
-                    'elements' => [
-                        'address1' => 'input#street_1',
-                        'suburb' => 'input#street_2',
-                        'city' => 'input[name=city]',
-                        'region' => 'input[name=region]',
-                        'postcode' => 'input[name=postcode]',
-                    ],
-                    'regionMappings' => null,
-                ],
-                'au' => [
-                    'countryValue' => 'AU',
-                    'elements' => [
-                        'address1' => 'input#street_1',
-                        'address2' => 'input#street_2',
-                        'suburb' => 'input[name=city]',
-                        'state' => 'select[name=region_id]',
-                        'postcode' => 'input[name=postcode]',
-                    ],
-                    'stateMappings' => $this->stateMappingProvider->forCountry('AU'),
-                ],
-            ]));
+            $stateMappings = $this->stateMappingProvider->forCountry('AU');
         } catch (NoSuchEntityException $e) {
-            $this->logger->error(sprintf('Could not fetch state mappings: %s.', $e->getMessage()));
+            $this->logger->error(sprintf(
+                'Could not attach customer address book: %s.',
+                $e->getMessage())
+            );
+            return;
+        } catch (NoStateMappingsException $e) {
+            $stateMappings = null;
         }
+
+        $forms->addItem(new DataObject([
+            'label' => 'Customer Address Book',
+            'layoutSelectors' => ['input#street_1'],
+            'countryIdentifier' => 'select[name=country_id]',
+            'searchIdentifier' => 'input#street_1',
+            'nz' => [
+                'countryValue' => 'NZ',
+                'elements' => [
+                    'address1' => 'input#street_1',
+                    'suburb' => 'input#street_2',
+                    'city' => 'input[name=city]',
+                    'region' => 'input[name=region]',
+                    'postcode' => 'input[name=postcode]',
+                ],
+                'regionMappings' => null,
+            ],
+            'au' => [
+                'countryValue' => 'AU',
+                'elements' => [
+                    'address1' => 'input#street_1',
+                    'address2' => 'input#street_2',
+                    'suburb' => 'input[name=city]',
+                    'state' => $stateMappings
+                        ? 'select[name=region_id]'
+                        : 'input[name=region]',
+                    'postcode' => 'input[name=postcode]',
+                ],
+                'stateMappings' => $stateMappings,
+            ],
+        ]));
     }
 }
