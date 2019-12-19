@@ -2,6 +2,7 @@
 
 namespace AddressFinder\AddressFinder\Observer\FormConfig;
 
+use AddressFinder\AddressFinder\Exception\NoStateMappingsException;
 use AddressFinder\AddressFinder\Model\StateMappingProvider;
 use Magento\Framework\Data\Collection;
 use Magento\Framework\DataObject;
@@ -33,7 +34,7 @@ class AddCheckoutBillingAddress implements ObserverInterface
      * Creates a new "Add Checkout Billing Address" observer.
      *
      * @param StateMappingProvider $stateMappingProvider
-     * @param PaymentHelper $paymentHelper
+     * @param PaymentHelper        $paymentHelper
      */
     public function __construct(
         StateMappingProvider $stateMappingProvider,
@@ -41,8 +42,8 @@ class AddCheckoutBillingAddress implements ObserverInterface
         LoggerInterface $logger
     ) {
         $this->stateMappingProvider = $stateMappingProvider;
-        $this->paymentHelper = $paymentHelper;
-        $this->logger = $logger;
+        $this->paymentHelper        = $paymentHelper;
+        $this->logger               = $logger;
     }
 
     /**
@@ -53,82 +54,96 @@ class AddCheckoutBillingAddress implements ObserverInterface
         /** @var Collection $forms */
         $forms = $observer->getEvent()->getData('forms');
 
+        try {
+            $stateMappings = $this->stateMappingProvider->forCountry('AU');
+        } catch (NoSuchEntityException $e) {
+            $this->logger->error(sprintf(
+                'Could not attach checkout billing address: %s.',
+                $e->getMessage()
+            ));
+
+            return;
+        } catch (NoStateMappingsException $e) {
+            $stateMappings = null;
+        }
+
         foreach ($this->getActivePaymentMethodCodes() as $code) {
-            try {
-                $forms->addItem(new DataObject([
-                    'label' => sprintf('Checkout Billing Address (%s)', $code),
-                    'layoutSelectors' => [
-                        'li#payment',
-                        sprintf('div[name="billingAddress%s.street.0"]', $code)
+            $forms->addItem(new DataObject([
+                'label' => sprintf('Checkout Billing Address (%s)', $code),
+                'layoutSelectors' => [
+                    'li#payment',
+                    sprintf('div[name="billingAddress%s.street.0"]', $code),
+                ],
+                'countryIdentifier' => sprintf(
+                    'div[name="billingAddress%s.country_id"] select[name=country_id]',
+                    $code
+                ),
+                'searchIdentifier' => sprintf(
+                    'div[name="billingAddress%s.street.0"] input[name="street[0]"]',
+                    $code
+                ),
+                'nz' => [
+                    'countryValue' => 'NZ',
+                    'elements' => [
+                        'address1' => sprintf(
+                            'div[name="billingAddress%s.street.0"] input[name="street[0]"]',
+                            $code
+                        ),
+                        'address2' => sprintf(
+                            'div[name="billingAddress%s.street.1"] input[name="street[1]"]',
+                            $code
+                        ),
+                        'suburb' => sprintf(
+                            'div[name="billingAddress%s.street.2"] input[name="street[2]"]',
+                            $code
+                        ),
+                        'city' => sprintf(
+                            'div[name="billingAddress%s.city"] input[name=city]',
+                            $code
+                        ),
+                        'region' => sprintf(
+                            'div[name="billingAddress%s.region"] input[name=region]',
+                            $code
+                        ),
+                        'postcode' => sprintf(
+                            'div[name="billingAddress%s.postcode"] input[name=postcode]',
+                            $code
+                        ),
                     ],
-                    'countryIdentifier' => sprintf(
-                        'div[name="billingAddress%s.country_id"] select[name=country_id]',
-                        $code
-                    ),
-                    'searchIdentifier' => sprintf(
-                        'div[name="billingAddress%s.street.0"] input[name="street[0]"]',
-                        $code
-                    ),
-                    'nz' => [
-                        'countryValue' => 'NZ',
-                        'elements' => [
-                            'address1' => sprintf(
-                                'div[name="billingAddress%s.street.0"] input[name="street[0]"]',
+                    'regionMappings' => null,
+                ],
+                'au' => [
+                    'countryValue' => 'AU',
+                    'elements' => [
+                        'address1' => sprintf(
+                            'div[name="billingAddress%s.street.0"] input[name="street[0]"]',
+                            $code
+                        ),
+                        'address2' => sprintf(
+                            'div[name="billingAddress%s.street.1"] input[name="street[1]"]',
+                            $code
+                        ),
+                        'suburb' => sprintf(
+                            'div[name="billingAddress%s.street.2"] input[name="city"]',
+                            $code
+                        ),
+                        'state' => $stateMappings
+                            ? sprintf(
+                                'div[name="billingAddress%s.region_id"] select[name=region_id]',
                                 $code
-                            ),
-                            'address2' => sprintf(
-                                'div[name="billingAddress%s.street.1"] input[name="street[1]"]',
-                                $code
-                            ),
-                            'suburb' => sprintf(
-                                'div[name="billingAddress%s.street.2"] input[name="street[2]"]',
-                                $code
-                            ),
-                            'city' => sprintf(
-                                'div[name="billingAddress%s.city"] input[name=city]',
-                                $code
-                            ),
-                            'region' => sprintf(
+                            )
+                            : sprintf(
                                 'div[name="billingAddress%s.region"] input[name=region]',
                                 $code
                             ),
-                            'postcode' => sprintf(
-                                'div[name="billingAddress%s.postcode"] input[name=postcode]',
-                                $code
-                            ),
-                        ],
-                        'regionMappings' => null,
+                        'postcode' => sprintf(
+                            'div[name="billingAddress%s.postcode"] input[name=postcode]',
+                            $code
+                        ),
                     ],
-                    'au' => [
-                        'countryValue' => 'AU',
-                        'elements' => [
-                            'address1' => sprintf(
-                                'div[name="billingAddress%s.street.0"] input[name="street[0]"]',
-                                $code
-                            ),
-                            'address2' => sprintf(
-                                'div[name="billingAddress%s.street.1"] input[name="street[1]"]',
-                                $code
-                            ),
-                            'suburb' => sprintf(
-                                'div[name="billingAddress%s.street.2"] input[name="city"]',
-                                $code
-                            ),
-                            'state' => sprintf(
-                                'div[name="billingAddress%s.region_id"] select[name=region_id]',
-                                $code
-                            ),
-                            'postcode' => sprintf(
-                                'div[name="billingAddress%s.postcode"] input[name=postcode]',
-                                $code
-                            ),
-                        ],
-                        'stateMappings' => $this->stateMappingProvider->forCountry('AU'),
-                    ],
-                ]));
-            } catch (NoSuchEntityException $e) {
-                $this->logger->error(sprintf('Could not fetch state mappings: %s.', $e->getMessage()));
-            }
+                    'stateMappings' => $stateMappings,
+                ],
+            ]));
         }
     }
 
