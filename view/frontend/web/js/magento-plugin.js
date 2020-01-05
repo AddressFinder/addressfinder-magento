@@ -101,9 +101,8 @@ return /******/ (function(modules) { // webpackBootstrap
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return MagentoPlugin; });
-/* harmony import */ var _config_manager__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
-/* harmony import */ var _addressfinder_addressfinder_webpage_tools__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(6);
-/* harmony import */ var _addressfinder_addressfinder_webpage_tools__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_addressfinder_addressfinder_webpage_tools__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _addressfinder_addressfinder_webpage_tools__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
+/* harmony import */ var _addressfinder_addressfinder_webpage_tools__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_addressfinder_addressfinder_webpage_tools__WEBPACK_IMPORTED_MODULE_0__);
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -112,20 +111,18 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 
 
-
 var MagentoPlugin =
 /*#__PURE__*/
 function () {
-  function MagentoPlugin(widgetConfig) {
+  function MagentoPlugin(widgetConfig, formsConfig) {
     _classCallCheck(this, MagentoPlugin);
 
     this.widgetConfig = widgetConfig;
+    this.formsConfig = formsConfig || [];
     this.widgetOptions = widgetConfig.options || {};
-    this.version = "1.3.0"; // Manages the mapping of the form configurations to the DOM.
+    this.version = "1.4.0"; // Manages the mapping of the form configurations to the DOM.
 
-    this.PageManager = null; // Manages the form configurations, and creates any dynamic forms
-
-    this.ConfigManager = null;
+    this.PageManager = null;
 
     this._initPlugin();
 
@@ -137,10 +134,8 @@ function () {
     key: "mutationEventHandler",
     value: function mutationEventHandler() {
       // When the form mutates, reload our form configurations, and reload the form helpers in the page manager.
-      var addressFormConfigurations = this.ConfigManager.load();
-
       if (this.PageManager) {
-        this.PageManager.reload(addressFormConfigurations);
+        this.PageManager.reload(this.formsConfig);
       }
     }
   }, {
@@ -153,16 +148,15 @@ function () {
         auWidgetOptions: this.widgetOptions,
         debug: this.widgetConfig.debug || false,
         defaultCountry: this.widgetConfig.default_search_country
-      };
-      this.ConfigManager = new _config_manager__WEBPACK_IMPORTED_MODULE_0__["default"](); // Watches for any mutations to the DOM, so we can reload our configurations when something changes.
+      }; // Watches for any mutations to the DOM, so we can reload our configurations when something changes.
 
-      new _addressfinder_addressfinder_webpage_tools__WEBPACK_IMPORTED_MODULE_1__["MutationManager"]({
+      new _addressfinder_addressfinder_webpage_tools__WEBPACK_IMPORTED_MODULE_0__["MutationManager"]({
         widgetConfig: widgetConfig,
         mutationEventHandler: this.mutationEventHandler.bind(this),
         ignoredClass: "af_list"
       });
-      this.PageManager = new _addressfinder_addressfinder_webpage_tools__WEBPACK_IMPORTED_MODULE_1__["PageManager"]({
-        addressFormConfigurations: this.ConfigManager.load(),
+      this.PageManager = new _addressfinder_addressfinder_webpage_tools__WEBPACK_IMPORTED_MODULE_0__["PageManager"]({
+        addressFormConfigurations: this.formsConfig,
         widgetConfig: widgetConfig,
         // When an address is selected dispatch this event on all the updated form fields. This tells the store the fields have been changed.
         formFieldChangeEventToDispatch: 'change',
@@ -202,177 +196,6 @@ function () {
 
 /***/ }),
 /* 1 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return ConfigManager; });
-/* harmony import */ var _address_form_config_billing_checkout__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
-/* harmony import */ var _address_form_config_shipping_checkout__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(4);
-/* harmony import */ var _address_form_config_customer_address_book__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(5);
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-
-
-
-
-var ConfigManager =
-/*#__PURE__*/
-function () {
-  function ConfigManager() {
-    _classCallCheck(this, ConfigManager);
-  }
-
-  _createClass(ConfigManager, [{
-    key: "load",
-    value: function load() {
-      // This function is called when the page mutates and returns our form configurations
-      var addressFormConfigurations = [_address_form_config_billing_checkout__WEBPACK_IMPORTED_MODULE_0__["default"], _address_form_config_shipping_checkout__WEBPACK_IMPORTED_MODULE_1__["default"], _address_form_config_customer_address_book__WEBPACK_IMPORTED_MODULE_2__["default"]];
-      return addressFormConfigurations;
-    }
-  }]);
-
-  return ConfigManager;
-}();
-
-
-
-/***/ }),
-/* 2 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _state_mappings__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-  label: "Billing Checkout",
-  layoutSelectors: ["li#payment"],
-  countryIdentifier: '.billing-address-form select[name=country_id]',
-  searchIdentifier: ".billing-address-form input[name='street[0]']",
-  nz: {
-    countryValue: "NZ",
-    elements: {
-      address1: ".billing-address-form input[name='street[0]']",
-      address2: ".billing-address-form input[name='street[1]']",
-      suburb: ".billing-address-form input[name='street[2]']",
-      city: ".billing-address-form input[name=city]",
-      region: '.billing-address-form input[name=region]',
-      postcode: '.billing-address-form input[name=postcode]'
-    },
-    regionMappings: null
-  },
-  au: {
-    countryValue: "AU",
-    elements: {
-      address1: ".billing-address-form input[name='street[0]']",
-      address2: ".billing-address-form input[name='street[1]']",
-      suburb: '.billing-address-form input[name=city]',
-      state: '.billing-address-form select[name=region_id]',
-      postcode: '.billing-address-form input[name=postcode]'
-    },
-    stateMappings: _state_mappings__WEBPACK_IMPORTED_MODULE_0__["default"]
-  }
-});
-
-/***/ }),
-/* 3 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ({
-  'ACT': '569',
-  'NSW': '570',
-  'NT': '576',
-  'QLD': '572',
-  'SA': '573',
-  'TAS': '574',
-  'VIC': '571',
-  'WA': '575'
-});
-
-/***/ }),
-/* 4 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _state_mappings__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-  label: "Shipping Checkout",
-  layoutSelectors: ["li#opc-shipping_method"],
-  countryIdentifier: '.form-shipping-address select[name=country_id]',
-  searchIdentifier: ".form-shipping-address input[name='street[0]']",
-  nz: {
-    countryValue: "NZ",
-    elements: {
-      address1: ".form-shipping-address input[name='street[0]']",
-      address2: ".form-shipping-address input[name='street[1]']",
-      suburb: ".form-shipping-address input[name='street[2]']",
-      city: '.form-shipping-address input[name=city]',
-      region: '.form-shipping-address input[name=region]',
-      postcode: '.form-shipping-address input[name=postcode]'
-    },
-    regionMappings: null
-  },
-  au: {
-    countryValue: "AU",
-    elements: {
-      address1: ".form-shipping-address input[name='street[0]']",
-      address2: ".form-shipping-address input[name='street[1]']",
-      suburb: '.form-shipping-address input[name=city]',
-      state: '.form-shipping-address select[name=region_id]',
-      postcode: '.form-shipping-address input[name=postcode]'
-    },
-    stateMappings: _state_mappings__WEBPACK_IMPORTED_MODULE_0__["default"]
-  }
-});
-
-/***/ }),
-/* 5 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _state_mappings__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-  label: "Address book",
-  layoutSelectors: ["input#street_1"],
-  countryIdentifier: 'select[name=country_id]',
-  searchIdentifier: "input#street_1",
-  nz: {
-    countryValue: "NZ",
-    elements: {
-      address1: 'input#street_1',
-      suburb: 'input#street_2',
-      city: 'input[name=city]',
-      region: 'input[name=region]',
-      postcode: 'input[name=postcode]'
-    },
-    regionMappings: null
-  },
-  au: {
-    countryValue: "AU",
-    elements: {
-      address1: 'input#street_1',
-      address2: 'input#street_2',
-      suburb: 'input[name=city]',
-      state: 'select[name=region_id]',
-      postcode: 'input[name=postcode]'
-    },
-    stateMappings: _state_mappings__WEBPACK_IMPORTED_MODULE_0__["default"]
-  }
-});
-
-/***/ }),
-/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 (function webpackUniversalModuleDefinition(root, factory) {
