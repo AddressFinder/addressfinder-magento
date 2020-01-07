@@ -114,7 +114,7 @@ To begin, you'll need to add the following to your module's `etc/config.xml` (we
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
-  
+
     <!-- Listen to the "addressfinder_form_config" event -->
     <event name="addressfinder_form_config">
         <observer name="checkout_billing_address" instance="MyCompany\MyModule\Observer\FormConfig\AddMyForm"/>
@@ -206,7 +206,7 @@ class AddMyForm implements ObserverInterface
 }
 ```
 
-Of course, feel free to replace this with any logic suitable to your store. 
+Of course, feel free to replace this with any logic suitable to your store.
 
 > You may even modify an existing form configuration it by interacting with the `forms` property of the event *(stored as `$forms` in the example above)*.
 
@@ -273,3 +273,7 @@ This file can be uploaded to the Magento Marketplace by Matt, who will add all t
 ## Troubleshooting
 
 You may run into permissions issues. You can give read/write permissions for all files using: `chmod 0777 -R .`
+
+
+# Debugging
+If you are debugging a customer site, you can type `window.addressfinderDebugMode()` into the javascript console. This will reinitialise the widget, with the debug flag set to true, so you can see console logs from the addressfinder-webpage-tools npm package. This works in all modern browsers, and IE11.
