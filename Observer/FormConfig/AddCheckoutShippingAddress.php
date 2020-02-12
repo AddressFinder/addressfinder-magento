@@ -3,6 +3,7 @@
 namespace AddressFinder\AddressFinder\Observer\FormConfig;
 
 use AddressFinder\AddressFinder\Exception\NoStateMappingsException;
+use AddressFinder\AddressFinder\Model\FormConfigProvider;
 use AddressFinder\AddressFinder\Model\StateMappingProvider;
 use Magento\Framework\Data\Collection;
 use Magento\Framework\DataObject;
@@ -13,6 +14,12 @@ use Psr\Log\LoggerInterface;
 
 class AddCheckoutShippingAddress implements ObserverInterface
 {
+    const FORM_ID = 'frontend.checkout.shipping.address';
+    /**
+     * @var FormConfigProvider
+     */
+    private $configProvider;
+
     /**
      * @var StateMappingProvider
      */
@@ -26,10 +33,15 @@ class AddCheckoutShippingAddress implements ObserverInterface
     /**
      * Creates a new "Add Checkout Shipping Address" observer.
      *
+     * @param FormConfigProvider   $configProvider
      * @param StateMappingProvider $stateMappingProvider
      */
-    public function __construct(StateMappingProvider $stateMappingProvider, LoggerInterface $logger)
-    {
+    public function __construct(
+        FormConfigProvider $configProvider,
+        StateMappingProvider $stateMappingProvider,
+        LoggerInterface $logger
+    ) {
+        $this->configProvider       = $configProvider;
         $this->stateMappingProvider = $stateMappingProvider;
         $this->logger               = $logger;
     }
@@ -39,6 +51,10 @@ class AddCheckoutShippingAddress implements ObserverInterface
      */
     public function execute(Observer $observer)
     {
+        if (!$this->configProvider->isFormEnabled(self::FORM_ID)) {
+            return;
+        }
+
         /** @var Collection $forms */
         $forms = $observer->getEvent()->getData('forms');
 

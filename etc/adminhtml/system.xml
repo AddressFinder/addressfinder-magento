@@ -23,7 +23,25 @@
           </depends>
         </field>
 
-        <field id="debug_mode" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+        <field id="default_search_country" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+          <label>Default Search Country</label>
+          <source_model>AddressFinder\AddressFinder\Model\Config\Source\DefaultSearchCountry</source_model>
+          <comment>Default country to be searched if your checkout has no country select field.</comment>
+          <depends>
+            <field id="enabled">1</field>
+          </depends>
+        </field>
+
+        <field id="forms_enabled" type="multiselect" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+          <label>Enable Specific Forms</label>
+          <source_model>AddressFinder\AddressFinder\Model\Config\Source\FormsEnabled</source_model>
+          <comment>Enable all forms or specific forms. You may select multiple.</comment>
+          <depends>
+            <field id="enabled">1</field>
+          </depends>
+        </field>
+
+        <field id="debug_mode" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
           <label>Debug Mode</label>
           <source_model>Magento\Config\Model\Config\Source\Enabledisable</source_model>
           <comment>Print debug messages to the Javascript Console.</comment>
@@ -32,18 +50,9 @@
           </depends>
         </field>
 
-        <field id="widget_options" type="textarea" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+        <field id="widget_options" type="textarea" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
           <label>Widget Options</label>
           <comment><![CDATA[Must be in valid JSON format. For a list of options, see our Javascript widget reference for <a href='https://addressfinder.com.au/docs/widget_docs?utm_source=magento&utm_medium=extension&utm_campaign=magento_admin&utm_term=Australia#options'>Australia</a> or <a href='https://addressfinder.nz/docs/widget_docs?utm_source=magento&utm_medium=extension&utm_campaign=magento_admin&utm_term=New%20Zealand#options'>New Zealand</a>.]]></comment>
-          <depends>
-            <field id="enabled">1</field>
-          </depends>
-        </field>
-
-        <field id="default_search_country" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
-          <label>Default Search Country</label>
-          <source_model>AddressFinder\AddressFinder\Model\Config\Source\DefaultSearchCountry</source_model>
-          <comment>Default country to be searched if your checkout has no country select field.</comment>
           <depends>
             <field id="enabled">1</field>
           </depends>
