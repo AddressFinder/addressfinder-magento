@@ -72,12 +72,11 @@ class WidgetConfigProvider
     }
 
     /**
-     * Gets widget options and escapes any double-quote characters with a backslash. This
-     * enables the string to be embedded straight into the HTML (wrapped in quotes).
+     * Gets JSON widget options stored in config. Validates the JSON that's returned back prior to sending
+     * it to the client side. If the JSON is invalid, a warning will be logged and no options will be
+     * passed through to the client side.
      *
-     * If no widgetOptions are available, then string containing "{}" is returned.
-     *
-     * @return mixed
+     * @return mixed The data structure that is encoded, typically an associative array
      */
     public function getWidgetOptions()
     {
