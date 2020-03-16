@@ -1,13 +1,13 @@
 <?php
 
-namespace AddressFinder\AddressFinder\Block;
+namespace AddressFinder\AddressFinder\Block\Adminhtml;
 
 use AddressFinder\AddressFinder\Model\FormConfigProvider;
 use AddressFinder\AddressFinder\Model\WidgetConfigProvider;
+use Magento\Backend\Block\Template;
+use Magento\Backend\Block\Template\Context as TemplateContext;
 use Magento\Framework\Data\Collection;
 use Magento\Framework\Data\CollectionFactory;
-use Magento\Framework\View\Element\Template;
-use Magento\Framework\View\Element\Template\Context as TemplateContext;
 use Magento\Store\Model\ScopeInterface;
 use Magento\Framework\Json\DecoderInterface;
 
@@ -83,7 +83,7 @@ class Plugin extends Template
             $this->_eventManager->dispatch(
                 'addressfinder_form_config',
                 [
-                    'area' => FormConfigProvider::AREA_FRONTEND,
+                    'area' => FormConfigProvider::AREA_ADMIN,
                     'forms' => $this->formsConfig,
                 ]
             );

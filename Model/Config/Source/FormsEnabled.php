@@ -2,7 +2,8 @@
 
 namespace AddressFinder\AddressFinder\Model\Config\Source;
 
-use AddressFinder\AddressFinder\Observer\FormConfig;
+use AddressFinder\AddressFinder\Observer\FormConfig\Adminhtml;
+use AddressFinder\AddressFinder\Observer\FormConfig\Frontend;
 use Magento\Framework\Data\OptionSourceInterface;
 
 class FormsEnabled implements OptionSourceInterface
@@ -29,18 +30,31 @@ class FormsEnabled implements OptionSourceInterface
                 'value' => [
                     [
                         'label' => 'Checkout Billing Address',
-                        'value' => FormConfig\AddCheckoutBillingAddress::FORM_ID,
+                        'value' => Frontend\AddCheckoutBillingAddress::FORM_ID,
                     ],
                     [
                         'label' => 'Checkout Shipping Address',
-                        'value' => FormConfig\AddCheckoutShippingAddress::FORM_ID,
+                        'value' => Frontend\AddCheckoutShippingAddress::FORM_ID,
                     ],
                     [
                         'label' => 'Customer Address Book',
-                        'value' => FormConfig\AddCustomerAddressBook::FORM_ID,
+                        'value' => Frontend\AddCustomerAddressBook::FORM_ID,
                     ],
                 ],
-            ]
+            ],
+            [
+                'label' => 'Admin',
+                'value' => [
+                    [
+                        'label' => 'Order Billing Address',
+                        'value' => Adminhtml\AddOrderBillingAddress::FORM_ID,
+                    ],
+                    [
+                        'label' => 'Order Shipping Address',
+                        'value' => Adminhtml\AddOrderShippingAddress::FORM_ID,
+                    ],
+                ],
+            ],
         ];
     }
 }
