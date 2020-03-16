@@ -1,10 +1,13 @@
 const path = require("path");
 
 const config = {
-  entry: path.resolve(__dirname, './view/frontend/web/js/source/magento-plugin.js'),
+  entry: {
+    'adminhtml/web/js': path.resolve(__dirname, './view/base/web/js/source/magento-plugin.js'),
+    'frontend/web/js': path.resolve(__dirname, './view/base/web/js/source/magento-plugin.js'),
+  },
   output: {
-    path: path.resolve(__dirname, "./view/frontend/web/js"),
-    filename: "magento-plugin.js",
+    path: path.resolve(__dirname, 'view'),
+    filename: "[name]/magento-plugin.js",
     libraryTarget: 'umd',
     libraryExport: 'default'
   },

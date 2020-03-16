@@ -1,6 +1,6 @@
 <?php
 
-namespace AddressFinder\AddressFinder\Observer\FormConfig;
+namespace AddressFinder\AddressFinder\Observer\FormConfig\Frontend;
 
 use AddressFinder\AddressFinder\Exception\NoStateMappingsException;
 use AddressFinder\AddressFinder\Model\FormConfigProvider;
@@ -17,6 +17,7 @@ use Psr\Log\LoggerInterface;
 class AddCheckoutBillingAddress implements ObserverInterface
 {
     const FORM_ID = 'frontend.checkout.billing.address';
+
     /**
      * @var FormConfigProvider
      */
@@ -61,7 +62,10 @@ class AddCheckoutBillingAddress implements ObserverInterface
      */
     public function execute(Observer $observer)
     {
-        if (!$this->configProvider->isFormEnabled(self::FORM_ID)) {
+        /** @var string $area */
+        $area = $observer->getEvent()->getData('area');
+
+        if (FormConfigProvider::AREA_FRONTEND !== $area || !$this->configProvider->isFormEnabled(self::FORM_ID)) {
             return;
         }
 
@@ -83,6 +87,7 @@ class AddCheckoutBillingAddress implements ObserverInterface
 
         foreach ($this->getActivePaymentMethodCodes() as $code) {
             $forms->addItem(new DataObject([
+                'id' => self::FORM_ID,
                 'label' => sprintf('Checkout Billing Address (%s)', $code),
                 'layoutSelectors' => [
                     'li#payment',

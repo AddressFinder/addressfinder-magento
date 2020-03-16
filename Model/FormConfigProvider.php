@@ -9,6 +9,9 @@ use Magento\Store\Model\ScopeInterface;
 
 class FormConfigProvider
 {
+    const AREA_ADMIN = 'admin';
+    const AREA_FRONTEND = 'frontend';
+
     /**
      * @var ScopeConfigInterface
      */

@@ -1,6 +1,6 @@
 <?php
 
-namespace AddressFinder\AddressFinder\Observer\FormConfig;
+namespace AddressFinder\AddressFinder\Observer\FormConfig\Adminhtml;
 
 use AddressFinder\AddressFinder\Exception\NoStateMappingsException;
 use AddressFinder\AddressFinder\Model\FormConfigProvider;
@@ -12,9 +12,10 @@ use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Psr\Log\LoggerInterface;
 
-class AddCustomerAddressBook implements ObserverInterface
+class AddOrderBillingAddress implements ObserverInterface
 {
-    const FORM_ID = 'frontend.customer.address.book';
+    const FORM_ID = 'admin.order.billing.address';
+
     /**
      * @var FormConfigProvider
      */
@@ -31,8 +32,9 @@ class AddCustomerAddressBook implements ObserverInterface
     private $logger;
 
     /**
-     * Creates a new "Add Customer Address Book" observer.
+     * Creates a new "Add Checkout Shipping Address" observer.
      *
+     * @param FormConfigProvider   $configProvider
      * @param StateMappingProvider $stateMappingProvider
      */
     public function __construct(
@@ -50,7 +52,10 @@ class AddCustomerAddressBook implements ObserverInterface
      */
     public function execute(Observer $observer)
     {
-        if (!$this->configProvider->isFormEnabled(self::FORM_ID)) {
+        /** @var string $area */
+        $area = $observer->getEvent()->getData('area');
+
+        if (FormConfigProvider::AREA_ADMIN !== $area || !$this->configProvider->isFormEnabled(self::FORM_ID)) {
             return;
         }
 
@@ -61,40 +66,43 @@ class AddCustomerAddressBook implements ObserverInterface
             $stateMappings = $this->stateMappingProvider->forCountry('AU');
         } catch (NoSuchEntityException $e) {
             $this->logger->error(sprintf(
-                'Could not attach customer address book: %s.',
-                $e->getMessage())
+                    'Could not attach order billing address: %s.',
+                    $e->getMessage())
             );
+
             return;
         } catch (NoStateMappingsException $e) {
             $stateMappings = null;
         }
 
         $forms->addItem(new DataObject([
-            'label' => 'Customer Address Book',
-            'layoutSelectors' => ['input#street_1'],
-            'countryIdentifier' => 'select[name=country_id]',
-            'searchIdentifier' => 'input#street_1',
+            'id' => self::FORM_ID,
+            'label' => 'Order Billing Address',
+            'layoutSelectors' => ['#order-billing_address_fields'],
+            'countryIdentifier' => '#order-billing_address_country_id',
+            'searchIdentifier' => '#order-billing_address_street0',
             'nz' => [
                 'countryValue' => 'NZ',
                 'elements' => [
-                    'address1' => 'input#street_1',
-                    'suburb' => 'input#street_2',
-                    'city' => 'input[name=city]',
-                    'region' => 'input[name=region]',
-                    'postcode' => 'input[name=postcode]',
+                    'address1' => '#order-billing_address_street0',
+                    'address2' => '#order-billing_address_street1',
+                    'suburb' => '.form-shipping-address input[name="street[2]"]',
+                    'city' => '#order-billing_address_city',
+                    'region' => '#order-billing_address_region',
+                    'postcode' => '#order-billing_address_postcode',
                 ],
                 'regionMappings' => null,
             ],
             'au' => [
                 'countryValue' => 'AU',
                 'elements' => [
-                    'address1' => 'input#street_1',
-                    'address2' => 'input#street_2',
-                    'suburb' => 'input[name=city]',
+                    'address1' => '#order-billing_address_street0',
+                    'address2' => '#order-billing_address_street1',
+                    'suburb' => '#order-billing_address_city',
                     'state' => $stateMappings
-                        ? 'select[name=region_id]'
-                        : 'input[name=region]',
-                    'postcode' => 'input[name=postcode]',
+                        ? '#order-billing_address_region_id'
+                        : '#order-billing_address_region',
+                    'postcode' => '#order-billing_address_postcode',
                 ],
                 'stateMappings' => $stateMappings,
             ],
