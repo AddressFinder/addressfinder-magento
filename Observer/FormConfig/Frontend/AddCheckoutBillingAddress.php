@@ -2,41 +2,23 @@
 
 namespace AddressFinder\AddressFinder\Observer\FormConfig\Frontend;
 
-use AddressFinder\AddressFinder\Exception\NoStateMappingsException;
 use AddressFinder\AddressFinder\Model\FormConfigProvider;
 use AddressFinder\AddressFinder\Model\StateMappingProvider;
+use AddressFinder\AddressFinder\Observer\FormConfig\Base;
+use Exception;
 use Magento\Framework\Data\Collection;
 use Magento\Framework\DataObject;
-use Magento\Framework\Event\Observer;
-use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Exception\LocalizedException;
-use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Payment\Helper\Data as PaymentHelper;
-use Psr\Log\LoggerInterface;
 
-class AddCheckoutBillingAddress implements ObserverInterface
+class AddCheckoutBillingAddress extends Base
 {
     const FORM_ID = 'frontend.checkout.billing.address';
-
-    /**
-     * @var FormConfigProvider
-     */
-    private $configProvider;
-
-    /**
-     * @var StateMappingProvider
-     */
-    private $stateMappingProvider;
 
     /**
      * @var PaymentHelper
      */
     private $paymentHelper;
-
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
 
     /**
      * Creates a new "Add Checkout Billing Address" observer.
@@ -48,43 +30,20 @@ class AddCheckoutBillingAddress implements ObserverInterface
     public function __construct(
         FormConfigProvider $configProvider,
         StateMappingProvider $stateMappingProvider,
-        PaymentHelper $paymentHelper,
-        LoggerInterface $logger
+        PaymentHelper $paymentHelper
     ) {
-        $this->configProvider       = $configProvider;
-        $this->stateMappingProvider = $stateMappingProvider;
-        $this->paymentHelper        = $paymentHelper;
-        $this->logger               = $logger;
+        parent::__construct($configProvider, $stateMappingProvider);
+
+        $this->paymentHelper = $paymentHelper;
     }
 
     /**
-     * {@inheritDoc}
+     * @inheritDoc
+     *
+     * @throws Exception
      */
-    public function execute(Observer $observer)
+    protected function addForm(Collection $forms)
     {
-        /** @var string $area */
-        $area = $observer->getEvent()->getData('area');
-
-        if (FormConfigProvider::AREA_FRONTEND !== $area || !$this->configProvider->isFormEnabled(self::FORM_ID)) {
-            return;
-        }
-
-        /** @var Collection $forms */
-        $forms = $observer->getEvent()->getData('forms');
-
-        try {
-            $stateMappings = $this->stateMappingProvider->forCountry('AU');
-        } catch (NoSuchEntityException $e) {
-            $this->logger->error(sprintf(
-                'Could not attach checkout billing address: %s.',
-                $e->getMessage()
-            ));
-
-            return;
-        } catch (NoStateMappingsException $e) {
-            $stateMappings = null;
-        }
-
         foreach ($this->getActivePaymentMethodCodes() as $code) {
             $forms->addItem(new DataObject([
                 'id' => self::FORM_ID,
@@ -146,7 +105,7 @@ class AddCheckoutBillingAddress implements ObserverInterface
                             'div[name="billingAddress%s.city"] input[name=city]',
                             $code
                         ),
-                        'state' => $stateMappings
+                        'state' => $this->getStateMappings('AU')
                             ? sprintf(
                                 'div[name="billingAddress%s.region_id"] select[name=region_id]',
                                 $code
@@ -160,7 +119,7 @@ class AddCheckoutBillingAddress implements ObserverInterface
                             $code
                         ),
                     ],
-                    'stateMappings' => $stateMappings,
+                    'stateMappings' => $this->getStateMappings('AU'),
                 ],
             ]));
         }

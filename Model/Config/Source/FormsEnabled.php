@@ -6,6 +6,7 @@ use AddressFinder\AddressFinder\Observer\FormConfig\Adminhtml;
 use AddressFinder\AddressFinder\Observer\FormConfig\Frontend;
 use Magento\Framework\App\ProductMetadataInterface;
 use Magento\Framework\Data\OptionSourceInterface;
+use Magento\Framework\Event\ManagerInterface;
 
 class FormsEnabled implements OptionSourceInterface
 {
@@ -13,16 +14,6 @@ class FormsEnabled implements OptionSourceInterface
      * A constant that represents all forms being enabled.
      */
     const ALL = 'all';
-
-    /**
-     * @var ProductMetadataInterface
-     */
-    private $productMetadata;
-
-    public function __construct(ProductMetadataInterface $productMetadata)
-    {
-        $this->productMetadata = $productMetadata;
-    }
 
     /**
      * Return array of options as value-label pairs, eg. value => label

@@ -4,34 +4,63 @@ namespace AddressFinder\AddressFinder\Model;
 
 use AddressFinder\AddressFinder\Model\Config\Source\FormsEnabled;
 use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Framework\Data\Collection;
+use Magento\Framework\Data\CollectionFactory;
+use Magento\Framework\Event\ManagerInterface;
 use Magento\Framework\Json\DecoderInterface;
 use Magento\Store\Model\ScopeInterface;
+use Psr\Log\LoggerInterface;
 
 class FormConfigProvider
 {
-    const AREA_ADMIN = 'admin';
-    const AREA_FRONTEND = 'frontend';
-
     /**
      * @var ScopeConfigInterface
      */
     private $scopeConfig;
 
     /**
+     * @var ManagerInterface
+     */
+    private $events;
+
+    /**
+     * @var CollectionFactory
+     */
+    private $collectionFactory;
+
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
+    /**
+     * Form config cache, where each key is the event name used to build the config.
+     */
+    private $formsConfig = [];
+
+    /**
      * Creates a new form config provider.
      */
-    public function __construct(ScopeConfigInterface $scopeConfig)
-    {
+    public function __construct(
+        ScopeConfigInterface $scopeConfig,
+        ManagerInterface $events,
+        CollectionFactory $collectionFactory,
+        LoggerInterface $logger
+    ) {
         $this->scopeConfig = $scopeConfig;
+        $this->events = $events;
+        $this->collectionFactory = $collectionFactory;
+        $this->logger = $logger;
     }
 
     /**
      * Tells if the given form is enabled or not based on user configuration.
      *
      * @param string $form
-     * @return boolTe
+     *
+     * @return bool
      */
-    public function isFormEnabled(string $form): bool
+    public function isFormEnabled($form)
     {
         $config = $this->getConfigValue();
 
@@ -40,6 +69,41 @@ class FormConfigProvider
         }
 
         return in_array($form, $config, true);
+    }
+
+    /**
+     * Gets form config by firing the given event name and returning
+     * the collection of forms built by observers.
+     *
+     * @param string $eventName
+     *
+     * @return Collection
+     */
+    public function get($eventName)
+    {
+        if (!array_key_exists($eventName, $this->formsConfig)) {
+
+            /** @var Collection $forms */
+            $formsConfig = $this->collectionFactory->create();
+
+            $this->events->dispatch(
+                $eventName,
+                [
+                    'forms' => $formsConfig,
+                ]
+            );
+
+            if (0 === $formsConfig->count()) {
+                $this->logger->warning(sprintf(
+                    'There are no configured forms for AddressFinder for the "%s" event.',
+                    $eventName
+                ));
+            }
+
+            $this->formsConfig[$eventName] = $formsConfig;
+        }
+
+        return $this->formsConfig[$eventName];
     }
 
     /**

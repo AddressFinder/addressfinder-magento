@@ -115,7 +115,10 @@ To begin, you'll need to add the following to your module's `etc/config.xml` (we
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
 
-    <!-- Listen to the "addressfinder_form_config" event -->
+    <!-- 
+        Listen to the "addressfinder_form_config" event. If you're building an admin
+        form, you'll need to listen to "addressfinder_form_config_admin" instead.
+    -->
     <event name="addressfinder_form_config">
         <observer name="checkout_billing_address" instance="MyCompany\MyModule\Observer\FormConfig\AddMyForm"/>
 
@@ -130,85 +133,84 @@ You'll need to create your own observer class to hook into the event and create 
 
 namespace MyCompany\MyModule\Observer\FormConfig;
 
-use AddressFinder\AddressFinder\Model\StateMappingProvider;
+use AddressFinder\AddressFinder\Model\FormConfigProvider;
+use AddressFinder\AddressFinder\Observer\FormConfig\Base;
+use Exception;
 use Magento\Framework\Data\Collection;
 use Magento\Framework\DataObject;
-use Magento\Framework\Event\Observer;
-use Magento\Framework\Event\ObserverInterface;
-use Magento\Framework\Exception\NoSuchEntityException;
-use Psr\Log\LoggerInterface;
 
-class AddMyForm implements ObserverInterface
+class AddMyForm extends Base
 {
-    /**
-     * @var StateMappingProvider
-     */
-    private $stateMappingProvider;
-
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
-
-    /**
-     * Creates a new "Add My Form" observer.
+  	/**
+     * A unique identifier for the form.
      *
-     * @param StateMappingProvider $stateMappingProvider
+     * @var string
      */
-    public function __construct(StateMappingProvider $stateMappingProvider, LoggerInterface $logger)
-    {
-        $this->stateMappingProvider = $stateMappingProvider;
-        $this->logger = $logger;
-    }
+    const FORM_ID = 'my.form.id';
 
     /**
-     * {@inheritDoc}
-     * @throws NoSuchEntityException
+     * @inheritDoc
+     *
+     * @throws Exception
      */
-    public function execute(Observer $observer)
+    protected function addForm(Collection $forms)
     {
-        /** @var Collection $forms */
-        $forms = $observer->getEvent()->getData('forms');
-
-        try {
-            $forms->addItem(new DataObject([
-                'label' => 'My Form',
-                'layoutSelectors' => ['input#street_1'],
-                'countryIdentifier' => 'select[name=country_id]',
-                'searchIdentifier' => 'input#street_1',
-                'nz' => [
-                    'countryValue' => 'NZ',
-                    'elements' => [
-                        'address1' => 'input#street_1',
-                        'suburb' => 'input#street_2',
-                        'city' => 'input[name=city]',
-                        'region' => 'input[name=region]',
-                        'postcode' => 'input[name=postcode]',
-                    ],
-                    'regionMappings' => null,
+        $forms->addItem(new DataObject([
+            'id' => self::FORM_ID,
+            'label' => 'My Form',
+            'layoutSelectors' => ['li#opc-shipping_method'],
+            'countryIdentifier' => '.form-shipping-address select[name=country_id]',
+            'searchIdentifier' => '.form-shipping-address input[name="street[0]"]',
+            'nz' => [
+                'countryValue' => 'NZ',
+                'elements' => [
+                    'address1' => '.form-shipping-address input[name="street[0]"]',
+                    'address2' => '.form-shipping-address input[name="street[1]"]',
+                    'suburb' => '.form-shipping-address input[name="street[2]"]',
+                    'city' => '.form-shipping-address input[name=city]',
+                    'region' => '.form-shipping-address input[name=region]',
+                    'postcode' => '.form-shipping-address input[name=postcode]',
                 ],
-                'au' => [
-                    'countryValue' => 'AU',
-                    'elements' => [
-                        'address1' => 'input#street_1',
-                        'address2' => 'input#street_2',
-                        'suburb' => 'input[name=city]',
-                        'state' => 'select[name=region_id]',
-                        'postcode' => 'input[name=postcode]',
-                    ],
-                    'stateMappings' => $this->stateMappingProvider->forCountry('AU'),
+                'regionMappings' => null,
+            ],
+            'au' => [
+                'countryValue' => 'AU',
+                'elements' => [
+                    'address1' => '.form-shipping-address input[name="street[0]"]',
+                    'address2' => '.form-shipping-address input[name="street[1]"]',
+                    'suburb' => '.form-shipping-address input[name="city"]',
+                    'state' => $this->getStateMappings('AU')
+                        ? '.form-shipping-address select[name=region_id]'
+                        : '.form-shipping-address input[name=region]',
+                    'postcode' => '.form-shipping-address input[name=postcode]',
                 ],
-            ]));
-        } catch (NoSuchEntityException $e) {
-            $this->logger->error(sprintf('Could not fetch state mappings: %s.', $e->getMessage()));
-        }
+                'stateMappings' => $this->getStateMappings('AU'),
+            ],
+        ]));
     }
 }
 ```
 
 Of course, feel free to replace this with any logic suitable to your store.
 
-> You may even modify an existing form configuration it by interacting with the `forms` property of the event *(stored as `$forms` in the example above)*.
+> You may even modify an existing form configuration it by interacting with the `forms` property of the `addForm(Collection $forms)` method.
+
+If you're adding forms to a page that we don't already support, such as [these admin pages](https://github.com/abletech/addressfinder-magento/tree/develop/view/adminhtml/layout) or [these frontend pages](https://github.com/abletech/addressfinder-magento/tree/develop/view/frontend/layout), you'll need to enabled AddressFinder on that page. For example, to enable AddressFinder on the home page, create the following `cms_index_index.xml` file in the [appropriate location](https://devdocs.magento.com/guides/v2.3/frontend-dev-guide/layouts/layout-overview.html) within your store:
+
+```xml
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+      
+        <!-- Add the AddressFinder plugin to the page -->
+        <referenceContainer name="before.body.end">
+            <block class="AddressFinder\AddressFinder\Block\Plugin" name="addressfinder.plugin"/>
+        </referenceContainer>
+
+    </body>
+</page>
+```
 
 
 ## Seeing your changes inside your Magento Test store
