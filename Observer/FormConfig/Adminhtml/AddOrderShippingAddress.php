@@ -5,6 +5,7 @@ namespace AddressFinder\AddressFinder\Observer\FormConfig\Adminhtml;
 use AddressFinder\AddressFinder\Exception\NoStateMappingsException;
 use AddressFinder\AddressFinder\Model\FormConfigProvider;
 use AddressFinder\AddressFinder\Model\StateMappingProvider;
+use Magento\Framework\App\ProductMetadataInterface;
 use Magento\Framework\Data\Collection;
 use Magento\Framework\DataObject;
 use Magento\Framework\Event\Observer;
@@ -16,6 +17,8 @@ class AddOrderShippingAddress implements ObserverInterface
 {
     const FORM_ID = 'admin.order.shipping.address';
 
+    const CUTOFF_VERSION = '2.2.0';
+
     /**
      * @var FormConfigProvider
      */
@@ -25,6 +28,11 @@ class AddOrderShippingAddress implements ObserverInterface
      * @var StateMappingProvider
      */
     private $stateMappingProvider;
+
+    /**
+     * @var ProductMetadataInterface
+     */
+    private $productMetadata;
 
     /**
      * @var LoggerInterface
@@ -40,10 +48,12 @@ class AddOrderShippingAddress implements ObserverInterface
     public function __construct(
         FormConfigProvider $configProvider,
         StateMappingProvider $stateMappingProvider,
+        ProductMetadataInterface $productMetadata,
         LoggerInterface $logger
     ) {
         $this->configProvider       = $configProvider;
         $this->stateMappingProvider = $stateMappingProvider;
+        $this->productMetadata      = $productMetadata;
         $this->logger               = $logger;
     }
 
@@ -52,6 +62,10 @@ class AddOrderShippingAddress implements ObserverInterface
      */
     public function execute(Observer $observer)
     {
+        if (version_compare($this->productMetadata->getVersion(), self::CUTOFF_VERSION, '<')) {
+            return;
+        }
+
         /** @var string $area */
         $area = $observer->getEvent()->getData('area');
 

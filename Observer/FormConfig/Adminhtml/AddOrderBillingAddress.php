@@ -5,6 +5,7 @@ namespace AddressFinder\AddressFinder\Observer\FormConfig\Adminhtml;
 use AddressFinder\AddressFinder\Exception\NoStateMappingsException;
 use AddressFinder\AddressFinder\Model\FormConfigProvider;
 use AddressFinder\AddressFinder\Model\StateMappingProvider;
+use Magento\Framework\App\ProductMetadataInterface;
 use Magento\Framework\Data\Collection;
 use Magento\Framework\DataObject;
 use Magento\Framework\Event\Observer;
@@ -15,6 +16,8 @@ use Psr\Log\LoggerInterface;
 class AddOrderBillingAddress implements ObserverInterface
 {
     const FORM_ID = 'admin.order.billing.address';
+
+    const CUTOFF_VERSION = '2.2.0';
 
     /**
      * @var FormConfigProvider
@@ -27,6 +30,11 @@ class AddOrderBillingAddress implements ObserverInterface
     private $stateMappingProvider;
 
     /**
+     * @var ProductMetadataInterface
+     */
+    private $productMetadata;
+
+    /**
      * @var LoggerInterface
      */
     private $logger;
@@ -34,16 +42,18 @@ class AddOrderBillingAddress implements ObserverInterface
     /**
      * Creates a new "Add Checkout Shipping Address" observer.
      *
-     * @param FormConfigProvider   $configProvider
+     * @param FormConfigProvider $configProvider
      * @param StateMappingProvider $stateMappingProvider
      */
     public function __construct(
         FormConfigProvider $configProvider,
         StateMappingProvider $stateMappingProvider,
+        ProductMetadataInterface $productMetadata,
         LoggerInterface $logger
     ) {
         $this->configProvider       = $configProvider;
         $this->stateMappingProvider = $stateMappingProvider;
+        $this->productMetadata      = $productMetadata;
         $this->logger               = $logger;
     }
 
@@ -52,6 +62,10 @@ class AddOrderBillingAddress implements ObserverInterface
      */
     public function execute(Observer $observer)
     {
+        if (version_compare($this->productMetadata->getVersion(), self::CUTOFF_VERSION, '<')) {
+            return;
+        }
+
         /** @var string $area */
         $area = $observer->getEvent()->getData('area');
 
