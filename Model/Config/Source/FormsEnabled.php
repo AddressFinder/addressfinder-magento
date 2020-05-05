@@ -2,10 +2,11 @@
 
 namespace AddressFinder\AddressFinder\Model\Config\Source;
 
-use AddressFinder\AddressFinder\Observer\FormConfig\Adminhtml;
-use AddressFinder\AddressFinder\Observer\FormConfig\Frontend;
+use Magento\Framework\Data\Collection;
+use Magento\Framework\Data\CollectionFactory;
 use Magento\Framework\App\ProductMetadataInterface;
 use Magento\Framework\Data\OptionSourceInterface;
+use Magento\Framework\DataObject;
 use Magento\Framework\Event\ManagerInterface;
 
 class FormsEnabled implements OptionSourceInterface
@@ -16,12 +17,42 @@ class FormsEnabled implements OptionSourceInterface
     const ALL = 'all';
 
     /**
+     * @var CollectionFactory
+     */
+    private $collectionFactory;
+
+    /**
+     * @var ManagerInterface
+     */
+    private $events;
+
+    /**
+     * Creates a new "forms enabled" config source.
+     */
+    public function __construct(CollectionFactory $collectionFactory, ManagerInterface $events)
+    {
+        $this->collectionFactory = $collectionFactory;
+        $this->events = $events;
+    }
+
+    /**
      * Return array of options as value-label pairs, eg. value => label
      *
      * @return array
      */
     public function toOptionArray()
     {
+        /** @var Collection $frontend */
+        $frontend = $this->collectionFactory->create();
+
+        /** @var Collection $adminhtml */
+        $adminhtml = $this->collectionFactory->create();
+
+        $this->events->dispatch('addressfinder_config_source_forms_enabled', [
+            'frontend' => $frontend,
+            'adminhtml' => $adminhtml,
+        ]);
+
         $options = [
             [
                 'label' => __('All'),
@@ -29,47 +60,18 @@ class FormsEnabled implements OptionSourceInterface
             ],
             [
                 'label' => 'Frontend',
-                'value' => [
-                    [
-                        'label' => 'Checkout Billing Address',
-                        'value' => Frontend\AddCheckoutBillingAddress::FORM_ID,
-                    ],
-                    [
-                        'label' => 'Checkout Shipping Address',
-                        'value' => Frontend\AddCheckoutShippingAddress::FORM_ID,
-                    ],
-                    [
-                        'label' => 'Customer Address Book',
-                        'value' => Frontend\AddCustomerAddressBook::FORM_ID,
-                    ],
-                ],
+                'value' => $frontend->toArray()['items'],
             ],
             [
                 'label' => 'Admin',
-                'value' => [],
+                'value' => $adminhtml->toArray()['items'],
             ],
         ];
 
-        $addOrderBillingAddress = version_compare($this->productMetadata->getVersion(), Adminhtml\AddOrderBillingAddress::CUTOFF_VERSION, '>=');
-
-        if ($addOrderBillingAddress) {
-            $options[2]['value'][] = [
-                'label' => 'Order Billing Address',
-                'value' => Adminhtml\AddOrderBillingAddress::FORM_ID,
-            ];
-        }
-
-        $addOrderShippingAddress = version_compare($this->productMetadata->getVersion(), Adminhtml\AddOrderShippingAddress::CUTOFF_VERSION, '>=');
-
-        if ($addOrderShippingAddress) {
-            $options[2]['value'][] = [
-                'label' => 'Order Shipping Address',
-                'value' => Adminhtml\AddOrderShippingAddress::FORM_ID,
-            ];
-        }
-
-        if (0 === count($options[2]['value'])) {
-            array_pop($options);
+        foreach ($options as $index => $group) {
+            if (empty($group['value'])) {
+                array_splice($options, $index, 1);
+            }
         }
 
         return $options;

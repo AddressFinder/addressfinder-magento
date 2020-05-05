@@ -3,9 +3,10 @@
 namespace AddressFinder\AddressFinder\Observer\FormConfig\Adminhtml;
 
 use AddressFinder\AddressFinder\Model\FormConfigProvider;
+use AddressFinder\AddressFinder\Model\StateMappingProvider;
+use AddressFinder\AddressFinder\Observer\Config\Source\Adminhtml\OrderBillingAddress;
 use AddressFinder\AddressFinder\Observer\FormConfig\Base;
 use Exception;
-use Magento\Framework\App\ProductMetadataInterface;
 use Magento\Framework\Data\Collection;
 use Magento\Framework\DataObject;
 
@@ -13,7 +14,21 @@ class AddOrderBillingAddress extends Base
 {
     const FORM_ID = 'admin.order.billing.address';
 
-    const CUTOFF_VERSION = '2.2.0';
+    /** @var OrderBillingAddress */
+    private $orderBillingAddress;
+
+    /**
+     * {@inheritDoc}
+     */
+    public function __construct(
+        FormConfigProvider $configProvider,
+        StateMappingProvider $stateMappingProvider,
+        OrderBillingAddress $orderBillingAddress
+    ) {
+        parent::__construct($configProvider, $stateMappingProvider);
+
+        $this->orderBillingAddress = $orderBillingAddress;
+    }
 
     /**
      * @inheritDoc
@@ -54,5 +69,11 @@ class AddOrderBillingAddress extends Base
                 'stateMappings' => $this->getStateMappings('AU'),
             ],
         ]));
+    }
+
+    /** {@inheritDoc} */
+    protected function shouldShow()
+    {
+        return parent::shouldShow() && $this->orderBillingAddress->canUse();
     }
 }

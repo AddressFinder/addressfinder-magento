@@ -3,9 +3,10 @@
 namespace AddressFinder\AddressFinder\Observer\FormConfig\Adminhtml;
 
 use AddressFinder\AddressFinder\Model\FormConfigProvider;
+use AddressFinder\AddressFinder\Model\StateMappingProvider;
+use AddressFinder\AddressFinder\Observer\Config\Source\Adminhtml\OrderShippingAddress;
 use AddressFinder\AddressFinder\Observer\FormConfig\Base;
 use Exception;
-use Magento\Framework\App\ProductMetadataInterface;
 use Magento\Framework\Data\Collection;
 use Magento\Framework\DataObject;
 
@@ -13,7 +14,22 @@ class AddOrderShippingAddress extends Base
 {
     const FORM_ID = 'admin.order.shipping.address';
 
-    const CUTOFF_VERSION = '2.2.0';
+    /** @var OrderShippingAddress */
+    private $orderShippingAddress;
+
+    /**
+     * {@inheritDoc}
+     *
+     */
+    public function __construct(
+        FormConfigProvider $configProvider,
+        StateMappingProvider $stateMappingProvider,
+        OrderShippingAddress $orderShippingAddress
+    ) {
+        parent::__construct($configProvider, $stateMappingProvider);
+
+        $this->orderShippingAddress = $orderShippingAddress;
+    }
 
     /**
      * @inheritDoc
@@ -54,5 +70,11 @@ class AddOrderShippingAddress extends Base
                 'stateMappings' => $this->getStateMappings('AU'),
             ],
         ]));
+    }
+
+    /** {@inheritDoc} */
+    protected function shouldShow()
+    {
+        return parent::shouldShow() && $this->orderShippingAddress->canUse();
     }
 }
