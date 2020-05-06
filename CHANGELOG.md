@@ -1,3 +1,7 @@
+# AddressFinder 1.4.1 (May 7th 2020)
+* Add AddressFinder to the Order form address fields for Magento 2.2 and 2.3
+* Bump Acorn version to v6.4.1
+
 # AddressFinder 1.4.0 (January 6th 2020)
 * Fetch state mappings and payment methods server side.
 * Offically remove support for Magento 2.0
