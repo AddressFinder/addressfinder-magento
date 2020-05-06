@@ -100,7 +100,7 @@ class AddOrderShippingAddress implements ObserverInterface
                 'elements' => [
                     'address1' => '#order-shipping_address_street0',
                     'address2' => '#order-shipping_address_street1',
-                    'suburb' => '.form-shipping-address input[name="street[2]"]',
+                    'suburb' => '#order-shipping_address_street2',
                     'city' => '#order-shipping_address_city',
                     'region' => '#order-shipping_address_region',
                     'postcode' => '#order-shipping_address_postcode',
