@@ -1,8 +1,9 @@
 <?php
 
-namespace AddressFinder\AddressFinder\Observer\FormConfig;
+namespace AddressFinder\AddressFinder\Observer\FormConfig\Frontend;
 
 use AddressFinder\AddressFinder\Exception\NoStateMappingsException;
+use AddressFinder\AddressFinder\Model\FormConfigProvider;
 use AddressFinder\AddressFinder\Model\StateMappingProvider;
 use Magento\Framework\Data\Collection;
 use Magento\Framework\DataObject;
@@ -13,6 +14,13 @@ use Psr\Log\LoggerInterface;
 
 class AddCustomerAddressBook implements ObserverInterface
 {
+    const FORM_ID = 'frontend.customer.address.book';
+
+    /**
+     * @var FormConfigProvider
+     */
+    private $configProvider;
+
     /**
      * @var StateMappingProvider
      */
@@ -28,10 +36,14 @@ class AddCustomerAddressBook implements ObserverInterface
      *
      * @param StateMappingProvider $stateMappingProvider
      */
-    public function __construct(StateMappingProvider $stateMappingProvider, LoggerInterface $logger)
-    {
+    public function __construct(
+        FormConfigProvider $configProvider,
+        StateMappingProvider $stateMappingProvider,
+        LoggerInterface $logger
+    ) {
+        $this->configProvider       = $configProvider;
         $this->stateMappingProvider = $stateMappingProvider;
-        $this->logger = $logger;
+        $this->logger               = $logger;
     }
 
     /**
@@ -39,6 +51,13 @@ class AddCustomerAddressBook implements ObserverInterface
      */
     public function execute(Observer $observer)
     {
+        /** @var string $area */
+        $area = $observer->getEvent()->getData('area');
+
+        if (FormConfigProvider::AREA_FRONTEND !== $area || !$this->configProvider->isFormEnabled(self::FORM_ID)) {
+            return;
+        }
+
         /** @var Collection $forms */
         $forms = $observer->getEvent()->getData('forms');
 
@@ -55,6 +74,7 @@ class AddCustomerAddressBook implements ObserverInterface
         }
 
         $forms->addItem(new DataObject([
+            'id' => self::FORM_ID,
             'label' => 'Customer Address Book',
             'layoutSelectors' => ['input#street_1'],
             'countryIdentifier' => 'select[name=country_id]',

@@ -1,13 +1,15 @@
 <?php
 
-/** @var \AddressFinder\AddressFinder\Block\Customer $block */
+use AddressFinder\AddressFinder\Block\Adminhtml\Plugin;
+
+/** @var Plugin $block */
 ?>
 <?php if ($block->isEnabled()): ?>
 
     <script>
       require(['magento_plugin', 'addressfinder', 'domReady!'], function (MagentoPlugin, AddressFinder) {
         var widgetConfig = <?=json_encode($block->getWidgetConfig()) ?>;
-        var formsConfig = <?=json_encode($block->getFormsConfig()) ?>;
+        var formsConfig = <?=json_encode($block->getFormsConfig()->toArray()['items']) ?>;
 
         window.AddressFinder = AddressFinder;
         new MagentoPlugin(widgetConfig, formsConfig);

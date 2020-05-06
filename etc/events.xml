@@ -2,13 +2,19 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
     <event name="addressfinder_form_config">
-        <observer name="checkout_billing_address"
-                  instance="AddressFinder\AddressFinder\Observer\FormConfig\AddCheckoutBillingAddress"/>
+        <observer name="admin_order_billing_address"
+                  instance="AddressFinder\AddressFinder\Observer\FormConfig\Adminhtml\AddOrderBillingAddress"/>
 
-        <observer name="checkout_shipping_address"
-                  instance="AddressFinder\AddressFinder\Observer\FormConfig\AddCheckoutShippingAddress"/>
+        <observer name="admin_order_shipping_address"
+                  instance="AddressFinder\AddressFinder\Observer\FormConfig\Adminhtml\AddOrderShippingAddress"/>
 
-        <observer name="customer_address_book"
-                  instance="AddressFinder\AddressFinder\Observer\FormConfig\AddCustomerAddressBook"/>
+        <observer name="frontend_checkout_billing_address"
+                  instance="AddressFinder\AddressFinder\Observer\FormConfig\Frontend\AddCheckoutBillingAddress"/>
+
+        <observer name="frontend_checkout_shipping_address"
+                  instance="AddressFinder\AddressFinder\Observer\FormConfig\Frontend\AddCheckoutShippingAddress"/>
+
+        <observer name="frontend_customer_address_book"
+                  instance="AddressFinder\AddressFinder\Observer\FormConfig\Frontend\AddCustomerAddressBook"/>
     </event>
 </config>

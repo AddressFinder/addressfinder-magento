@@ -2,8 +2,8 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
-        <referenceContainer name="before.body.end">
-            <block class="AddressFinder\AddressFinder\Block\Plugin" name="addressfinder.plugin"/>
+        <referenceContainer name="js">
+            <block class="AddressFinder\AddressFinder\Block\Adminhtml\Plugin" name="addressfinder.plugin"/>
         </referenceContainer>
     </body>
 </page>
