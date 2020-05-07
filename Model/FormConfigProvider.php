@@ -7,7 +7,6 @@ use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Data\Collection;
 use Magento\Framework\Data\CollectionFactory;
 use Magento\Framework\Event\ManagerInterface;
-use Magento\Framework\Json\DecoderInterface;
 use Magento\Store\Model\ScopeInterface;
 use Psr\Log\LoggerInterface;
 
@@ -83,7 +82,7 @@ class FormConfigProvider
     {
         if (!array_key_exists($eventName, $this->formsConfig)) {
 
-            /** @var Collection $forms */
+            /** @var Collection $formsConfig */
             $formsConfig = $this->collectionFactory->create();
 
             $this->events->dispatch(
@@ -125,6 +124,8 @@ class FormConfigProvider
         }
 
         $forms = array_map('trim', explode(',', $forms));
+
+        /** @var array $forms */
 
         if (in_array(FormsEnabled::ALL, $forms, true)) {
             return FormsEnabled::ALL;

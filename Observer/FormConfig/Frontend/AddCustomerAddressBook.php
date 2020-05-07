@@ -2,7 +2,6 @@
 
 namespace AddressFinder\AddressFinder\Observer\FormConfig\Frontend;
 
-use AddressFinder\AddressFinder\Model\FormConfigProvider;
 use AddressFinder\AddressFinder\Observer\FormConfig\Base;
 use Exception;
 use Magento\Framework\Data\Collection;

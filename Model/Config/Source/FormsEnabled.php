@@ -4,9 +4,7 @@ namespace AddressFinder\AddressFinder\Model\Config\Source;
 
 use Magento\Framework\Data\Collection;
 use Magento\Framework\Data\CollectionFactory;
-use Magento\Framework\App\ProductMetadataInterface;
 use Magento\Framework\Data\OptionSourceInterface;
-use Magento\Framework\DataObject;
 use Magento\Framework\Event\ManagerInterface;
 
 class FormsEnabled implements OptionSourceInterface

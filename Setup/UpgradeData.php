@@ -2,28 +2,12 @@
 
 namespace AddressFinder\AddressFinder\Setup;
 
-use Magento\Framework\App\Config\ScopeConfigInterface;
-use Magento\Framework\Setup\UpgradeDataInterface;
 use Magento\Framework\Setup\ModuleContextInterface;
 use Magento\Framework\Setup\ModuleDataSetupInterface;
+use Magento\Framework\Setup\UpgradeDataInterface;
 
 class UpgradeData implements UpgradeDataInterface
 {
-    /**
-     * The Scope Config instance.
-     *
-     * @var ScopeConfigInterface
-     */
-    private $scopeConfig;
-
-    /**
-     * Creates a new Upgrade Data instance.
-     */
-    public function __construct(ScopeConfigInterface $scopeConfig)
-    {
-        $this->scopeConfig = $scopeConfig;
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -49,7 +33,7 @@ class UpgradeData implements UpgradeDataInterface
     {
         // We'll set the enabled flag based on the existence of a license key,
         // which was the assumed behaviour in the template previously.
-        $hasLicenseKey = !!$setup->getConnection()->fetchOne(
+        $hasLicenseKey = (bool) $setup->getConnection()->fetchOne(
             $setup->getConnection()
                 ->select()
                 ->from($setup->getTable('core_config_data'), 'value')
