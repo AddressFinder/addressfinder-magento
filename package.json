@@ -1,15 +1,15 @@
 {
   "name": "addressfinder-magento",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "devDependencies": {
     "@addressfinder/addressfinder-webpage-tools": "^1.8.1",
-    "@babel/cli": "^7.7.4",
-    "@babel/core": "^7.7.4",
-    "@babel/preset-env": "^7.7.4",
-    "babel-loader": "^8.0.6",
-    "uglify-js": "^3.7.1",
-    "webpack": "^4.41.2",
-    "webpack-cli": "^3.3.10"
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.9.6",
+    "@babel/preset-env": "^7.9.6",
+    "babel-loader": "^8.1.0",
+    "uglify-js": "^3.9.2",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.11"
   },
   "scripts": {
     "watch": "npm run build && webpack -w --config webpack.config.js --mode=development",

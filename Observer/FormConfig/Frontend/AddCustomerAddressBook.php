@@ -2,77 +2,22 @@
 
 namespace AddressFinder\AddressFinder\Observer\FormConfig\Frontend;
 
-use AddressFinder\AddressFinder\Exception\NoStateMappingsException;
-use AddressFinder\AddressFinder\Model\FormConfigProvider;
-use AddressFinder\AddressFinder\Model\StateMappingProvider;
+use AddressFinder\AddressFinder\Observer\FormConfig\Base;
+use Exception;
 use Magento\Framework\Data\Collection;
 use Magento\Framework\DataObject;
-use Magento\Framework\Event\Observer;
-use Magento\Framework\Event\ObserverInterface;
-use Magento\Framework\Exception\NoSuchEntityException;
-use Psr\Log\LoggerInterface;
 
-class AddCustomerAddressBook implements ObserverInterface
+class AddCustomerAddressBook extends Base
 {
     const FORM_ID = 'frontend.customer.address.book';
 
     /**
-     * @var FormConfigProvider
-     */
-    private $configProvider;
-
-    /**
-     * @var StateMappingProvider
-     */
-    private $stateMappingProvider;
-
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
-
-    /**
-     * Creates a new "Add Customer Address Book" observer.
+     * @inheritDoc
      *
-     * @param StateMappingProvider $stateMappingProvider
+     * @throws Exception
      */
-    public function __construct(
-        FormConfigProvider $configProvider,
-        StateMappingProvider $stateMappingProvider,
-        LoggerInterface $logger
-    ) {
-        $this->configProvider       = $configProvider;
-        $this->stateMappingProvider = $stateMappingProvider;
-        $this->logger               = $logger;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function execute(Observer $observer)
+    protected function addForm(Collection $forms)
     {
-        /** @var string $area */
-        $area = $observer->getEvent()->getData('area');
-
-        if (FormConfigProvider::AREA_FRONTEND !== $area || !$this->configProvider->isFormEnabled(self::FORM_ID)) {
-            return;
-        }
-
-        /** @var Collection $forms */
-        $forms = $observer->getEvent()->getData('forms');
-
-        try {
-            $stateMappings = $this->stateMappingProvider->forCountry('AU');
-        } catch (NoSuchEntityException $e) {
-            $this->logger->error(sprintf(
-                'Could not attach customer address book: %s.',
-                $e->getMessage())
-            );
-            return;
-        } catch (NoStateMappingsException $e) {
-            $stateMappings = null;
-        }
-
         $forms->addItem(new DataObject([
             'id' => self::FORM_ID,
             'label' => 'Customer Address Book',
@@ -96,12 +41,12 @@ class AddCustomerAddressBook implements ObserverInterface
                     'address1' => 'input#street_1',
                     'address2' => 'input#street_2',
                     'suburb' => 'input[name=city]',
-                    'state' => $stateMappings
+                    'state' => $this->getStateMappings('AU')
                         ? 'select[name=region_id]'
                         : 'input[name=region]',
                     'postcode' => 'input[name=postcode]',
                 ],
-                'stateMappings' => $stateMappings,
+                'stateMappings' => $this->getStateMappings('AU'),
             ],
         ]));
     }

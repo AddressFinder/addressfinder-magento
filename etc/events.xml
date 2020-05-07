@@ -1,13 +1,36 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
-    <event name="addressfinder_form_config">
+
+    <!-- Attach form selector to admin -->
+    <event name="addressfinder_config_source_forms_enabled">
+        <observer name="admin_order_billing_address"
+                  instance="AddressFinder\AddressFinder\Observer\Config\Source\Adminhtml\OrderBillingAddress"/>
+
+        <observer name="admin_order_shipping_address"
+                  instance="AddressFinder\AddressFinder\Observer\Config\Source\Adminhtml\OrderShippingAddress"/>
+
+        <observer name="frontend_checkout_billing_address"
+                  instance="AddressFinder\AddressFinder\Observer\Config\Source\Frontend\CheckoutBillingAddress"/>
+
+        <observer name="frontend_checkout_shipping_address"
+                  instance="AddressFinder\AddressFinder\Observer\Config\Source\Frontend\CheckoutShippingAddress"/>
+
+        <observer name="frontend_customer_address_book"
+                  instance="AddressFinder\AddressFinder\Observer\Config\Source\Frontend\CustomerAddressBook"/>
+    </event>
+
+    <!-- Attach admin forms -->
+    <event name="addressfinder_form_config_admin">
         <observer name="admin_order_billing_address"
                   instance="AddressFinder\AddressFinder\Observer\FormConfig\Adminhtml\AddOrderBillingAddress"/>
 
         <observer name="admin_order_shipping_address"
                   instance="AddressFinder\AddressFinder\Observer\FormConfig\Adminhtml\AddOrderShippingAddress"/>
+    </event>
 
+    <!-- Attach regular forms -->
+    <event name="addressfinder_form_config">
         <observer name="frontend_checkout_billing_address"
                   instance="AddressFinder\AddressFinder\Observer\FormConfig\Frontend\AddCheckoutBillingAddress"/>
 
@@ -17,4 +40,5 @@
         <observer name="frontend_customer_address_book"
                   instance="AddressFinder\AddressFinder\Observer\FormConfig\Frontend\AddCustomerAddressBook"/>
     </event>
+
 </config>
