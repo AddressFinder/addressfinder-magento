@@ -13,23 +13,16 @@ use Magento\Framework\Json\DecoderInterface;
 
 class Plugin extends Template
 {
+    const FORM_CONFIG_EVENT = 'addressfinder_form_config';
+
     /** @var string */
     protected $_template = 'plugin.phtml';
 
-    /**
-     * @var WidgetConfigProvider
-     */
+    /** @var WidgetConfigProvider */
     private $configProvider;
 
-    /**
-     * @var CollectionFactory
-     */
-    private $collectionFactory;
-
-    /**
-     * @var Collection
-     */
-    private $formsConfig;
+    /** @var FormConfigProvider */
+    private $formConfigProvider;
 
     /**
      * @inheritdoc
@@ -39,14 +32,13 @@ class Plugin extends Template
     public function __construct(
         TemplateContext $context,
         WidgetConfigProvider $configProvider,
-        CollectionFactory $collectionFactory,
+        FormConfigProvider $formConfigProvider,
         array $data = []
-    )
-    {
+    ) {
         parent::__construct($context, $data);
 
         $this->configProvider = $configProvider;
-        $this->collectionFactory = $collectionFactory;
+        $this->formConfigProvider = $formConfigProvider;
     }
 
     /**
@@ -76,23 +68,6 @@ class Plugin extends Template
      */
     public function getFormsConfig()
     {
-        if (null === $this->formsConfig) {
-            /** @var Collection $forms */
-            $this->formsConfig = $this->collectionFactory->create();
-
-            $this->_eventManager->dispatch(
-                'addressfinder_form_config',
-                [
-                    'area' => FormConfigProvider::AREA_FRONTEND,
-                    'forms' => $this->formsConfig,
-                ]
-            );
-
-            if (0 === $this->formsConfig->count()) {
-                $this->_logger->warning('There are no configured forms for AddressFinder.');
-            }
-        }
-
-        return $this->formsConfig;
+        return $this->formConfigProvider->get(self::FORM_CONFIG_EVENT);
     }
 }

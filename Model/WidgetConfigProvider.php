@@ -90,6 +90,8 @@ class WidgetConfigProvider
         try {
             $decoded = $this->jsonDecoder->decode($json);
         } catch (Zend_Json_Exception $e) {
+            /** @see \Zend_Json::decode() */
+
             $this->logger->warning(
                 sprintf('Failed to decode AddressFinder widget options: "%s"', $e->getMessage()),
                 [
