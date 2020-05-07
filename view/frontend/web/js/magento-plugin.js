@@ -111,16 +111,14 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 
 
-var MagentoPlugin =
-/*#__PURE__*/
-function () {
+var MagentoPlugin = /*#__PURE__*/function () {
   function MagentoPlugin(widgetConfig, formsConfig) {
     _classCallCheck(this, MagentoPlugin);
 
     this.widgetConfig = widgetConfig;
     this.formsConfig = formsConfig || [];
     this.widgetOptions = widgetConfig.options || {};
-    this.version = "1.4.1"; // Manages the mapping of the form configurations to the DOM.
+    this.version = "1.4.2"; // Manages the mapping of the form configurations to the DOM.
 
     this.PageManager = null;
 

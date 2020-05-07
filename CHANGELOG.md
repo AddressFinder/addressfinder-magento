@@ -1,3 +1,8 @@
+# AddressFinder 1.4.2 (May 8th 2020)
+* Bug fix - Allow NZ or AU to be disabled/uninstalled in Magento
+* Refactor form config observers
+* Update dependencies
+
 # AddressFinder 1.4.1 (May 7th 2020)
 * Add AddressFinder to the Order form address fields for Magento 2.2 and 2.3
 * Bump Acorn version to v6.4.1
