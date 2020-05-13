@@ -46,7 +46,7 @@ class AddCheckoutBillingAddress extends Base
     {
         foreach ($this->getActivePaymentMethodCodes() as $code) {
             $forms->addItem(new DataObject([
-                'id' => self::FORM_ID,
+                'id' => sprintf('%s.%s', self::FORM_ID, $code),
                 'label' => sprintf('Checkout Billing Address (%s)', $code),
                 'layoutSelectors' => [
                     'li#payment',
