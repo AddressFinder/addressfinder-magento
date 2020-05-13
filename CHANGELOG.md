@@ -1,11 +1,8 @@
-# AddressFinder 1.4.2 (May 8th 2020)
+# AddressFinder 1.5.0 (May 14th 2020)
+* Add AddressFinder to the Order form address fields for Magento 2.2 and 2.3
 * Bug fix - Allow NZ or AU to be disabled/uninstalled in Magento
 * Refactor form config observers
 * Update dependencies
-
-# AddressFinder 1.4.1 (May 7th 2020)
-* Add AddressFinder to the Order form address fields for Magento 2.2 and 2.3
-* Bump Acorn version to v6.4.1
 
 # AddressFinder 1.4.0 (January 6th 2020)
 * Fetch state mappings and payment methods server side.
