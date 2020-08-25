@@ -2,16 +2,16 @@
 
 namespace AddressFinder\AddressFinder\Model;
 
+use InvalidArgumentException;
 use Magento\Framework\App\Config\ScopeConfigInterface;
-use Magento\Framework\Json\DecoderInterface;
+use Magento\Framework\Serialize\Serializer\Json;
 use Magento\Store\Model\ScopeInterface;
 use Psr\Log\LoggerInterface;
-use Zend_Json_Exception;
 
 class WidgetConfigProvider
 {
-    /** @var DecoderInterface */
-    private $jsonDecoder;
+    /** @var Json */
+    private $jsonSerializer;
 
     /** @var LoggerInterface */
     private $logger;
@@ -21,12 +21,12 @@ class WidgetConfigProvider
 
     public function __construct(
         ScopeConfigInterface $scopeConfig,
-        DecoderInterface $jsonDecoder,
+        Json $jsonSerializer,
         LoggerInterface $logger
     ) {
-        $this->scopeConfig = $scopeConfig;
-        $this->jsonDecoder = $jsonDecoder;
-        $this->logger      = $logger;
+        $this->scopeConfig    = $scopeConfig;
+        $this->jsonSerializer = $jsonSerializer;
+        $this->logger         = $logger;
     }
 
     /**
@@ -70,9 +70,8 @@ class WidgetConfigProvider
         }
 
         try {
-            $decoded = $this->jsonDecoder->decode($json);
-        } catch (Zend_Json_Exception $e) {
-            /** @see \Zend_Json::decode() */
+            $decoded = $this->jsonSerializer->unserialize($json);
+        } catch (InvalidArgumentException $e) {
 
             $this->logger->warning(
                 sprintf('Failed to decode AddressFinder widget options: "%s"', $e->getMessage()),
