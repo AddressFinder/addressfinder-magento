@@ -12,14 +12,12 @@ use Magento\Framework\DataObject;
 
 class AddOrderBillingAddress extends Base
 {
-    const FORM_ID = 'admin.order.billing.address';
+    public const FORM_ID = 'admin.order.billing.address';
 
     /** @var OrderBillingAddress */
     private $orderBillingAddress;
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     public function __construct(
         FormConfigProvider $configProvider,
         StateMappingProvider $stateMappingProvider,
@@ -35,7 +33,7 @@ class AddOrderBillingAddress extends Base
      *
      * @throws Exception
      */
-    protected function addForm(Collection $forms)
+    protected function addForm(Collection $forms): void
     {
         $forms->addItem(new DataObject([
             'id' => self::FORM_ID,
@@ -72,7 +70,7 @@ class AddOrderBillingAddress extends Base
     }
 
     /** {@inheritDoc} */
-    protected function shouldShow()
+    protected function shouldShow(): bool
     {
         return parent::shouldShow() && $this->orderBillingAddress->canUse();
     }

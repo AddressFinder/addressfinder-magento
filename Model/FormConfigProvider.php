@@ -12,24 +12,16 @@ use Psr\Log\LoggerInterface;
 
 class FormConfigProvider
 {
-    /**
-     * @var ScopeConfigInterface
-     */
+    /** @var ScopeConfigInterface */
     private $scopeConfig;
 
-    /**
-     * @var ManagerInterface
-     */
+    /** @var ManagerInterface */
     private $events;
 
-    /**
-     * @var CollectionFactory
-     */
+    /** @var CollectionFactory */
     private $collectionFactory;
 
-    /**
-     * @var LoggerInterface
-     */
+    /** @var LoggerInterface */
     private $logger;
 
     /**
@@ -54,12 +46,8 @@ class FormConfigProvider
 
     /**
      * Tells if the given form is enabled or not based on user configuration.
-     *
-     * @param string $form
-     *
-     * @return bool
      */
-    public function isFormEnabled($form)
+    public function isFormEnabled(string $form): bool
     {
         $config = $this->getConfigValue();
 
@@ -73,12 +61,8 @@ class FormConfigProvider
     /**
      * Gets form config by firing the given event name and returning
      * the collection of forms built by observers.
-     *
-     * @param string $eventName
-     *
-     * @return Collection
      */
-    public function get($eventName)
+    public function get(string $eventName): Collection
     {
         if (!array_key_exists($eventName, $this->formsConfig)) {
 
@@ -125,7 +109,7 @@ class FormConfigProvider
 
         $forms = array_map('trim', explode(',', $forms));
 
-        /** @var array $forms */
+        /** @var string[] $forms */
 
         if (in_array(FormsEnabled::ALL, $forms, true)) {
             return FormsEnabled::ALL;

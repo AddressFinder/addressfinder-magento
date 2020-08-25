@@ -9,14 +9,14 @@ use Magento\Framework\DataObject;
 
 class AddCustomerAddressBook extends Base
 {
-    const FORM_ID = 'frontend.customer.address.book';
+    public const FORM_ID = 'frontend.customer.address.book';
 
     /**
      * @inheritDoc
      *
      * @throws Exception
      */
-    protected function addForm(Collection $forms)
+    protected function addForm(Collection $forms): void
     {
         $forms->addItem(new DataObject([
             'id' => self::FORM_ID,

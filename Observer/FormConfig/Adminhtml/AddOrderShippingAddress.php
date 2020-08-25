@@ -12,15 +12,12 @@ use Magento\Framework\DataObject;
 
 class AddOrderShippingAddress extends Base
 {
-    const FORM_ID = 'admin.order.shipping.address';
+    public const FORM_ID = 'admin.order.shipping.address';
 
     /** @var OrderShippingAddress */
     private $orderShippingAddress;
 
-    /**
-     * {@inheritDoc}
-     *
-     */
+    /** {@inheritDoc} */
     public function __construct(
         FormConfigProvider $configProvider,
         StateMappingProvider $stateMappingProvider,
@@ -36,7 +33,7 @@ class AddOrderShippingAddress extends Base
      *
      * @throws Exception
      */
-    protected function addForm(Collection $forms)
+    protected function addForm(Collection $forms): void
     {
         $forms->addItem(new DataObject([
             'id' => self::FORM_ID,
@@ -73,7 +70,7 @@ class AddOrderShippingAddress extends Base
     }
 
     /** {@inheritDoc} */
-    protected function shouldShow()
+    protected function shouldShow(): bool
     {
         return parent::shouldShow() && $this->orderShippingAddress->canUse();
     }

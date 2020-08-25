@@ -8,10 +8,8 @@ use Magento\Framework\Setup\ModuleDataSetupInterface;
 
 class InstallData implements InstallDataInterface
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function install(ModuleDataSetupInterface $setup, ModuleContextInterface $context)
+    /** @inheritdoc */
+    public function install(ModuleDataSetupInterface $setup, ModuleContextInterface $context): void
     {
         $setup->startSetup();
 

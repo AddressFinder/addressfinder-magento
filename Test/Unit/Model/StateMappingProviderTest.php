@@ -7,17 +7,18 @@ use AddressFinder\AddressFinder\Model\StateMappingProvider;
 use Magento\Directory\Api\CountryInformationAcquirerInterface;
 use Magento\Directory\Api\Data\CountryInformationInterface;
 use Magento\Directory\Api\Data\RegionInformationInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class StateMappingProviderTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject|CountryInformationAcquirerInterface */
+    /** @var MockObject|CountryInformationAcquirerInterface */
     private $informationAcquirer;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject|CountryInformationInterface */
+    /** @var MockObject|CountryInformationInterface */
     private $countryInformation;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -29,7 +30,7 @@ class StateMappingProviderTest extends TestCase
     }
 
     /** @test */
-    public function it_throws_an_exception_where_no_regions_exist()
+    public function it_throws_an_exception_where_no_regions_exist(): void
     {
         $provider = new StateMappingProvider($this->informationAcquirer);
 
@@ -50,7 +51,7 @@ class StateMappingProviderTest extends TestCase
     }
 
     /** @test */
-    public function it_finds_mappings_successfully()
+    public function it_finds_mappings_successfully(): void
     {
         $provider = new StateMappingProvider($this->informationAcquirer);
 

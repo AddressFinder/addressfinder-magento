@@ -16,7 +16,7 @@ class CheckoutShippingAddress implements ObserverInterface
      *
      * @throws Exception
      */
-    public function execute(Observer $observer)
+    public function execute(Observer $observer): void
     {
         /** @var Collection $frontend */
         $frontend = $observer->getEvent()->getData('frontend');
