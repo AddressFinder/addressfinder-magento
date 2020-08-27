@@ -88,10 +88,8 @@ class WidgetConfigProvider
 
     /**
      * Gets all widget configuration.
-     *
-     * @return array
      */
-    public function all()
+    public function all(): array
     {
         return [
             'key' => $this->getLicenceKey(),
