@@ -34,9 +34,6 @@ We test the plugin by using docker images for Magento 2. We install the plugin i
 
   You can login to the admin using the credentials MAGENTO_ADMIN_USERNAME and MAGENTO_ADMIN_PASSWORD from the env file inside your docker container.
 
-
-
-
 If you make a mistake and need to start again you can remove docker images and volumes with this command `docker-compose down --rmi all -v`
 
 ### Installing A Product
