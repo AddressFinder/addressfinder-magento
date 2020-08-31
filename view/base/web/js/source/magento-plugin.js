@@ -6,7 +6,7 @@ export default class MagentoPlugin {
     this.formsConfig = formsConfig || []
     this.widgetOptions = widgetConfig.options || {}
 
-    this.version = "1.5.0"
+    this.version = "1.5.1"
 
     // Manages the mapping of the form configurations to the DOM.
     this.PageManager = null
