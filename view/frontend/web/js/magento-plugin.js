@@ -308,7 +308,7 @@ $exports.store = store;
 /* 1 */
 /***/ (function(module, exports) {
 
-var core = module.exports = { version: '2.6.9' };
+var core = module.exports = { version: '2.6.11' };
 if (typeof __e == 'number') __e = core; // eslint-disable-line no-undef
 
 
@@ -2198,7 +2198,13 @@ $export($export.P + $export.F * !__webpack_require__(46)([].filter, true), 'Arra
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+// ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "PageManager", function() { return /* reexport */ page_manager_PageManager; });
+__webpack_require__.d(__webpack_exports__, "FormManager", function() { return /* reexport */ FormManager; });
+__webpack_require__.d(__webpack_exports__, "MutationManager", function() { return /* reexport */ MutationManager; });
 
 // EXTERNAL MODULE: ./node_modules/core-js/fn/symbol/index.js
 var symbol = __webpack_require__(48);
@@ -2237,7 +2243,7 @@ function _objectValues(obj) {
   return values;
 }
 
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -2245,9 +2251,7 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-var FormManager =
-/*#__PURE__*/
-function () {
+var FormManager = /*#__PURE__*/function () {
   function FormManager(widgetConfig, formHelperConfig, formFieldChangeEventToDispatch, countryChangeEventToListenFor) {
     _classCallCheck(this, FormManager);
 
@@ -2307,7 +2311,7 @@ function () {
          */
         this.formHelperConfig.countryElement.addEventListener(this.countryChangeEventToListenFor, this.boundCountryChangedListener);
         this.boundCountryChangedListener();
-      } else if (this.widgetConfig.defaultCountry) {
+      } else {
         // Sometimes there is no countryElement (WooCommerce). Not calling the changeHandler means that the widget can remain enabled.
         this._setActiveCountry(this.widgetConfig.defaultCountry);
       }
@@ -2524,11 +2528,28 @@ function page_manager_objectValues(obj) {
   return values;
 }
 
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+function _objectEntries(obj) {
+  var entries = [];
+  var keys = Object.keys(obj);
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+  for (var k = 0; k < keys.length; k++) entries.push([keys[k], obj[keys[k]]]);
 
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+  return entries;
+}
+
+function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e2) { throw _e2; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e3) { didErr = true; err = _e3; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 function page_manager_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -2538,9 +2559,7 @@ function page_manager_createClass(Constructor, protoProps, staticProps) { if (pr
 
 
 
-var page_manager_PageManager =
-/*#__PURE__*/
-function () {
+var page_manager_PageManager = /*#__PURE__*/function () {
   function PageManager(_ref) {
     var addressFormConfigurations = _ref.addressFormConfigurations,
         widgetConfig = _ref.widgetConfig,
@@ -2549,9 +2568,11 @@ function () {
 
     page_manager_classCallCheck(this, PageManager);
 
-    this.version = "1.8.1"; // Each formHelper is an instance of the FormManager class
+    this.version = "1.8.4"; // Each formHelper is an instance of the FormManager class
 
     this.formHelpers = []; // An object containing identifying information about an address form, such as the id values
+
+    this.countryElementWasPresent = false; // We want to keep a record of the county element ever being present, if it is detected and then disappears, we have to reload the widget
 
     this.addressFormConfigurations = addressFormConfigurations; // Configuration provided by the user, such as keys and widget options
 
@@ -2592,6 +2613,8 @@ function () {
   }, {
     key: "_getCurrentCountryValue",
     value: function _getCurrentCountryValue(config) {
+      // If the user does not provide a country element, we set the current country value to the default
+      if (!config.countryElement) return this.widgetConfig.defaultCountry;
       var currentCountryCode = null;
       var countryCodes = ['nz', 'au'];
       countryCodes.forEach(function (countryCode) {
@@ -2627,8 +2650,11 @@ function () {
           return false;
         }
 
-        if (!document.body.contains(config.countryElement)) {
-          // if the country element is missing we must reload
+        if (config.countryElement != null && !document.body.contains(config.countryElement) && _this.countryElementWasPresent) {
+          /**
+           * if the country element is missing and was never present we must reload
+           * a null country element will give a false positive, so first we check that it is not null
+           */
           return false;
         }
 
@@ -2643,13 +2669,34 @@ function () {
       });
     }
   }, {
+    key: "_ignoreOptionalNullElements",
+    value: function _ignoreOptionalNullElements(config, countryCode) {
+      var filteredElements = {};
+
+      _objectEntries(config[countryCode].elements).forEach(function (_ref2) {
+        var _ref3 = _slicedToArray(_ref2, 2),
+            key = _ref3[0],
+            element = _ref3[1];
+
+        // Some forms don't have the address_line_2 or suburb fields.
+        // We allow these fields to be missing without reloading the widget
+        if (!(config[countryCode].optionalElements.includes(key) && element === null)) {
+          filteredElements[key] = element;
+        }
+      });
+
+      return filteredElements;
+    }
+  }, {
     key: "_areAllElementsStillInTheDOMForCountryCode",
     value: function _areAllElementsStillInTheDOMForCountryCode(config, countryCode) {
       if (!countryCode) {
         return false;
       }
 
-      return page_manager_objectValues(config[countryCode].elements).every(function (element) {
+      var requiredElements = this._ignoreOptionalNullElements(config, countryCode);
+
+      return page_manager_objectValues(requiredElements).every(function (element) {
         return element !== null && document.body.contains(element);
       });
     }
@@ -2671,12 +2718,11 @@ function () {
   }, {
     key: "_identifyAddressForms",
     value: function _identifyAddressForms() {
-      var _iteratorNormalCompletion = true;
-      var _didIteratorError = false;
-      var _iteratorError = undefined;
+      var _iterator = _createForOfIteratorHelper(this.addressFormConfigurations),
+          _step;
 
       try {
-        for (var _iterator = this.addressFormConfigurations[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+        for (_iterator.s(); !(_step = _iterator.n()).done;) {
           var addressFormConfig = _step.value;
 
           if (this._identifyingElementsPresentAndVisible(addressFormConfig)) {
@@ -2685,18 +2731,9 @@ function () {
           }
         }
       } catch (err) {
-        _didIteratorError = true;
-        _iteratorError = err;
+        _iterator.e(err);
       } finally {
-        try {
-          if (!_iteratorNormalCompletion && _iterator["return"] != null) {
-            _iterator["return"]();
-          }
-        } finally {
-          if (_didIteratorError) {
-            throw _iteratorError;
-          }
-        }
+        _iterator.f();
       }
     } // For each configuration, create a formHelperConfig. This maps our form configurations to the corresponding DOM elements.
 
@@ -2715,12 +2752,14 @@ function () {
             countryValue: addressFormConfig.nz.countryValue,
             elements: {
               address_line_1: document.querySelector(addressFormConfig.nz.elements.address1),
+              address_line_2: document.querySelector(addressFormConfig.nz.elements.address2),
               suburb: document.querySelector(addressFormConfig.nz.elements.suburb),
               city: document.querySelector(addressFormConfig.nz.elements.city),
               region: document.querySelector(addressFormConfig.nz.elements.region),
               postcode: document.querySelector(addressFormConfig.nz.elements.postcode)
             },
-            regionMappings: addressFormConfig.nz.regionMappings
+            regionMappings: addressFormConfig.nz.regionMappings,
+            optionalElements: ['address_line_2', 'suburb']
           },
           au: {
             countryValue: addressFormConfig.au.countryValue,
@@ -2731,17 +2770,16 @@ function () {
               state_territory: document.querySelector(addressFormConfig.au.elements.state),
               postcode: document.querySelector(addressFormConfig.au.elements.postcode)
             },
-            stateMappings: addressFormConfig.au.stateMappings
+            stateMappings: addressFormConfig.au.stateMappings,
+            optionalElements: ['address_line_2']
           }
         };
+        this.identifiedFormHelperConfig.push(formHelperConfig); // if the country element is present, we set countryElementWasPresent to true
 
-        if (addressFormConfig.nz.elements.address2) {
-          formHelperConfig.nz.elements = _objectSpread({
-            address_line_2: document.querySelector(addressFormConfig.nz.elements.address2)
-          }, formHelperConfig.nz.elements);
+        if (formHelperConfig.countryElement != null && document.body.contains(formHelperConfig.countryElement)) {
+          this.countryElementWasPresent = true;
         }
 
-        this.identifiedFormHelperConfig.push(formHelperConfig);
         var helper = new FormManager(this.widgetConfig, formHelperConfig, this.formFieldChangeEventToDispatch, this.countryChangeEventToListenFor);
         this.formHelpers.push(helper);
       }
@@ -2766,13 +2804,17 @@ function () {
 
 
 // CONCATENATED MODULE: ./src/mutation_manager.js
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || mutation_manager_unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 
-function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+function mutation_manager_unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return mutation_manager_arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return mutation_manager_arrayLikeToArray(o, minLen); }
 
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return mutation_manager_arrayLikeToArray(arr); }
+
+function mutation_manager_arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
 function mutation_manager_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -2780,9 +2822,7 @@ function mutation_manager_defineProperties(target, props) { for (var i = 0; i < 
 
 function mutation_manager_createClass(Constructor, protoProps, staticProps) { if (protoProps) mutation_manager_defineProperties(Constructor.prototype, protoProps); if (staticProps) mutation_manager_defineProperties(Constructor, staticProps); return Constructor; }
 
-var MutationManager =
-/*#__PURE__*/
-function () {
+var MutationManager = /*#__PURE__*/function () {
   function MutationManager(_ref) {
     var widgetConfig = _ref.widgetConfig,
         mutationEventHandler = _ref.mutationEventHandler,
@@ -2919,9 +2959,6 @@ function () {
 
 
 // CONCATENATED MODULE: ./src/index.js
-/* concated harmony reexport PageManager */__webpack_require__.d(__webpack_exports__, "PageManager", function() { return page_manager_PageManager; });
-/* concated harmony reexport FormManager */__webpack_require__.d(__webpack_exports__, "FormManager", function() { return FormManager; });
-/* concated harmony reexport MutationManager */__webpack_require__.d(__webpack_exports__, "MutationManager", function() { return MutationManager; });
  // see https://github.com/zloirock/core-js
 
 
