@@ -36,16 +36,45 @@ We test the plugin by using docker images for Magento 2. We install the plugin i
 
 If you make a mistake and need to start again you can remove docker images and volumes with this command `docker-compose down --rmi all -v`
 
-### Installing A Product
+5. Install a product
 
 You will need to install a product in your store to use the checkout and test the AddressFinder plugin
 
-1. Log in to the magento admin
-2. Click on Catalog/Products
-3. Click Add Product
-4. Create a new product with the required fields of product name, sku, price and quantity. Also make sure stock status is set to 'In Stock'
-5. Click the admin dropdown in the top right corner and select 'customer view'.
-6. You should be able to search for your new product in the shop and add it to the cart.
+a) Log in to the magento admin
+b) Click on Catalog/Products
+c) Click Add Product
+d) Create a new product with the required fields of product name, sku, price and quantity. Also make sure stock status is set to 'In Stock'
+e) Click the admin dropdown in the top right corner and select 'customer view'.
+f) You should be able to search for your new product in the shop and add it to the cart.
+
+6. Install AdressFinder
+
+Install via composer
+a) Switch to the Magento file system owner. It will probably be `su www-data`
+b) `composer require addressfinder/module-magento2`
+c) `bin/magento module:enable AddressFinder_AddressFinder`
+d) `bin/magento setup:upgrade`
+e) `bin/magento cache:flush`
+
+### Install manually
+
+a) Checkout the project or download the zip
+b) Create the directory ```AddressFinder/AddressFinder``` in ```app/code```.
+c) Copy the contents into that directory.
+d) `bin/magento module:enable AddressFinder_AddressFinder`
+e) `bin/magento setup:upgrade`
+f) If not in developer mode
+   `bin/magento setup:di:compile`
+   `bin/magento setup:static-content:deploy`
+g) Finally run
+   `bin/magento cache:flush`
+
+7. Enable the AddressFinder Plugin in the store
+
+a) Click on Stores/Configuration.
+b) Click on Services and select AddressFinder.
+c) Uncheck the 'Use system value' checkbox and enter any configuration options. Save your changes.
+d) Now if you visit your store AddressFinder should be working. The country dropdown is set to 'United States' by default, so make sure this is changed to New Zealand or Australia
 
 ## Seeing your changes inside your Magento Test store
 
