@@ -1,7 +1,7 @@
 {
     "name": "addressfinder/module-magento2",
     "description": "Address Autocomplete for your Magento 2 store by AddressFinder",
-    "version": "1.5.0",
+    "version": "1.5.1",
     "require": {
         "ext-json": "*",
         "php": "~5.6.5|~7.0.0|~7.1.0|~7.2.0|~7.3.0",

@@ -1,3 +1,6 @@
+# AddressFinder 1.5.1 (August 31th 2020)
+* Upgrade to webpage tools v1.8.4
+
 # AddressFinder 1.5.0 (May 14th 2020)
 * Add AddressFinder to the Order form address fields for Magento 2.2 and 2.3
 * Bug fix - Allow NZ or AU to be disabled/uninstalled in Magento
