@@ -21,7 +21,7 @@ We test the plugin by using docker images for Magento 2. We install the plugin i
 2. Install Magento. In a new tab run:
  `docker-compose exec web install-magento`
 
-3. In a new tab, edit your host file to redirect localhost to local.magento
+3. In a new tab, edit your `hosts` file to declare `local.magento` as local. 
 
    to open the file: `sudo vim /etc/hosts`
 
