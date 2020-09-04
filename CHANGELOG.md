@@ -1,3 +1,6 @@
+# AddressFinder 2.0.0 (September 4th 2020)
+* Allow PHP 7.3 or 7.4 - Drop support for Magento 2.1 and 2.2
+
 # AddressFinder 1.5.1 (August 31th 2020)
 * Upgrade to webpage tools v1.8.4
 
