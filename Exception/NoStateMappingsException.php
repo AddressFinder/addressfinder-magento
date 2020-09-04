@@ -9,12 +9,8 @@ class NoStateMappingsException extends LocalizedException
 {
     /**
      * Creates a new "no state mappings" exception with the given country code.
-     *
-     * @param string $countryCode
-     *
-     * @return NoStateMappingsException
      */
-    public static function forCountry($countryCode)
+    public static function forCountry(string $countryCode): self
     {
         return new static(
             new Phrase(

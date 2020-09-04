@@ -6,4 +6,5 @@ node_modules
 .vscode
 addressfinder_addressfinder-*.zip
 magento-coding-standard
+allure-results
 *.log

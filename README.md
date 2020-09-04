@@ -1,5 +1,9 @@
 # AddressFinder Magento
 
+## Compatiblity
+v2.0.0 is compatible with Magento 2.3 and 2.4
+For usage on Magento 2.1 and 2.2, please use v1.5.1
+
 ## Installing the Plugin
 
 ### Install via composer

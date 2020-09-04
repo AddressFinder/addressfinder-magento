@@ -12,11 +12,9 @@ use Magento\Framework\Event\ObserverInterface;
 
 class OrderBillingAddress implements ObserverInterface
 {
-    const CUTOFF_VERSION = '2.2.0';
+    private const CUTOFF_VERSION = '2.2.0';
 
-    /**
-     * @var ProductMetadataInterface
-     */
+    /** @var ProductMetadataInterface */
     private $productMetadata;
 
     public function __construct(ProductMetadataInterface $productMetadata)
@@ -29,7 +27,7 @@ class OrderBillingAddress implements ObserverInterface
      *
      * @throws Exception
      */
-    public function execute(Observer $observer)
+    public function execute(Observer $observer): void
     {
         if (!$this->canUse()) {
             return;
@@ -46,10 +44,8 @@ class OrderBillingAddress implements ObserverInterface
 
     /**
      * Tells if the form can be used or not.
-     *
-     * @return bool
      */
-    public function canUse()
+    public function canUse(): bool
     {
         return version_compare($this->productMetadata->getVersion(), self::CUTOFF_VERSION, '>=');
     }

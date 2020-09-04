@@ -1,3 +1,6 @@
+# AddressFinder 2.0.0 (September 4th 2020)
+* Allow PHP 7.3 or 7.4 - Drop support for Magento 2.1 and 2.2
+
 # AddressFinder 1.5.1 (August 31th 2020)
 * Upgrade to webpage tools v1.8.4
 
@@ -9,7 +12,7 @@
 
 # AddressFinder 1.4.0 (January 6th 2020)
 * Fetch state mappings and payment methods server side.
-* Offically remove support for Magento 2.0
+* Officially remove support for Magento 2.0
 
 # AddressFinder 1.3.0 (December 9th 2019)
 * Utilise NPM

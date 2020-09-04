@@ -8,9 +8,7 @@ use Magento\Framework\Exception\NoSuchEntityException;
 
 class DefaultSearchCountry implements OptionSourceInterface
 {
-    /**
-     * @var CountryInformationAcquirerInterface
-     */
+    /** @var CountryInformationAcquirerInterface */
     private $countryInformationAcquirer;
 
     public function __construct(CountryInformationAcquirerInterface $countryInformationAcquirer)
@@ -20,10 +18,8 @@ class DefaultSearchCountry implements OptionSourceInterface
 
     /**
      * Return array of options as value-label pairs, eg. value => label
-     *
-     * @return array
      */
-    public function toOptionArray()
+    public function toOptionArray(): array
     {
         $options = [];
 

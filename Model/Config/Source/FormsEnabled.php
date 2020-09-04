@@ -12,7 +12,7 @@ class FormsEnabled implements OptionSourceInterface
     /**
      * A constant that represents all forms being enabled.
      */
-    const ALL = 'all';
+    public const ALL = 'all';
 
     /**
      * @var CollectionFactory
@@ -35,10 +35,8 @@ class FormsEnabled implements OptionSourceInterface
 
     /**
      * Return array of options as value-label pairs, eg. value => label
-     *
-     * @return array
      */
-    public function toOptionArray()
+    public function toOptionArray(): array
     {
         /** @var Collection $frontend */
         $frontend = $this->collectionFactory->create();
