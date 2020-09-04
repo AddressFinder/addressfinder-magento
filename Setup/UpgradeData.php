@@ -8,10 +8,8 @@ use Magento\Framework\Setup\UpgradeDataInterface;
 
 class UpgradeData implements UpgradeDataInterface
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function upgrade(ModuleDataSetupInterface $setup, ModuleContextInterface $context)
+    /** @inheritdoc */
+    public function upgrade(ModuleDataSetupInterface $setup, ModuleContextInterface $context): void
     {
         $setup->startSetup();
 
@@ -29,7 +27,7 @@ class UpgradeData implements UpgradeDataInterface
      * Note that this method only takes into account global configuration, not per-store.
      * Per-store overrides will need to be manually re-added via the system config.
      */
-    private function copyConfigValuesFromOldModule(ModuleDataSetupInterface $setup)
+    private function copyConfigValuesFromOldModule(ModuleDataSetupInterface $setup): void
     {
         // We'll set the enabled flag based on the existence of a license key,
         // which was the assumed behaviour in the template previously.

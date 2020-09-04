@@ -1,72 +1,54 @@
 <?php
 
-
 namespace AddressFinder\AddressFinder\Model;
 
-
+use InvalidArgumentException;
 use Magento\Framework\App\Config\ScopeConfigInterface;
-use Magento\Framework\Json\DecoderInterface;
+use Magento\Framework\Serialize\Serializer\Json;
 use Magento\Store\Model\ScopeInterface;
 use Psr\Log\LoggerInterface;
-use Zend_Json_Exception;
 
 class WidgetConfigProvider
 {
-    /**
-     * @var DecoderInterface
-     */
-    private $jsonDecoder;
+    /** @var Json */
+    private $jsonSerializer;
 
-    /**
-     * @var LoggerInterface
-     */
+    /** @var LoggerInterface */
     private $logger;
-    /**
-     * @var ScopeConfigInterface
-     */
+
+    /** @var ScopeConfigInterface */
     private $scopeConfig;
 
-    /**
-     * @inheritdoc
-     *
-     * @param DecoderInterface $jsonDecoder
-     */
     public function __construct(
         ScopeConfigInterface $scopeConfig,
-        DecoderInterface $jsonDecoder,
+        Json $jsonSerializer,
         LoggerInterface $logger
     ) {
-        $this->scopeConfig = $scopeConfig;
-        $this->jsonDecoder = $jsonDecoder;
-        $this->logger = $logger;
+        $this->scopeConfig    = $scopeConfig;
+        $this->jsonSerializer = $jsonSerializer;
+        $this->logger         = $logger;
     }
 
     /**
      * Returns the licence key.
-     *
-     * @return string|null
      */
-    public function getLicenceKey()
+    public function getLicenceKey(): ?string
     {
         return $this->scopeConfig->getValue('addressfinder/general/licence_key', ScopeInterface::SCOPE_STORE);
     }
 
     /**
      * Tells if we're in debug mode or not.
-     *
-     * @return bool
      */
-    public function isDebugMode()
+    public function isDebugMode(): bool
     {
         return $this->scopeConfig->isSetFlag('addressfinder/general/debug_mode', ScopeInterface::SCOPE_STORE);
     }
 
     /**
      * Gets the default country
-     *
-     * @return string|null
      */
-    public function getDefaultSearchCountry()
+    public function getDefaultSearchCountry(): ?string
     {
         return $this->scopeConfig->getValue('addressfinder/general/default_search_country', ScopeInterface::SCOPE_STORE);
     }
@@ -76,7 +58,7 @@ class WidgetConfigProvider
      * it to the client side. If the JSON is invalid, a warning will be logged and no options will be
      * passed through to the client side.
      *
-     * @return mixed The data structure that is encoded, typically an associative array
+     * @return array|string|int|null The data structure that is encoded, typically an associative array
      */
     public function getWidgetOptions()
     {
@@ -88,9 +70,8 @@ class WidgetConfigProvider
         }
 
         try {
-            $decoded = $this->jsonDecoder->decode($json);
-        } catch (Zend_Json_Exception $e) {
-            /** @see \Zend_Json::decode() */
+            $decoded = $this->jsonSerializer->unserialize($json);
+        } catch (InvalidArgumentException $e) {
 
             $this->logger->warning(
                 sprintf('Failed to decode AddressFinder widget options: "%s"', $e->getMessage()),
@@ -107,10 +88,8 @@ class WidgetConfigProvider
 
     /**
      * Gets all widget configuration.
-     *
-     * @return array
      */
-    public function all()
+    public function all(): array
     {
         return [
             'key' => $this->getLicenceKey(),

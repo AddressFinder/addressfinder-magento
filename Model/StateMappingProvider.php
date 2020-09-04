@@ -8,9 +8,7 @@ use Magento\Framework\Exception\NoSuchEntityException;
 
 class StateMappingProvider
 {
-    /**
-     * @var CountryInformationAcquirerInterface
-     */
+    /** @var CountryInformationAcquirerInterface */
     private $countryInformationAcquirer;
 
     /**
@@ -18,11 +16,6 @@ class StateMappingProvider
      */
     private $mappings = [];
 
-    /**
-     * StateMappingProvider constructor.
-     *
-     * @param CountryInformationAcquirerInterface $countryInformationAcquirer
-     */
     public function __construct(CountryInformationAcquirerInterface $countryInformationAcquirer)
     {
         $this->countryInformationAcquirer = $countryInformationAcquirer;
@@ -30,14 +23,10 @@ class StateMappingProvider
 
     /**
      * Gets state mappings for the given country code.
-     *
-     * @param string $countryCode Two-digit country code.
-     *
-     * @return array
      * @throws NoSuchEntityException    When the country code does not exist
      * @throws NoStateMappingsException When there are no state mappings for the country code
      */
-    public function forCountry($countryCode)
+    public function forCountry(string $countryCode): array
     {
         if (!array_key_exists($countryCode, $this->mappings)) {
             $country = $this->countryInformationAcquirer->getCountryInfo($countryCode);

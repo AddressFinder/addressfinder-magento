@@ -7,13 +7,11 @@ use AddressFinder\AddressFinder\Model\WidgetConfigProvider;
 use Magento\Backend\Block\Template;
 use Magento\Backend\Block\Template\Context as TemplateContext;
 use Magento\Framework\Data\Collection;
-use Magento\Framework\Data\CollectionFactory;
 use Magento\Store\Model\ScopeInterface;
-use Magento\Framework\Json\DecoderInterface;
 
 class Plugin extends Template
 {
-    const FORM_CONFIG_EVENT = 'addressfinder_form_config_admin';
+    private const FORM_CONFIG_EVENT = 'addressfinder_form_config_admin';
 
     /** @var string */
     protected $_template = 'plugin.phtml';
@@ -24,11 +22,7 @@ class Plugin extends Template
     /** @var FormConfigProvider */
     private $formConfigProvider;
 
-    /**
-     * @inheritdoc
-     *
-     * @param DecoderInterface $jsonDecoder
-     */
+    /** @inheritdoc */
     public function __construct(
         TemplateContext $context,
         WidgetConfigProvider $configProvider,
@@ -37,36 +31,30 @@ class Plugin extends Template
     ) {
         parent::__construct($context, $data);
 
-        $this->configProvider = $configProvider;
+        $this->configProvider     = $configProvider;
         $this->formConfigProvider = $formConfigProvider;
     }
 
     /**
      * Tells if the block is enabled.
-     *
-     * @return bool
      */
-    public function isEnabled()
+    public function isEnabled(): bool
     {
         return $this->_scopeConfig->isSetFlag('addressfinder/general/enabled', ScopeInterface::SCOPE_STORE);
     }
 
     /**
      * Gets all widget configuration.
-     *
-     * @return array
      */
-    public function getWidgetConfig()
+    public function getWidgetConfig(): array
     {
         return $this->configProvider->all();
     }
 
     /**
      * Gets forms configuration.
-     *
-     * @return Collection
      */
-    public function getFormsConfig()
+    public function getFormsConfig(): Collection
     {
         return $this->formConfigProvider->get(self::FORM_CONFIG_EVENT);
     }

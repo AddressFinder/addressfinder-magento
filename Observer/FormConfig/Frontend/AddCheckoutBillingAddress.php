@@ -13,19 +13,13 @@ use Magento\Payment\Helper\Data as PaymentHelper;
 
 class AddCheckoutBillingAddress extends Base
 {
-    const FORM_ID = 'frontend.checkout.billing.address';
+    public const FORM_ID = 'frontend.checkout.billing.address';
 
-    /**
-     * @var PaymentHelper
-     */
+    /** @var PaymentHelper */
     private $paymentHelper;
 
     /**
      * Creates a new "Add Checkout Billing Address" observer.
-     *
-     * @param FormConfigProvider   $configProvider
-     * @param StateMappingProvider $stateMappingProvider
-     * @param PaymentHelper        $paymentHelper
      */
     public function __construct(
         FormConfigProvider $configProvider,
@@ -42,7 +36,7 @@ class AddCheckoutBillingAddress extends Base
      *
      * @throws Exception
      */
-    protected function addForm(Collection $forms)
+    protected function addForm(Collection $forms): void
     {
         foreach ($this->getActivePaymentMethodCodes() as $code) {
             $forms->addItem(new DataObject([
@@ -130,10 +124,11 @@ class AddCheckoutBillingAddress extends Base
      *
      * @return string[]
      */
-    private function getActivePaymentMethodCodes()
+    private function getActivePaymentMethodCodes(): array
     {
         $codes = [];
 
+        // @todo Visit working around deprecated code
         foreach ($this->paymentHelper->getStoreMethods() as $method) {
             try {
                 $codes[] = $method->getCode();

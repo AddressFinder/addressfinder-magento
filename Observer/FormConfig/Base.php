@@ -16,27 +16,15 @@ abstract class Base implements ObserverInterface
 {
     /**
      * A unique identifier for the form.
-     *
-     * @var string
      */
-    const FORM_ID = null;
+    public const FORM_ID = null;
 
-    /**
-     * @var FormConfigProvider
-     */
+    /** @var FormConfigProvider */
     private $configProvider;
 
-    /**
-     * @var StateMappingProvider
-     */
+    /** @var StateMappingProvider */
     private $stateMappingProvider;
 
-    /**
-     * Creates a new observer.
-     *
-     * @param FormConfigProvider $configProvider
-     * @param StateMappingProvider $stateMappingProvider
-     */
     public function __construct(
         FormConfigProvider $configProvider,
         StateMappingProvider $stateMappingProvider
@@ -52,7 +40,7 @@ abstract class Base implements ObserverInterface
     /**
      * {@inheritDoc}
      */
-    public function execute(Observer $observer)
+    public function execute(Observer $observer): void
     {
         if (!$this->shouldShow()) {
             return;
@@ -66,17 +54,13 @@ abstract class Base implements ObserverInterface
 
     /**
      * Adds the form to the new forms collection.
-     *
-     * @param Collection $forms
-     *
-     * @return void
      */
-    abstract protected function addForm(Collection $forms);
+    abstract protected function addForm(Collection $forms): void;
 
     /**
      * Tells if the form should show or not.
      */
-    protected function shouldShow()
+    protected function shouldShow(): bool
     {
         return $this->configProvider->isFormEnabled(static::FORM_ID);
     }
@@ -85,13 +69,9 @@ abstract class Base implements ObserverInterface
      * Fetches state mappings for the given country code. If the country is disabled/not installed, or
      * there are no states installed for that country (e.g. NZ), we'll return null instead.
      *
-     * @param string $countryCode
-     *
-     * @return array|null
-     *
      * @see CountryInformationAcquirerInterface::getCountryInfo()
      */
-    protected function getStateMappings($countryCode)
+    protected function getStateMappings(string $countryCode): ?array
     {
         try {
             return $this->stateMappingProvider->forCountry($countryCode);
