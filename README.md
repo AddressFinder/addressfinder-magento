@@ -1,137 +1,280 @@
-# AddressFinder Magento
+# AddressFinder for Magento 2
 
-## Compatiblity
-v2.0.0 is compatible with Magento 2.3 and 2.4
-For usage on Magento 2.1 and 2.2, please use v1.5.1
+The AddressFinder module for Magento 2 allows you to find verified [Australian](https://addressfinder.com.au) and [New Zealand](https://addressfinder.nz) addresses with an intuitive, search-as-you-type interface.
 
-## Installing the Plugin
+## 1. Installation
 
-### Install via composer
+The module may be installed one of two ways:
 
-1. Switch to the Magento file system owner. It will probably be `su www-data`
-2. `composer require addressfinder/module-magento2`
-3. `bin/magento module:enable AddressFinder_AddressFinder`
-4. `bin/magento setup:upgrade`
-5. `bin/magento cache:flush`
+1. Composer (recommended)
+2. Manual
 
-### Install manually
+### 1.1 Via Composer
 
-1. Checkout the project or download the zip
-2. Create the directory ```AddressFinder/AddressFinder``` in ```app/code```.
-3. Copy the contents into that directory.
-4. `bin/magento module:enable AddressFinder_AddressFinder`
-5. `bin/magento setup:upgrade`
-6. If not in developer mode
-   `bin/magento setup:di:compile`
-   `bin/magento setup:static-content:deploy`
-7. Finally run
-   `bin/magento cache:flush`
+To install the module via Composer, from the root directory of your Magento installation:
 
-## Enable the AddressFinder Plugin in the store
+```bash
+composer require addressfinder/module-magento2
+```
 
-1. Click on Stores/Configuration.
-2. Click on Services and select AddressFinder.
-3. Uncheck the 'Use system value' checkbox and enter any configuration options. Save your changes.
-3. Now if you visit your store AddressFinder should be working. The country dropdown is set to 'United States' by default, so make sure this is changed to New Zealand or Australia
+This will automatically fetch the latest compatible version of the module available to your Magento installation. From the root directory of your Magento installation:
 
-## Updating the Plugin
+```bash
+bin/magento module:enable AddressFinder_AddressFinder
+bin/magento setup:upgrade
+```
 
-1. Switch to the Magento file system owner. `su www-data`
-2. `composer update`
-3. Clear the cache, compile and deploy static content: `cd /var/www/html/bin && ./magento cache:clean && ./magento cache:flush && ./magento setup:upgrade && ./magento setup:di:compile && ./magento setup:static-content:deploy -f en_GB en_US`
+### 1.2 Install manually
 
+To install the module manually, download the source code for the latest **compatible version** of the module:
 
-## Making a change
+| Magento Version | Latest Compatible Version                                    |
+| --------------- | ------------------------------------------------------------ |
+| 2.0.*           | [1.3.0 (download)](https://github.com/abletech/addressfinder-magento/releases/tag/v1.3.0) |
+| 2.1.*           | [1.5.1 (download)](https://github.com/abletech/addressfinder-magento/releases/tag/v1.5.1) |
+| 2.2.*           | [1.5.1 (download)](https://github.com/abletech/addressfinder-magento/releases/tag/v1.5.1) |
+| 2.3.*           | [2.0.0 (download)](https://github.com/abletech/addressfinder-magento/releases/tag/v2.0.0) |
+| 2.4.*           | [2.0.0 (download)](https://github.com/abletech/addressfinder-magento/releases/tag/v2.0.0) |
 
-This plugin is made up of three parts:
-1. The Magento plugin itself.
-2. The Magento JavaScript plugin, which provides the specific configuration for Magento, and connects to a Magento store
-3. AddressFinder Webpage Tools. This is an NPM package that adds the autocomplete capability. https://github.com/abletech/addressfinder-webpage-tools
+Extract the  `.zip` / `.tar.gz` you have downloaded. Copy the **contents of the top-level folder** that was created during extraction into your Magento store in the following location (you must create these folders manually):
 
-To build the **Magento JavaScript plugin**, simply visit the module's folder and run:
-1. `npm install`
-2. `npm run build`. These files will be added/updated inside the `view/frontend/layout/web/js` folder. Magento will take care of minification wherever your store is in production mode.
+```
+app/code/AddressFinder/AddressFinder/
+```
 
-## Supporting new / customised forms
+After copying the contents into this location, you should see a structure containing (but not limited to) the following files/folders:
 
-To add support for new forms or customising existing forms, a level of Magento development knowledge is assumed. You'll firstly need your own module. Magento has a [tutorial on creating your module](https://devdocs.magento.com/videos/fundamentals/create-a-new-module/). Within your module, you'll need to [create an observer](https://devdocs.magento.com/guides/v2.3/extension-dev-guide/events-and-observers.html) that'll hook into the form configuration step of the AddressFinder plugin in order to attach your own form configuration.
+```
+app/code/AddressFinder/AddressFinder/Block/
+app/code/AddressFinder/AddressFinder/etc/
+app/code/AddressFinder/AddressFinder/Model/
+app/code/AddressFinder/AddressFinder/registration.php
+app/code/AddressFinder/AddressFinder/...
+```
 
-To begin, you'll need to add the following to your module's `etc/config.xml` (we are assuming your module is called `MyCompany_MyModule`):
+From the root directory of your Magento installation:
+
+```bash
+bin/magento module:enable AddressFinder_AddressFinder
+bin/magento setup:upgrade
+```
+
+### 1.3 Production considerations
+
+Although outside the scope of installing this module, if you are running your Magento store in a production environment, you should run the [Magento code compiler](https://devdocs.magento.com/guides/v2.4/config-guide/cli/config-cli-subcommands-compiler.html) and [deploy static files](https://devdocs.magento.com/guides/v2.4/config-guide/cli/config-cli-subcommands-static-deploy-strategies.html):
+
+```bash
+bin/magento setup:di:compile
+bin/magento setup:static-content:deploy
+```
+
+## 2. Updating
+
+The process for updating the module depends on whether you have installed it via Composer or manually.
+
+### 2.1 Via Composer
+
+To update the module via Composer, from the root directory of your Magento installation:
+
+```bash
+composer update addressfinder/module-magento2
+bin/magento setup:upgrade
+```
+
+> If you are running your Magento store in a production environment, refer to <u>Section (1.3) Production Considerations</u>.
+
+### 2.2 Update manually
+
+To update the module manually, referring to the instructions in <u>Section (1.2) Install Manually</u> to download the latest compatible version and copy the files into your Magento codebase. After you have copied these files in, simply upgrade the extension: 
+
+``` bash
+bin/magento setup:upgrade
+```
+
+> If you are running your Magento store in a production environment, refer to <u>Section (1.3) Production Considerations</u>.
+
+## 3. Configuring the module
+
+The module's settings are controlled within `Stores -> Configuration -> Services -> AddressFinder`.
+
+> Most settings in Magento 2 are guarded with sensible defaults. To customise settings,  you'll need to uncheck the **use system value** for any settings you would like to customise.
+
+### 3.1 Basic functionality
+
+ To get the module functioning in its most basic form, you'll need to:
+
+1. Change **Enabled** to **Yes**.
+2. Obtain a licence key for [Australia](https://portal.addressfinder.io/signup/au?utm_source=magento&utm_medium=extension&utm_campaign=magento_admin&utm_term=Australia) or [New Zealand](https://portal.addressfinder.io/signup/nz?utm_source=magento&utm_medium=extension&utm_campaign=magento_admin&utm_term=New Zealand) and enter this in the **License** field.
+
+### 3.2 Customisation features
+
+1. Depending on the theme your Magento store has, you may need to configure the **Default Search Country** if your checkout has no country selector.
+2. AddressFinder functions across many forms throughout Magento. The default is to enable it in all supported forms, however you may restrict this with the **Enable Specific Forms** setting.
+3. Turning on **Debug Mode** will print debug messages from the AddressFinder JavaScript widget to the browser's console.
+4. You may pass custom **Widget Options** to the JavaScript widget. This must be a JSON object valid for [Australia](https://addressfinder.com.au/docs/widget_docs?utm_source=magento&utm_medium=extension&utm_campaign=magento_admin&utm_term=Australia#options) or [New Zealand](https://addressfinder.nz/docs/widget_docs?utm_source=magento&utm_medium=extension&utm_campaign=magento_admin&utm_term=New Zealand#options).
+
+## 4. Forms
+
+The AddressFinder module is installed within Magento by attaching forms. Out of the box, we support the following frontend forms:
+
+1. Checkout billing address
+2. Checkout shipping address
+3. Customer address book
+
+In addition, we support the following admin forms:
+
+1. Order billing address
+2. Order shipping address
+
+### 4.1 Adding a new form (advanced)
+
+Of course, you may wish to add support for a new form. Luckily, this process is fairly straightforward, however a level of Magento development knowledge is assumed.
+
+> **Important:** All of the examples to follow will assume we'll be working with a module called `Acme_CustomForm`.
+
+#### 4.1.1 Module creation
+
+You'll firstly need your own module [create your own module](https://devdocs.magento.com/videos/fundamentals/create-a-new-module/). Begin by creating the following folder structure:
+
+```
+app/code/Acme/CustomForm/
+app/code/Acme/CustomForm/etc/
+app/code/Acme/CustomForm/Observer/Config/Source/Frontend/
+app/code/Acme/CustomForm/Observer/FormConfig/Frontend/
+```
+
+Create a component registration file at `app/code/Acme/CustomForm/registration.php`:
+
+```php
+<?php
+
+use \Magento\Framework\Component\ComponentRegistrar;
+
+ComponentRegistrar::register(ComponentRegistrar::MODULE, 'Acme_CustomForm', __DIR__);
+```
+
+And add a module declaration file at `app/code/Acme/CustomForm/etc/module.xml`:
+
+```xml
+<?xml version="1.0"?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
+    <module name="Acme_CustomForm" setup_version="0.1.0"/>
+</config>
+```
+
+#### 4.1.2 Event observers
+
+Within your module, you'll need to [create event observers](https://devdocs.magento.com/guides/v2.3/extension-dev-guide/events-and-observers.html) that'll allow us to add our custom forms to the AddressFinder module. We'll create a frontend form for brevity's, however the process is [almost identical](https://github.com/abletech/addressfinder-magento/blob/develop/etc/events.xml) for admin forms.
+
+Begin by creating an events file at `app/code/Acme/CustomForm/etc/events.xml`:
 
 ```xml
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
-
-    <!--
-        Listen to the "addressfinder_form_config" event. If you're building an admin
-        form, you'll need to listen to "addressfinder_form_config_admin" instead.
+  
+    <!-- 
+        Attach frontend forms
+        (to attach admin forms, simply listen to the event named `addressfinder_form_config_admin` instead)
     -->
     <event name="addressfinder_form_config">
-        <observer name="checkout_billing_address" instance="MyCompany\MyModule\Observer\FormConfig\AddMyForm"/>
-
+        <observer name="acme_store_locator"
+                  instance="Acme\CustomForm\Observer\FormConfig\Frontend\AddStoreLocator"/>
     </event>
+
+    <!-- Attach form selector to admin (optional) -->
+    <event name="addressfinder_config_source_forms_enabled">
+        <observer name="acme_store_locator"
+                  instance="Acme\CustomForm\Observer\Config\Source\Frontend\StoreLocator"/>
+    </event>
+
 </config>
 ```
 
-You'll need to create your own observer class to hook into the event and create a new form configuration that relates to the HTML on the page where you'd like to see AddressFinder *(The available options may be found in the [AddressFinder documentation](https://addressfinder.com.au/docs/))*. An example observer with support for state mapping within Australia could be:
+#### 4.1.3 Form implementation
+
+You'll notice we referred to two new classes within our event observers. We need to implement these classes.:
+
+1. The first class will be used to define the form
+2. The second class will add the ability to restrict form selection in the admin. *The second class is optional; only required if you wish to restrict forms instead of showing all.*
+
+Start by creating the form declaration at `app/code/Acme/CustomForm/Observer/FormConfig/Frontend/AddStoreLocator.php`:
 
 ```php
 <?php
 
-namespace MyCompany\MyModule\Observer\FormConfig;
+namespace Acme\CustomForm\Observer\FormConfig\Frontend;
 
-use AddressFinder\AddressFinder\Model\FormConfigProvider;
 use AddressFinder\AddressFinder\Observer\FormConfig\Base;
 use Exception;
 use Magento\Framework\Data\Collection;
 use Magento\Framework\DataObject;
 
-class AddMyForm extends Base
+class AddStoreLocator extends Base
 {
-  	/**
-     * A unique identifier for the form.
-     *
-     * @var string
-     */
-    const FORM_ID = 'my.form.id';
+    const FORM_ID = 'frontend.store.locator';
 
     /**
      * @inheritDoc
      *
      * @throws Exception
      */
-    protected function addForm(Collection $forms)
+    protected function addForm(Collection $forms): void
     {
         $forms->addItem(new DataObject([
+            // A unique form ID to identify this form within the AddressFinder module
             'id' => self::FORM_ID,
-            'label' => 'My Form',
-            'layoutSelectors' => ['li#opc-shipping_method'],
-            'countryIdentifier' => '.form-shipping-address select[name=country_id]',
-            'searchIdentifier' => '.form-shipping-address input[name="street[0]"]',
+          
+            // A semantic label
+            'label' => 'Store Locatork',
+          
+            // The selector for where to instantiate the JavaScript widget
+            'layoutSelectors' => ['input#street_1'],
+          
+            // The country selector that switches the form between AU and NZ
+            'countryIdentifier' => 'select[name=country_id]',
+          
+            // The search box selector - this is where your users type to trigger the AddressFinder autocomplete
+            'searchIdentifier' => 'input#street_1',
+          
+            // NZ-specific config
             'nz' => [
+                // The value which the `countryIdentifier` is set as to represent NZ
                 'countryValue' => 'NZ',
+              
+                // Varying element selectors to place the selected address result in
                 'elements' => [
-                    'address1' => '.form-shipping-address input[name="street[0]"]',
-                    'address2' => '.form-shipping-address input[name="street[1]"]',
-                    'suburb' => '.form-shipping-address input[name="street[2]"]',
-                    'city' => '.form-shipping-address input[name=city]',
-                    'region' => '.form-shipping-address input[name=region]',
-                    'postcode' => '.form-shipping-address input[name=postcode]',
+                    'address1' => 'input#street_1',
+                    'suburb' => 'input#street_2',
+                    'city' => 'input[name=city]',
+                    'region' => 'input[name=region]',
+                    'postcode' => 'input[name=postcode]',
                 ],
                 'regionMappings' => null,
             ],
+          
+            // AU-specific config
             'au' => [
+                // The value which the `countryIdentifier` is set as to represent AU
                 'countryValue' => 'AU',
+              
+                // Varying element selectors to place the selected address result in
                 'elements' => [
-                    'address1' => '.form-shipping-address input[name="street[0]"]',
-                    'address2' => '.form-shipping-address input[name="street[1]"]',
-                    'suburb' => '.form-shipping-address input[name="city"]',
+                    'address1' => 'input#street_1',
+                    'address2' => 'input#street_2',
+                    'suburb' => 'input[name=city]',
+                   
+                    // This helper from the base class we extend will allow us to 
+                    // support free-form state inputs as well as dropdown menus.
                     'state' => $this->getStateMappings('AU')
-                        ? '.form-shipping-address select[name=region_id]'
-                        : '.form-shipping-address input[name=region]',
-                    'postcode' => '.form-shipping-address input[name=postcode]',
+                        ? 'select[name=region_id]'
+                        : 'input[name=region]',
+                    'postcode' => 'input[name=postcode]',
                 ],
+              
+                // State mappings for Australia (if they exist in your Magento installation)
                 'stateMappings' => $this->getStateMappings('AU'),
             ],
         ]));
@@ -139,26 +282,55 @@ class AddMyForm extends Base
 }
 ```
 
-Of course, feel free to replace this with any logic suitable to your store.
+Now we've added the form, we can optionally add the ability to restrict form selection to this new form within the admin. By default, all configured forms are enabled, however the user has the ability to restrict this list in the admin.
 
-> You may even modify an existing form configuration it by interacting with the `forms` property of the `addForm(Collection $forms)` method.
+In order to add our new form to this list, create `app/code/Acme/CustomForm/Observer/Config/Source/Frontend/StoreLocator.php`:
 
-If you're adding forms to a page that we don't already support, such as [these admin pages](https://github.com/abletech/addressfinder-magento/tree/develop/view/adminhtml/layout) or [these frontend pages](https://github.com/abletech/addressfinder-magento/tree/develop/view/frontend/layout), you'll need to enabled AddressFinder on that page. For example, to enable AddressFinder on the home page, create the following `cms_index_index.xml` file in the [appropriate location](https://devdocs.magento.com/guides/v2.3/frontend-dev-guide/layouts/layout-overview.html) within your store:
+```php
+<?php
 
-```xml
-<?xml version="1.0"?>
-<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
-    <body>
+namespace Acme\CustomForm\Observer\Config\Source\Frontend;
 
-        <!-- Add the AddressFinder plugin to the page -->
-        <referenceContainer name="before.body.end">
-            <block class="AddressFinder\AddressFinder\Block\Plugin" name="addressfinder.plugin"/>
-        </referenceContainer>
+use Acme\CustomForm\Observer\FormConfig\Frontend\AddStoreLocator;
+use Exception;
+use Magento\Framework\Data\Collection;
+use Magento\Framework\DataObject;
+use Magento\Framework\Event\Observer;
+use Magento\Framework\Event\ObserverInterface;
 
-    </body>
-</page>
+class StoreLocator implements ObserverInterface
+{
+    /**
+     * @inheritDoc
+     *
+     * @throws Exception
+     */
+    public function execute(Observer $observer): void
+    {
+        /** @var Collection $frontend */
+      
+        // If you were building an admin form, you'd call `getData('admin')` and append the form to that list
+        $frontend = $observer->getEvent()->getData('frontend');
+
+        $frontend->addItem(new DataObject([
+            'label' => 'Store Locator',
+            'value' => AddStoreLocator::FORM_ID,
+        ]));
+    }
+}
 ```
 
-# Debugging
-If you are debugging a customer site, you can type `window.addressfinderDebugMode()` into the javascript console. This will reinitialise the widget, with the debug flag set to true, so you can see console logs from the addressfinder-webpage-tools npm package. This works in all modern browsers, and IE11.
+Congratulations! You have now configured up a new form for your store selector to integrate with AddressFinder. 🎉
+
+## 5. Debugging JavaScript widget
+
+To debug the JavaScript widget within your Magento store, pull up your browser's [JavaScript console](https://balsamiq.com/support/faqs/browserconsole/) and type:
+
+```js
+window.addressfinderDebugMode() // Followed by the `return`/`enter` key.
+```
+
+This will reinitialise the widget, with the debug flag set to `true`, so you can see console logs from the [`@addressfinder/addressfinder-webpage-tools` npm package](https://www.npmjs.com/package/@addressfinder/addressfinder-webpage-tools).
+
+> This works in all modern browsers *(and IE11 💀)*
+
