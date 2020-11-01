@@ -104,14 +104,14 @@ The module's settings are controlled within `Stores -> Configuration -> Services
  To get the module functioning in its most basic form, you'll need to:
 
 1. Change **Enabled** to **Yes**.
-2. Obtain a licence key for [Australia](https://addressfinder.com.au/plans/?utm_source=magento&utm_medium=extension&utm_campaign=magento_admin&utm_term=Australia) or [New Zealand](https://addressfinder.nz/plans/?utm_source=magento&utm_medium=extension&utm_campaign=magento_admin&utm_term=New Zealand) and enter this in the **License** field.
+2. Obtain a licence key for [Australia](https://addressfinder.com.au/plans/?utm_source=magento&utm_medium=extension&utm_campaign=magento_admin&utm_term=Australia) or [New Zealand](https://addressfinder.nz/plans/?utm_source=magento&utm_medium=extension&utm_campaign=magento_admin&utm_term=New_Zealand) and enter this in the **License** field.
 
 ### 3.2 Customisation features
 
 1. Depending on the theme your Magento store has, you may need to configure the **Default Search Country** if your checkout has no country selector.
 2. AddressFinder functions across many forms throughout Magento. The default is to enable it in all supported forms, however you may restrict this with the **Enable Specific Forms** setting.
 3. Turning on **Debug Mode** will print debug messages from the AddressFinder JavaScript widget to the browser's console.
-4. You may pass custom **Widget Options** to the JavaScript widget. This must be a JSON object valid for [Australia](https://addressfinder.com.au/docs/widget_docs?utm_source=magento&utm_medium=extension&utm_campaign=magento_admin&utm_term=Australia#options) or [New Zealand](https://addressfinder.nz/docs/widget_docs?utm_source=magento&utm_medium=extension&utm_campaign=magento_admin&utm_term=New Zealand#options).
+4. You may pass custom **Widget Options** to the JavaScript widget. This must be a JSON object valid for [Australia](https://addressfinder.com.au/docs/widget_docs?utm_source=magento&utm_medium=extension&utm_campaign=magento_admin&utm_term=Australia#options) or [New Zealand](https://addressfinder.nz/docs/widget_docs?utm_source=magento&utm_medium=extension&utm_campaign=magento_admin&utm_term=New_Zealand#options).
 
 ## 4. Forms
 
