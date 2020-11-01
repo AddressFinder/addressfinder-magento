@@ -104,7 +104,7 @@ The module's settings are controlled within `Stores -> Configuration -> Services
  To get the module functioning in its most basic form, you'll need to:
 
 1. Change **Enabled** to **Yes**.
-2. Obtain a licence key for [Australia](https://addressfinder.com.au/plans/?utm_source=magento&utm_medium=extension&utm_campaign=magento_admin&utm_term=Australia) or [New Zealand](https://addressfinder.nz/plans/?utm_source=magento&utm_medium=extension&utm_campaign=magento_admin&utm_term=New_Zealand) and enter this in the **License** field.
+2. Sign up for a licence key for [Australia](https://addressfinder.com.au/plans/?utm_source=magento&utm_medium=extension&utm_campaign=magento_admin&utm_term=Australia) or [New Zealand](https://addressfinder.nz/plans/?utm_source=magento&utm_medium=extension&utm_campaign=magento_admin&utm_term=New_Zealand) and enter this in the **License** field.
 
 ### 3.2 Customisation features
 
