@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo 'Composer Authentication will be required...'
-echo 'Credentials are located at https://sites.google.com/a/abletech.co.nz/wiki/addressfinder/credentials/'
+echo 'Credentials are located in the AddressFinder vault of 1Password, search for "Magento Auth"'
 
 echo "Which Magento 2 version? 2.0/[2.1]:"
 read mageversion

@@ -6,15 +6,15 @@ We test the plugin by using docker images for Magento 2. We install the plugin i
 
     For Magento 2.3
 
-   `git clone --branch 2.3 git@github.com:AbleTech/docker-magento2.git docker-magento-2.3 && cd docker-magento-2.3`
+   `git clone --branch 2.3 git@github.com:AddressFinder/docker-magento2.git docker-magento-2.3 && cd docker-magento-2.3`
 
     For Magento 2.2
 
-   `git clone --branch 2.2 git@github.com:AbleTech/docker-magento2.git docker-magento-2.2 && cd docker-magento-2.2`
+   `git clone --branch 2.2 git@github.com:AddressFinder/docker-magento2.git docker-magento-2.2 && cd docker-magento-2.2`
 
     For Magento 2.1
 
-   `git clone --branch 2.1 git@github.com:AbleTech/docker-magento2.git docker-magento-2.1 && cd docker-magento-2.1`
+   `git clone --branch 2.1 git@github.com:AddressFinder/docker-magento2.git docker-magento-2.1 && cd docker-magento-2.1`
 
 2. `docker-compose up`
 
