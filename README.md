@@ -30,11 +30,11 @@ To install the module manually, download the source code for the latest **compat
 
 | Magento Version | Latest Compatible Version                                    |
 | --------------- | ------------------------------------------------------------ |
-| 2.0.*           | [1.3.0 (download)](https://github.com/abletech/addressfinder-magento/releases/tag/v1.3.0) |
-| 2.1.*           | [1.5.1 (download)](https://github.com/abletech/addressfinder-magento/releases/tag/v1.5.1) |
-| 2.2.*           | [1.5.1 (download)](https://github.com/abletech/addressfinder-magento/releases/tag/v1.5.1) |
-| 2.3.*           | [2.0.0 (download)](https://github.com/abletech/addressfinder-magento/releases/tag/v2.0.0) |
-| 2.4.*           | [2.0.0 (download)](https://github.com/abletech/addressfinder-magento/releases/tag/v2.0.0) |
+| 2.0.*           | [1.3.0 (download)](https://github.com/AddressFinder/addressfinder-magento/releases/tag/v1.3.0) |
+| 2.1.*           | [1.5.1 (download)](https://github.com/AddressFinder/addressfinder-magento/releases/tag/v1.5.1) |
+| 2.2.*           | [1.5.1 (download)](https://github.com/AddressFinder/addressfinder-magento/releases/tag/v1.5.1) |
+| 2.3.*           | [2.0.0 (download)](https://github.com/AddressFinder/addressfinder-magento/releases/tag/v2.0.0) |
+| 2.4.*           | [2.0.0 (download)](https://github.com/AddressFinder/addressfinder-magento/releases/tag/v2.0.0) |
 
 Extract the  `.zip` / `.tar.gz` you have downloaded. Copy the **contents of the top-level folder** that was created during extraction into your Magento store in the following location (you must create these folders manually):
 
@@ -166,7 +166,7 @@ And add a module declaration file at `app/code/Acme/CustomForm/etc/module.xml`:
 
 #### 4.1.2 Event observers
 
-Within your module, you'll need to [create event observers](https://devdocs.magento.com/guides/v2.3/extension-dev-guide/events-and-observers.html) that'll allow us to add our custom forms to the AddressFinder module. We'll create a frontend form for brevity's, however the process is [almost identical](https://github.com/abletech/addressfinder-magento/blob/develop/etc/events.xml) for admin forms.
+Within your module, you'll need to [create event observers](https://devdocs.magento.com/guides/v2.3/extension-dev-guide/events-and-observers.html) that'll allow us to add our custom forms to the AddressFinder module. We'll create a frontend form for brevity's, however the process is [almost identical](https://github.com/AddressFinder/addressfinder-magento/blob/develop/etc/events.xml) for admin forms.
 
 Begin by creating an events file at `app/code/Acme/CustomForm/etc/events.xml`:
 
