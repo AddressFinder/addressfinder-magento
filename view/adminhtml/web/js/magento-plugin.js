@@ -141,8 +141,7 @@ var MagentoPlugin = /*#__PURE__*/function () {
   }, {
     key: "_initPlugin",
     value: function _initPlugin() {
-      console.log('test2 widgetConfig', this.widgetConfig); // Watches for any mutations to the DOM, so we can reload our configurations when something changes.
-
+      // Watches for any mutations to the DOM, so we can reload our configurations when something changes.
       new _addressfinder_addressfinder_webpage_tools__WEBPACK_IMPORTED_MODULE_0__["MutationManager"]({
         widgetConfig: this.widgetConfig,
         mutationEventHandler: this.mutationEventHandler.bind(this),
