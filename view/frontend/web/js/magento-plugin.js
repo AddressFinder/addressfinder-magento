@@ -117,8 +117,10 @@ var MagentoPlugin = /*#__PURE__*/function () {
 
     this.widgetConfig = widgetConfig;
     this.formsConfig = formsConfig || [];
-    this.widgetOptions = widgetConfig.options || {};
-    this.version = "2.0.1"; // Manages the mapping of the form configurations to the DOM.
+    this.widgetConfig.nzWidgetOptions = this.widgetConfig.nzWidgetOptions || {};
+    this.widgetConfig.auWidgetOptions = this.widgetConfig.auWidgetOptions || {};
+    this.widgetConfig.debug = this.widgetConfig.debug || false;
+    this.version = "2.0.2"; // Manages the mapping of the form configurations to the DOM.
 
     this.PageManager = null;
 
@@ -139,23 +141,15 @@ var MagentoPlugin = /*#__PURE__*/function () {
   }, {
     key: "_initPlugin",
     value: function _initPlugin() {
-      var widgetConfig = {
-        nzKey: this.widgetConfig.key,
-        auKey: this.widgetConfig.key,
-        nzWidgetOptions: this.widgetOptions,
-        auWidgetOptions: this.widgetOptions,
-        debug: this.widgetConfig.debug || false,
-        defaultCountry: this.widgetConfig.default_search_country
-      }; // Watches for any mutations to the DOM, so we can reload our configurations when something changes.
-
+      // Watches for any mutations to the DOM, so we can reload our configurations when something changes.
       new _addressfinder_addressfinder_webpage_tools__WEBPACK_IMPORTED_MODULE_0__["MutationManager"]({
-        widgetConfig: widgetConfig,
+        widgetConfig: this.widgetConfig,
         mutationEventHandler: this.mutationEventHandler.bind(this),
         ignoredClass: "af_list"
       });
       this.PageManager = new _addressfinder_addressfinder_webpage_tools__WEBPACK_IMPORTED_MODULE_0__["PageManager"]({
         addressFormConfigurations: this.formsConfig,
-        widgetConfig: widgetConfig,
+        widgetConfig: this.widgetConfig,
         // When an address is selected dispatch this event on all the updated form fields. This tells the store the fields have been changed.
         formFieldChangeEventToDispatch: 'change',
         // An event listener with this event type is attached to country element. When the country changes the active country for the widget is set.

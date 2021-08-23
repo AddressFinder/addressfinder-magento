@@ -4,9 +4,11 @@ export default class MagentoPlugin {
   constructor(widgetConfig, formsConfig) {
     this.widgetConfig = widgetConfig
     this.formsConfig = formsConfig || []
-    this.widgetOptions = widgetConfig.options || {}
+    this.widgetConfig.nzWidgetOptions = this.widgetConfig.nzWidgetOptions || {}
+    this.widgetConfig.auWidgetOptions = this.widgetConfig.auWidgetOptions || {}
+    this.widgetConfig.debug = this.widgetConfig.debug || false
 
-    this.version = "2.0.1"
+    this.version = "2.0.2"
 
     // Manages the mapping of the form configurations to the DOM.
     this.PageManager = null
@@ -25,26 +27,16 @@ export default class MagentoPlugin {
   }
 
   _initPlugin() {
-
-    const widgetConfig = {
-      nzKey: this.widgetConfig.key,
-      auKey: this.widgetConfig.key,
-      nzWidgetOptions: this.widgetOptions,
-      auWidgetOptions: this.widgetOptions,
-      debug: this.widgetConfig.debug || false,
-      defaultCountry: this.widgetConfig.default_search_country
-    }
-
     // Watches for any mutations to the DOM, so we can reload our configurations when something changes.
     new MutationManager({
-      widgetConfig: widgetConfig,
+      widgetConfig: this.widgetConfig,
       mutationEventHandler: this.mutationEventHandler.bind(this),
       ignoredClass: "af_list"
     })
 
     this.PageManager = new PageManager({
       addressFormConfigurations: this.formsConfig,
-      widgetConfig: widgetConfig,
+      widgetConfig: this.widgetConfig,
       // When an address is selected dispatch this event on all the updated form fields. This tells the store the fields have been changed.
       formFieldChangeEventToDispatch: 'change',
       // An event listener with this event type is attached to country element. When the country changes the active country for the widget is set.

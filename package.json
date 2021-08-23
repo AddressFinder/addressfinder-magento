@@ -1,6 +1,6 @@
 {
   "name": "addressfinder-magento",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "devDependencies": {
     "@addressfinder/addressfinder-webpage-tools": "^1.8.4",
     "@babel/cli": "^7.8.4",
@@ -17,7 +17,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/AbleTech/addressfinder-magento.git"
+    "url": "git+https://github.com/AddressFinder/addressfinder-magento.git"
   },
   "keywords": [
     "magento",
@@ -29,10 +29,10 @@
     "verification",
     "verify"
   ],
-  "author": "@Abletech",
+  "author": "@AddressFinder",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/abletech/addressfinder-magento/issues"
+    "url": "https://github.com/AddressFinder/addressfinder-magento/issues"
   },
-  "homepage": "https://github.com/abletech/addressfinder-magento#readme"
+  "homepage": "https://github.com/AddressFinder/addressfinder-magento#readme"
 }

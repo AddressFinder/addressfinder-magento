@@ -136,6 +136,8 @@ class AddCheckoutBillingAddress extends Base
             }
         }
 
+        $codes[] = 'shared';
+
         return $codes;
     }
 }

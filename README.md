@@ -30,11 +30,11 @@ To install the module manually, download the source code for the latest **compat
 
 | Magento Version | Latest Compatible Version                                    |
 | --------------- | ------------------------------------------------------------ |
-| 2.0.*           | [1.3.0 (download)](https://github.com/abletech/addressfinder-magento/releases/tag/v1.3.0) |
-| 2.1.*           | [1.5.1 (download)](https://github.com/abletech/addressfinder-magento/releases/tag/v1.5.1) |
-| 2.2.*           | [1.5.1 (download)](https://github.com/abletech/addressfinder-magento/releases/tag/v1.5.1) |
-| 2.3.*           | [2.0.0 (download)](https://github.com/abletech/addressfinder-magento/releases/tag/v2.0.0) |
-| 2.4.*           | [2.0.0 (download)](https://github.com/abletech/addressfinder-magento/releases/tag/v2.0.0) |
+| 2.0.*           | [1.3.0 (download)](https://github.com/AddressFinder/addressfinder-magento/releases/tag/v1.3.0) |
+| 2.1.*           | [1.5.1 (download)](https://github.com/AddressFinder/addressfinder-magento/releases/tag/v1.5.1) |
+| 2.2.*           | [1.5.1 (download)](https://github.com/AddressFinder/addressfinder-magento/releases/tag/v1.5.1) |
+| 2.3.*           | [2.0.0 (download)](https://github.com/AddressFinder/addressfinder-magento/releases/tag/v2.0.0) |
+| 2.4.*           | [2.0.0 (download)](https://github.com/AddressFinder/addressfinder-magento/releases/tag/v2.0.0) |
 
 Extract the  `.zip` / `.tar.gz` you have downloaded. Copy the **contents of the top-level folder** that was created during extraction into your Magento store in the following location (you must create these folders manually):
 
@@ -104,14 +104,14 @@ The module's settings are controlled within `Stores -> Configuration -> Services
  To get the module functioning in its most basic form, you'll need to:
 
 1. Change **Enabled** to **Yes**.
-2. Obtain a licence key for [Australia](https://portal.addressfinder.io/signup/au?utm_source=magento&utm_medium=extension&utm_campaign=magento_admin&utm_term=Australia) or [New Zealand](https://portal.addressfinder.io/signup/nz?utm_source=magento&utm_medium=extension&utm_campaign=magento_admin&utm_term=New Zealand) and enter this in the **License** field.
+2. Sign up for a licence key for [Australia](https://addressfinder.com.au/plans/?utm_source=magento&utm_medium=extension&utm_campaign=magento_admin&utm_term=Australia) or [New Zealand](https://addressfinder.nz/plans/?utm_source=magento&utm_medium=extension&utm_campaign=magento_admin&utm_term=New_Zealand) and enter this in the **License** field.
 
 ### 3.2 Customisation features
 
 1. Depending on the theme your Magento store has, you may need to configure the **Default Search Country** if your checkout has no country selector.
 2. AddressFinder functions across many forms throughout Magento. The default is to enable it in all supported forms, however you may restrict this with the **Enable Specific Forms** setting.
 3. Turning on **Debug Mode** will print debug messages from the AddressFinder JavaScript widget to the browser's console.
-4. You may pass custom **Widget Options** to the JavaScript widget. This must be a JSON object valid for [Australia](https://addressfinder.com.au/docs/widget_docs?utm_source=magento&utm_medium=extension&utm_campaign=magento_admin&utm_term=Australia#options) or [New Zealand](https://addressfinder.nz/docs/widget_docs?utm_source=magento&utm_medium=extension&utm_campaign=magento_admin&utm_term=New Zealand#options).
+4. You may pass custom **Widget Options** to the JavaScript widget. This must be a JSON object valid for [Australia](https://addressfinder.com.au/docs/widget_docs?utm_source=magento&utm_medium=extension&utm_campaign=magento_admin&utm_term=Australia#options) or [New Zealand](https://addressfinder.nz/docs/widget_docs?utm_source=magento&utm_medium=extension&utm_campaign=magento_admin&utm_term=New_Zealand#options).
 
 ## 4. Forms
 
@@ -166,7 +166,7 @@ And add a module declaration file at `app/code/Acme/CustomForm/etc/module.xml`:
 
 #### 4.1.2 Event observers
 
-Within your module, you'll need to [create event observers](https://devdocs.magento.com/guides/v2.3/extension-dev-guide/events-and-observers.html) that'll allow us to add our custom forms to the AddressFinder module. We'll create a frontend form for brevity's, however the process is [almost identical](https://github.com/abletech/addressfinder-magento/blob/develop/etc/events.xml) for admin forms.
+Within your module, you'll need to [create event observers](https://devdocs.magento.com/guides/v2.3/extension-dev-guide/events-and-observers.html) that'll allow us to add our custom forms to the AddressFinder module. We'll create a frontend form for brevity's, however the process is [almost identical](https://github.com/AddressFinder/addressfinder-magento/blob/develop/etc/events.xml) for admin forms.
 
 Begin by creating an events file at `app/code/Acme/CustomForm/etc/events.xml`:
 
