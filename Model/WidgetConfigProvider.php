@@ -92,10 +92,12 @@ class WidgetConfigProvider
     public function all(): array
     {
         return [
-            'key' => $this->getLicenceKey(),
-            'options' => $this->getWidgetOptions(),
+            'nzKey' => $this->getLicenceKey(),
+            'auKey' => $this->getLicenceKey(),
+            'nzWidgetOptions' => $this->getWidgetOptions(),
+            'auWidgetOptions' => $this->getWidgetOptions(),
             'debug' => $this->isDebugMode(),
-            'default_country' => $this->getDefaultSearchCountry(),
+            'defaultCountry' => $this->getDefaultSearchCountry()
         ];
     }
 }

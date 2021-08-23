@@ -1,3 +1,7 @@
+# AddressFinder 2.0.2 (August 23rd 2021)
+* Add support for billing address for bank transfer payments
+* Fix problem with default country on checkout
+
 # AddressFinder 2.0.1 (October 29th 2020)
 * Update documentation
 * Bug fix - allows all PHP versions that Magento 2.3 allows
