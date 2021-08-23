@@ -27,8 +27,6 @@ export default class MagentoPlugin {
   }
 
   _initPlugin() {
-
-    console.log('test2 widgetConfig', this.widgetConfig)
     // Watches for any mutations to the DOM, so we can reload our configurations when something changes.
     new MutationManager({
       widgetConfig: this.widgetConfig,
