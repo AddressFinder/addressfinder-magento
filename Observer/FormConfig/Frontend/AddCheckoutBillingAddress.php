@@ -128,8 +128,12 @@ class AddCheckoutBillingAddress extends Base
     {
         $codes = [];
 
-        // @todo Visit working around deprecated code
-        foreach ($this->paymentHelper->getStoreMethods() as $method) {
+        $paymentApi = \Magento\Framework\App\ObjectManager::getInstance()
+                ->get(\Magento\Payment\Api\PaymentMethodListInterface::class);
+        $storeId = \Magento\Framework\App\ObjectManager::getInstance()
+                ->get(\Magento\Store\Model\StoreManagerInterface::class)->getStore()->getId();
+
+         foreach ($paymentApi->getActiveList($storeId) as $method) {
             try {
                 $codes[] = $method->getCode();
             } catch (LocalizedException $e) {
@@ -138,6 +142,6 @@ class AddCheckoutBillingAddress extends Base
 
         $codes[] = 'shared';
 
-        return $codes;
+        return array_unique($codes);
     }
 }
