@@ -120,7 +120,7 @@ var MagentoPlugin = /*#__PURE__*/function () {
     this.widgetConfig.nzWidgetOptions = this.widgetConfig.nzWidgetOptions || {};
     this.widgetConfig.auWidgetOptions = this.widgetConfig.auWidgetOptions || {};
     this.widgetConfig.debug = this.widgetConfig.debug || false;
-    this.version = "2.0.2"; // Manages the mapping of the form configurations to the DOM.
+    this.version = "2.0.3"; // Manages the mapping of the form configurations to the DOM.
 
     this.PageManager = null;
 

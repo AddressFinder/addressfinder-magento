@@ -1,3 +1,6 @@
+# AddressFinder 2.0.3 (May 9th 2022)
+* Add support for PHP 8.0 and 8.1
+
 # AddressFinder 2.0.2 (August 23rd 2021)
 * Add support for billing address for bank transfer payments
 * Fix problem with default country on checkout

@@ -11,7 +11,7 @@ const config = {
     libraryTarget: 'umd',
     libraryExport: 'default'
   },
-  devtool: 'source-maps',
+  devtool: 'source-map',
   module: {
     rules: [
       {
