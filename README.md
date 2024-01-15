@@ -33,8 +33,8 @@ To install the module manually, download the source code for the latest **compat
 | 2.0.*           | [1.3.0 (download)](https://github.com/AddressFinder/addressfinder-magento/releases/tag/v1.3.0) |
 | 2.1.*           | [1.5.1 (download)](https://github.com/AddressFinder/addressfinder-magento/releases/tag/v1.5.1) |
 | 2.2.*           | [1.5.1 (download)](https://github.com/AddressFinder/addressfinder-magento/releases/tag/v1.5.1) |
-| 2.3.*           | [2.0.3 (download)](https://github.com/AddressFinder/addressfinder-magento/releases/tag/v2.0.3) |
-| 2.4.*           | [2.0.3 (download)](https://github.com/AddressFinder/addressfinder-magento/releases/tag/v2.0.3) |
+| 2.3.*           | [2.0.4 (download)](https://github.com/AddressFinder/addressfinder-magento/releases/tag/v2.0.4) |
+| 2.4.*           | [2.0.4 (download)](https://github.com/AddressFinder/addressfinder-magento/releases/tag/v2.0.4) |
 
 Extract the  `.zip` / `.tar.gz` you have downloaded. Copy the **contents of the top-level folder** that was created during extraction into your Magento store in the following location (you must create these folders manually):
 
@@ -85,7 +85,7 @@ bin/magento setup:upgrade
 
 ### 2.2 Update manually
 
-To update the module manually, referring to the instructions in <u>Section (1.2) Install Manually</u> to download the latest compatible version and copy the files into your Magento codebase. After you have copied these files in, simply upgrade the extension: 
+To update the module manually, referring to the instructions in <u>Section (1.2) Install Manually</u> to download the latest compatible version and copy the files into your Magento codebase. After you have copied these files in, simply upgrade the extension:
 
 ``` bash
 bin/magento setup:upgrade
@@ -174,8 +174,8 @@ Begin by creating an events file at `app/code/Acme/CustomForm/etc/events.xml`:
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
-  
-    <!-- 
+
+    <!--
         Attach frontend forms
         (to attach admin forms, simply listen to the event named `addressfinder_form_config_admin` instead)
     -->
@@ -226,24 +226,24 @@ class AddStoreLocator extends Base
         $forms->addItem(new DataObject([
             // A unique form ID to identify this form within the AddressFinder module
             'id' => self::FORM_ID,
-          
+
             // A semantic label
             'label' => 'Store Locatork',
-          
+
             // The selector for where to instantiate the JavaScript widget
             'layoutSelectors' => ['input#street_1'],
-          
+
             // The country selector that switches the form between AU and NZ
             'countryIdentifier' => 'select[name=country_id]',
-          
+
             // The search box selector - this is where your users type to trigger the AddressFinder autocomplete
             'searchIdentifier' => 'input#street_1',
-          
+
             // NZ-specific config
             'nz' => [
                 // The value which the `countryIdentifier` is set as to represent NZ
                 'countryValue' => 'NZ',
-              
+
                 // Varying element selectors to place the selected address result in
                 'elements' => [
                     'address1' => 'input#street_1',
@@ -254,26 +254,26 @@ class AddStoreLocator extends Base
                 ],
                 'regionMappings' => null,
             ],
-          
+
             // AU-specific config
             'au' => [
                 // The value which the `countryIdentifier` is set as to represent AU
                 'countryValue' => 'AU',
-              
+
                 // Varying element selectors to place the selected address result in
                 'elements' => [
                     'address1' => 'input#street_1',
                     'address2' => 'input#street_2',
                     'suburb' => 'input[name=city]',
-                   
-                    // This helper from the base class we extend will allow us to 
+
+                    // This helper from the base class we extend will allow us to
                     // support free-form state inputs as well as dropdown menus.
                     'state' => $this->getStateMappings('AU')
                         ? 'select[name=region_id]'
                         : 'input[name=region]',
                     'postcode' => 'input[name=postcode]',
                 ],
-              
+
                 // State mappings for Australia (if they exist in your Magento installation)
                 'stateMappings' => $this->getStateMappings('AU'),
             ],
@@ -308,7 +308,7 @@ class StoreLocator implements ObserverInterface
     public function execute(Observer $observer): void
     {
         /** @var Collection $frontend */
-      
+
         // If you were building an admin form, you'd call `getData('admin')` and append the form to that list
         $frontend = $observer->getEvent()->getData('frontend');
 
@@ -333,4 +333,3 @@ window.addressfinderDebugMode() // Followed by the `return`/`enter` key.
 This will reinitialise the widget, with the debug flag set to `true`, so you can see console logs from the [`@addressfinder/addressfinder-webpage-tools` npm package](https://www.npmjs.com/package/@addressfinder/addressfinder-webpage-tools).
 
 > This works in all modern browsers *(and IE11 💀)*
-
