@@ -1,3 +1,6 @@
+# AddressFinder 2.0.4 (Jan 15th 2024)
+* Add support for PHP 8.2 and 8.3
+
 # AddressFinder 2.0.3 (May 9th 2022)
 * Add support for PHP 8.0 and 8.1
 
