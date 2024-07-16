@@ -1,3 +1,6 @@
+# AddressFinder 2.0.5 (Jul 16th 2024)
+* Add support for restricted CSP policy mode turned on by default in Magento 2.4.7
+
 # AddressFinder 2.0.4 (Jan 15th 2024)
 * Add support for PHP 8.2 and 8.3
 
