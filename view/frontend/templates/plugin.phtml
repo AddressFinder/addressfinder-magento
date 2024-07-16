@@ -2,18 +2,27 @@
 
 use AddressFinder\AddressFinder\Block\Plugin;
 
-/** @var Plugin $block */
+/**
+ * @var Plugin $block
+ * @var \Magento\Framework\View\Helper\SecureHtmlRenderer $secureRenderer
+ */
 ?>
 <?php if ($block->isEnabled()): ?>
 
-    <script>
-      require(['magento_plugin', 'addressfinder', 'domReady!'], function (MagentoPlugin, AddressFinder) {
-        var widgetConfig = <?=json_encode($block->getWidgetConfig()) ?>;
-        var formsConfig = <?=json_encode($block->getFormsConfig()->toArray()['items']) ?>;
+    <?php
 
-        window.AddressFinder = AddressFinder;
-        new MagentoPlugin(widgetConfig, formsConfig);
-      });
-    </script>
+    $widgetConfig = \json_encode($block->getWidgetConfig());
+    $formConfig = \json_encode($block->getFormsConfig()->toArray()['items']);
 
+    $scriptString = <<<script
+        require(['magento_plugin', 'addressfinder', 'domReady!'], function (MagentoPlugin, AddressFinder) {
+            var widgetConfig = $widgetConfig;
+            var formsConfig = $formConfig;
+
+            window.AddressFinder = AddressFinder;
+            new MagentoPlugin(widgetConfig, formsConfig);
+        });
+script;
+    ?>
+    <?= /* @noEscape */ $secureRenderer->renderTag('script', [], $scriptString, false) ?>
 <?php endif ?>
