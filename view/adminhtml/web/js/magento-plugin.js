@@ -103,6 +103,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return MagentoPlugin; });
 /* harmony import */ var _addressfinder_addressfinder_webpage_tools__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
 /* harmony import */ var _addressfinder_addressfinder_webpage_tools__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_addressfinder_addressfinder_webpage_tools__WEBPACK_IMPORTED_MODULE_0__);
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -117,10 +123,15 @@ var MagentoPlugin = /*#__PURE__*/function () {
 
     this.widgetConfig = widgetConfig;
     this.formsConfig = formsConfig || [];
-    this.widgetConfig.nzWidgetOptions = this.widgetConfig.nzWidgetOptions || {};
-    this.widgetConfig.auWidgetOptions = this.widgetConfig.auWidgetOptions || {};
-    this.widgetConfig.debug = this.widgetConfig.debug || false;
-    this.version = "2.0.5"; // Manages the mapping of the form configurations to the DOM.
+    this.version = "2.1.0";
+    var nzWidgetOptions = this.widgetConfig.nzWidgetOptions || {};
+    var auWidgetOptions = this.widgetConfig.auWidgetOptions || {};
+    var clientVersion = {
+      ca: "MagentoAddress/".concat(this.version)
+    };
+    this.widgetConfig.nzWidgetOptions = _objectSpread(_objectSpread({}, nzWidgetOptions), clientVersion);
+    this.widgetConfig.auWidgetOptions = _objectSpread(_objectSpread({}, auWidgetOptions), clientVersion);
+    this.widgetConfig.debug = this.widgetConfig.debug || false; // Manages the mapping of the form configurations to the DOM.
 
     this.PageManager = null;
 
