@@ -35,6 +35,7 @@ To install the module manually, download the source code for the latest **compat
 | 2.2.*           | [1.5.1 (download)](https://github.com/AddressFinder/addressfinder-magento/releases/tag/v1.5.1) |
 | 2.3.*           | [2.0.4 (download)](https://github.com/AddressFinder/addressfinder-magento/releases/tag/v2.0.4) |
 | 2.4.*           | [2.0.5 (download)](https://github.com/AddressFinder/addressfinder-magento/releases/tag/v2.0.5) |
+| 2.4.*           | [2.1.0 (download)](https://github.com/AddressFinder/addressfinder-magento/releases/tag/v2.1.0) |
 
 Extract the  `.zip` / `.tar.gz` you have downloaded. Copy the **contents of the top-level folder** that was created during extraction into your Magento store in the following location (you must create these folders manually):
 

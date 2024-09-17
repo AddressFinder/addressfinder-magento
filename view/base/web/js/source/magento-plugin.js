@@ -4,11 +4,15 @@ export default class MagentoPlugin {
   constructor(widgetConfig, formsConfig) {
     this.widgetConfig = widgetConfig
     this.formsConfig = formsConfig || []
-    this.widgetConfig.nzWidgetOptions = this.widgetConfig.nzWidgetOptions || {}
-    this.widgetConfig.auWidgetOptions = this.widgetConfig.auWidgetOptions || {}
+    this.version = "2.1.0"
+    let nzWidgetOptions = this.widgetConfig.nzWidgetOptions || {}
+    let auWidgetOptions = this.widgetConfig.auWidgetOptions || {}
+    let clientVersion = { ca: `MagentoAddress/${this.version}` }
+
+    this.widgetConfig.nzWidgetOptions = {...nzWidgetOptions, ...clientVersion}
+    this.widgetConfig.auWidgetOptions = {...auWidgetOptions, ...clientVersion}
     this.widgetConfig.debug = this.widgetConfig.debug || false
 
-    this.version = "2.0.5"
 
     // Manages the mapping of the form configurations to the DOM.
     this.PageManager = null

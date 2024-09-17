@@ -1,14 +1,19 @@
 {
     "name": "addressfinder/module-magento2",
     "description": "Address Autocomplete for your Magento 2 store by AddressFinder",
-    "version": "2.0.5",
+    "version": "2.1.0",
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://repo.magento.com/"
+        }
+    ],
     "require": {
         "ext-json": "*",
         "php": "~7.1||~8.0",
         "magento/framework": "102.0.*|103.0.*",
         "magento/module-store": "101.0.*|101.1.*"
-    }
-    ,
+    },
     "require-dev": {
         "roave/security-advisories": "dev-master",
         "phpunit/phpunit": "~6.5.0"

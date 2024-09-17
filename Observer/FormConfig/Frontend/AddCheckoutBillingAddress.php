@@ -10,6 +10,8 @@ use Magento\Framework\Data\Collection;
 use Magento\Framework\DataObject;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Payment\Helper\Data as PaymentHelper;
+use Magento\Quote\Api\CartRepositoryInterface;
+use Magento\Checkout\Model\Session as CheckoutSession;
 
 class AddCheckoutBillingAddress extends Base
 {
@@ -18,17 +20,27 @@ class AddCheckoutBillingAddress extends Base
     /** @var PaymentHelper */
     private $paymentHelper;
 
+    /** @var CartRepositoryInterface */
+    private $quoteRepository;
+
+    /** @var CheckoutSession */
+    private $checkoutSession;
+
     /**
      * Creates a new "Add Checkout Billing Address" observer.
      */
     public function __construct(
         FormConfigProvider $configProvider,
         StateMappingProvider $stateMappingProvider,
-        PaymentHelper $paymentHelper
+        PaymentHelper $paymentHelper,
+        CartRepositoryInterface $quoteRepository,
+        CheckoutSession $checkoutSession
     ) {
         parent::__construct($configProvider, $stateMappingProvider);
 
         $this->paymentHelper = $paymentHelper;
+        $this->quoteRepository = $quoteRepository;
+        $this->checkoutSession = $checkoutSession;
     }
 
     /**
@@ -127,15 +139,27 @@ class AddCheckoutBillingAddress extends Base
     private function getActivePaymentMethodCodes(): array
     {
         $codes = [];
+        $quote = $this->checkoutSession->getQuote();
 
-        // @todo Visit working around deprecated code
-        foreach ($this->paymentHelper->getStoreMethods() as $method) {
+        // Ensure that $quote is available before trying to fetch payment methods.
+        if ($quote && $quote->getId()) {
             try {
-                $codes[] = $method->getCode();
-            } catch (LocalizedException $e) {
+                // Fetch store methods with the quote
+                foreach ($this->paymentHelper->getStoreMethods($this->storeManager->getStore(), $quote) as $method) {
+                    try {
+                        if ($method->isAvailable($quote)) {
+                            $codes[] = $method->getCode();
+                        }
+                    } catch (LocalizedException $e) {
+                        // Handle any exceptions related to individual payment methods
+                    }
+                }
+            } catch (\Exception $e) {
+                // Handle any issues fetching the payment methods
             }
         }
 
+        // Always add 'shared' payment method code regardless of the quote
         $codes[] = 'shared';
 
         return $codes;
