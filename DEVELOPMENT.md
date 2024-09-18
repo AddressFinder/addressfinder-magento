@@ -2,110 +2,99 @@
 
 We test the plugin by using docker images for Magento 2. We install the plugin inside this test store.
 
-1. Clone the image for the version of Magento you want to use
+1. Use https://github.com/markshust/docker-magento and the [setup instructions here.](https://github.com/markshust/docker-magento?tab=readme-ov-file#setup)
+**IMPORTANT** The directory you are installing to must be completely empty.  See [here](https://github.com/markshust/docker-magento?tab=readme-ov-file#install-fails-because-project-directory-is-not-empty) for additional details.
 
-    For Magento 2.3
+2. [Install the sample data for the store.](https://github.com/markshust/docker-magento?tab=readme-ov-file#install-sample-data)
 
-   `git clone --branch 2.3 git@github.com:AddressFinder/docker-magento2.git docker-magento-2.3 && cd docker-magento-2.3`
+3. Start the docker containers:
+   `./bin/start`
 
-    For Magento 2.2
+3. Test the store.
+   Visit https://magento.test/admin for the Magento Admin Panel
+   Visit https://magento.test/ for the store.
+   Visit http://localhost:1080/ for Mailcatcher emails
 
-   `git clone --branch 2.2 git@github.com:AddressFinder/docker-magento2.git docker-magento-2.2 && cd docker-magento-2.2`
+   The admin login details will be in the `env/magento.env` file `MAGENTO_ADMIN_EMAIL` and `MAGENTO_ADMIN_PASSWORD`
 
-    For Magento 2.1
+   You can create an account for the store by signing up (emails will go to Mailcatcher)
 
-   `git clone --branch 2.1 git@github.com:AddressFinder/docker-magento2.git docker-magento-2.1 && cd docker-magento-2.1`
+3. Add to the volumes in `compose.dev.yaml` something like:
+   ```
+   services:
+   app:
+      volumes: &appvolumes
+         ### other volumes ###
+         - /Path/To/Plugin/addressfinder-magento:/var/www/html/app/code/AddressFinder/AddressFinder
+   ```
 
-2. `docker-compose up`
+   This ensures that both the Nginx (app) and PHP-FPM (phpfpm) containers can access the plugin code.
 
-2. Install Magento. In a new tab run:
- `docker-compose exec web install-magento`
+4. Restart the docker containers for the change to take effect:
+   `./bin/restart`
 
-3. In a new tab, edit your `hosts` file to declare `local.magento` as local. 
+5. Access the PHP-FPM container (your container name maybe be different):
+   `docker exec -it magento-phpfpm-1 bash`
 
-   to open the file: `sudo vim /etc/hosts`
+6. Inside the container, run the following command to enable the plugin:
+   `bin/magento module:enable AddressFinder_AddressFinder`
 
-   add: `127.0.0.1 local.magento`
+7. Run the Magento setup upgrade to install the plugin and apply its schema:
+   `bin/magento setup:upgrade`
 
-4. Open your browser at:
-
-  * Admin pages: http://local.magento/index.php/admin
-  * Shop pages: http://local.magento/index.php/
-
-  You can login to the admin using the credentials MAGENTO_ADMIN_USERNAME and MAGENTO_ADMIN_PASSWORD from the env file inside your docker container.
-
-If you make a mistake and need to start again you can remove docker images and volumes with this command `docker-compose down --rmi all -v`
-
-5. Install a product
-
-You will need to install a product in your store to use the checkout and test the AddressFinder plugin
-
-a) Log in to the magento admin
-b) Click on Catalog/Products
-c) Click Add Product
-d) Create a new product with the required fields of product name, sku, price and quantity. Also make sure stock status is set to 'In Stock'
-e) Click the admin dropdown in the top right corner and select 'customer view'.
-f) You should be able to search for your new product in the shop and add it to the cart.
-
-6. Install AdressFinder
-
-Install via composer
-a) Switch to the Magento file system owner. It will probably be `su www-data`
-b) `composer require addressfinder/module-magento2`
-c) `bin/magento module:enable AddressFinder_AddressFinder`
-d) `bin/magento setup:upgrade`
-e) `bin/magento cache:flush`
-
-### Install manually
-
-a) Checkout the project or download the zip
-b) Create the directory ```AddressFinder/AddressFinder``` in ```app/code```.
-c) Copy the contents into that directory.
-d) `bin/magento module:enable AddressFinder_AddressFinder`
-e) `bin/magento setup:upgrade`
-f) If not in developer mode
-   `bin/magento setup:di:compile`
-   `bin/magento setup:static-content:deploy`
-g) Finally run
+8. Clear the cache to ensure that the changes take effect:
    `bin/magento cache:flush`
 
-7. Enable the AddressFinder Plugin in the store
+9. Recompile Magento:
+   `bin/magento setup:di:compile`
 
-a) Click on Stores/Configuration.
-b) Click on Services and select AddressFinder.
-c) Uncheck the 'Use system value' checkbox and enter any configuration options. Save your changes.
-d) Now if you visit your store AddressFinder should be working. The country dropdown is set to 'United States' by default, so make sure this is changed to New Zealand or Australia
+10. Confirm and enable the plugin via https://magento.test/admin
+      a) Click on Stores/Configuration.
+      b) Click on Services and select AddressFinder.
+      c) Uncheck the 'Use system value' checkbox and enter any configuration options. Save your changes.
+      d) Now if you visit your store AddressFinder should be working. The country dropdown is set to 'United States' by default, so make sure this is changed to New Zealand or Australia
 
-## Seeing your changes inside your Magento Test store
+11. Sign into the store, add some things to your card and head to checkout to add an address and test the plugin for New Zealand and Australian addresses.
 
-(These instructions assume you already have Magento and AddressFinder installed.)
+### Unit Tests
 
-1. Navigate to your Docker Magento image, and stop the container if it's running
-2. Add this line `- /[PATH TO ADDRESSFINDER MAGENTO]/addressfinder-magento/view/frontend:/var/www/html/vendor/addressfinder/module-magento2/view/frontend` into the docker-compose.yml file, under web volumes. This will add the frontend folder from your addressfinder-magento project into the addressfinder extension folder inside your docker container. You can find the path by navigating to the addressfinder magento folder and typing the command `pwd`
+1. Access the PHP-FPM container (your container name maybe be different):
+   `docker exec -it magento-phpfpm-1 bash`
 
-For example:
+2. Execute tests like:
+   `./vendor/bin/phpunit app/code/AddressFinder/AddressFinder/Test/Unit/Model/`
 
-```
-version: '3.0'
-services:
-  web:
-    image: alexcheng/magento2:2.2
-    volumes:
-      - web-data-test:/var/www/html
-      - /Users/katenorquay/addressfinder/addressfinder-magento/view/frontend:/var/www/html/vendor/addressfinder/module-magento2/view/frontend
-```
+### Changes to the plugin Javascript
 
-If you want to change the Magento files, as well as the javascript, you can use `- /Users/katenorquay/addressfinder/addressfinder-magento:/var/www/html/vendor/addressfinder/module-magento2`
+If you make changes to the javascript do the following:
 
-3. Start docker: `docker-compose up`
-4. Bash into the docker container: `docker-compose exec web bash`
-5. Clear the cache, compile and deploy static content: `cd /var/www/html/bin && ./magento cache:clean && ./magento cache:flush && ./magento setup:upgrade && ./magento setup:di:compile && ./magento setup:static-content:deploy -f en_GB en_US`
-6. Set permissions: `cd .. && chmod 0777 -R var/cache`
-7. Now we create a symlink between the addressfinder extension, and Magento's static content. This means that we don't have to recompile the
+1. Access the PHP-FPM container (your container name maybe be different):
+   `docker exec -it magento-phpfpm-1 bash`
+
+2. Change to the plugin directory:
+   `cd app/code/AddressFinder/AddressFinder/`
+
+3. Run npm install if you haven't already:
+   `npm install`
+
+4. Run the build:
+   `npm run build`
+
+5. Redeploy the static content to make sure the changes are reflected in the frontend:
+   `bin/magento setup:static-content:deploy -f`
+   *Note: the -f is to force in development mode*
+
+6. Flush the cache:
+   `bin/magento cache:flush`
+
+### Use symlink
+These were documented for the old setup.  They have been untested on the above, but sound like they should work and might make it easier if you are making lots of javascript changes.
+
+1. Now we create a symlink between the addressfinder extension, and Magento's static content. This means that we don't have to recompile the
 static content everytime we make a change. First remove the `js` folder from the static content file so we can start fresh:
 `rm -rf /var/www/html/pub/static/frontend/Magento/luma/en_GB/AddressFinder_AddressFinder/js`
-8. Create the symlink: `ln -s /var/www/html/vendor/addressfinder/module-magento2/view/frontend/web/js /var/www/html/pub/static/frontend/Magento/luma/en_GB/AddressFinder_AddressFinder/js`
-9. Build your js files to add them to the static folder: `npm run watch`. Any further changes you make to the `view/frontend/web/js/source/` folder will be watched and recompiled by webpack.
+2. Create the symlink: `ln -s /var/www/html/vendor/addressfinder/module-magento2/view/frontend/web/js /var/www/html/pub/static/frontend/Magento/luma/en_GB/AddressFinder_AddressFinder/js`
+3. Build your js files to add them to the static folder: `npm run watch`. Any further changes you make to the `view/frontend/web/js/source/` folder will be watched and recompiled by webpack.
 
 ## Deployment
 
