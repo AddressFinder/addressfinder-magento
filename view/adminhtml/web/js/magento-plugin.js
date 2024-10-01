@@ -123,7 +123,7 @@ var MagentoPlugin = /*#__PURE__*/function () {
 
     this.widgetConfig = widgetConfig;
     this.formsConfig = formsConfig || [];
-    this.version = "2.1.0";
+    this.version = "2.1.1";
     var nzWidgetOptions = this.widgetConfig.nzWidgetOptions || {};
     var auWidgetOptions = this.widgetConfig.auWidgetOptions || {};
     var clientVersion = {
