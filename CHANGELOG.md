@@ -1,4 +1,7 @@
-# AddressFinder 2.1.0 (Jul 16th 2024)
+# AddressFinder 2.1.1 (October 1st 2024)
+* Add support for restricted CSP policy mode in Admin order page (turned on by default in Magento 2.4.7)
+
+# AddressFinder 2.1.0 (September 18th 2024)
 * Add client agent reporting
 
 # AddressFinder 2.0.5 (Jul 16th 2024)

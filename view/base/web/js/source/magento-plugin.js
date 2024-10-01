@@ -4,7 +4,7 @@ export default class MagentoPlugin {
   constructor(widgetConfig, formsConfig) {
     this.widgetConfig = widgetConfig
     this.formsConfig = formsConfig || []
-    this.version = "2.1.0"
+    this.version = "2.1.1"
     let nzWidgetOptions = this.widgetConfig.nzWidgetOptions || {}
     let auWidgetOptions = this.widgetConfig.auWidgetOptions || {}
     let clientVersion = { ca: `MagentoAddress/${this.version}` }

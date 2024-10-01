@@ -1,7 +1,7 @@
 {
     "name": "addressfinder/module-magento2",
     "description": "Address Autocomplete for your Magento 2 store by AddressFinder",
-    "version": "2.1.0",
+    "version": "2.1.1",
     "repositories": [
         {
             "type": "composer",
