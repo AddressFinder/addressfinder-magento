@@ -6,7 +6,7 @@
                 <resource id="Magento_Backend::stores">
                     <resource id="Magento_Backend::stores_settings">
                         <resource id="Magento_Config::config">
-                            <resource id="AddressFinder_AddressFinder::config" title="AddressFinder Section" translate="title"/>
+                            <resource id="AddressFinder_AddressFinder::config" title="Addressfinder Section" translate="title"/>
                         </resource>
                     </resource>
                 </resource>
