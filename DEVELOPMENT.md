@@ -50,9 +50,9 @@ We test the plugin by using docker images for Magento 2. We install the plugin i
 
 10. Confirm and enable the plugin via https://magento.test/admin
       a) Click on Stores/Configuration.
-      b) Click on Services and select AddressFinder.
+      b) Click on Services and select Addressfinder.
       c) Uncheck the 'Use system value' checkbox and enter any configuration options. Save your changes.
-      d) Now if you visit your store AddressFinder should be working. The country dropdown is set to 'United States' by default, so make sure this is changed to New Zealand or Australia
+      d) Now if you visit your store Addressfinder should be working. The country dropdown is set to 'United States' by default, so make sure this is changed to New Zealand or Australia
 
 11. Sign into the store, add some things to your card and head to checkout to add an address and test the plugin for New Zealand and Australian addresses.
 

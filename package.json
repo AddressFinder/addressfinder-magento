@@ -17,7 +17,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/AddressFinder/addressfinder-magento.git"
+    "url": "git+https://github.com/addressfinder/addressfinder-magento.git"
   },
   "keywords": [
     "magento",
@@ -32,7 +32,7 @@
   "author": "@AddressFinder",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/AddressFinder/addressfinder-magento/issues"
+    "url": "https://github.com/addressfinder/addressfinder-magento/issues"
   },
-  "homepage": "https://github.com/AddressFinder/addressfinder-magento#readme"
+  "homepage": "https://github.com/addressfinder/addressfinder-magento#readme"
 }
