@@ -145,7 +145,7 @@ class AddCheckoutBillingAddress extends Base
         if ($quote && $quote->getId()) {
             try {
                 // Fetch store methods with the quote
-                foreach ($this->paymentHelper->getStoreMethods($this->storeManager->getStore(), $quote) as $method) {
+                foreach ($this->paymentHelper->getStoreMethods($quote->getStoreId(), $quote) as $method) {
                     try {
                         if ($method->isAvailable($quote)) {
                             $codes[] = $method->getCode();
