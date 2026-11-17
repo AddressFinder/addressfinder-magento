@@ -6,6 +6,8 @@ use AddressFinder\AddressFinder\Model\WidgetConfigProvider;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Serialize\Serializer\Json;
 use Magento\Store\Model\ScopeInterface;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
@@ -44,6 +46,7 @@ class WidgetConfigProviderTest extends TestCase
     }
 
     /** @test */
+    #[Test]
     public function it_gets_the_license_key()
     {
         $this->scopeConfig
@@ -55,7 +58,7 @@ class WidgetConfigProviderTest extends TestCase
         self::assertEquals($license, $this->provider->getLicenceKey());
     }
 
-    public function sample_widget_options(): array
+    public static function sample_widget_options(): array
     {
         return [
             [
@@ -86,6 +89,8 @@ class WidgetConfigProviderTest extends TestCase
      *
      * @dataProvider sample_widget_options
      */
+    #[Test]
+    #[DataProvider('sample_widget_options')]
     public function it_gets_widget_options($encoded, $expected)
     {
         $this->scopeConfig
@@ -98,6 +103,7 @@ class WidgetConfigProviderTest extends TestCase
     }
 
     /** @test */
+    #[Test]
     public function it_catches_exceptions_and_logs_errors()
     {
         $this->scopeConfig

@@ -7,6 +7,7 @@ use AddressFinder\AddressFinder\Model\StateMappingProvider;
 use Magento\Directory\Api\CountryInformationAcquirerInterface;
 use Magento\Directory\Api\Data\CountryInformationInterface;
 use Magento\Directory\Api\Data\RegionInformationInterface;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -30,6 +31,7 @@ class StateMappingProviderTest extends TestCase
     }
 
     /** @test */
+    #[Test]
     public function it_throws_an_exception_where_no_regions_exist(): void
     {
         $provider = new StateMappingProvider($this->informationAcquirer);
@@ -51,6 +53,7 @@ class StateMappingProviderTest extends TestCase
     }
 
     /** @test */
+    #[Test]
     public function it_finds_mappings_successfully(): void
     {
         $provider = new StateMappingProvider($this->informationAcquirer);
@@ -79,7 +82,7 @@ class StateMappingProviderTest extends TestCase
 
         $expected = ['NSW' => 1, 'WA' => 2];
 
-        self::assertInternalType('array', $mappings = $provider->forCountry('AU'));
+        self::assertIsArray($mappings = $provider->forCountry('AU'));
         self::assertCount(count($expected), $mappings);
         self::assertEquals($expected, $mappings);
     }

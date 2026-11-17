@@ -12,6 +12,7 @@ use Magento\Framework\Exception\LocalizedException;
 use Magento\Payment\Helper\Data as PaymentHelper;
 use Magento\Quote\Api\CartRepositoryInterface;
 use Magento\Checkout\Model\Session as CheckoutSession;
+use Magento\Store\Model\StoreManagerInterface;
 
 class AddCheckoutBillingAddress extends Base
 {
@@ -26,6 +27,9 @@ class AddCheckoutBillingAddress extends Base
     /** @var CheckoutSession */
     private $checkoutSession;
 
+    /** @var StoreManagerInterface */
+    private $storeManager;
+
     /**
      * Creates a new "Add Checkout Billing Address" observer.
      */
@@ -34,13 +38,15 @@ class AddCheckoutBillingAddress extends Base
         StateMappingProvider $stateMappingProvider,
         PaymentHelper $paymentHelper,
         CartRepositoryInterface $quoteRepository,
-        CheckoutSession $checkoutSession
+        CheckoutSession $checkoutSession,
+        StoreManagerInterface $storeManager
     ) {
         parent::__construct($configProvider, $stateMappingProvider);
 
         $this->paymentHelper = $paymentHelper;
         $this->quoteRepository = $quoteRepository;
         $this->checkoutSession = $checkoutSession;
+        $this->storeManager = $storeManager;
     }
 
     /**
