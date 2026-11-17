@@ -12,7 +12,7 @@ class NoStateMappingsException extends LocalizedException
      */
     public static function forCountry(string $countryCode): self
     {
-        return new static(
+        return new self(
             new Phrase(
                 'No state mappings for "%countryCode"',
                 [
