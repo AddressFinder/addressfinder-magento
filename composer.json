@@ -16,7 +16,11 @@
     },
     "require-dev": {
         "roave/security-advisories": "dev-master",
-        "phpunit/phpunit": "~6.5.0"
+        "phpunit/phpunit": "~6.5.0",
+        "magento/magento-coding-standard": "^41",
+        "phpstan/phpstan": "^2.1",
+        "bitexpert/phpstan-magento": "^0.44",
+        "phpstan/extension-installer": "^1.4"
     },
     "type": "magento2-module",
     "license": [
@@ -29,6 +33,12 @@
         ],
         "psr-4": {
             "AddressFinder\\AddressFinder\\": ""
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "phpstan/extension-installer": true
         }
     }
 }
